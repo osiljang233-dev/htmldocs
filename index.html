@@ -12,15 +12,11 @@
   --green: #68d391; --orange: #f6ad55; --radius: 8px;
 }
 body { font-family: -apple-system, 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.75; min-height: 100vh; }
-
 .wrap { max-width: 720px; margin: 0 auto; padding: 60px 32px; }
-
 .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
 h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
 .sub { font-size: 13px; color: var(--text3); margin-bottom: 40px; }
-
 .section-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-
 .doc-list { list-style: none; margin-bottom: 40px; }
 .doc-item { display: flex; align-items: center; gap: 16px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; text-decoration: none; transition: border-color 0.15s, background 0.15s; }
 .doc-item:hover { border-color: var(--accent); background: rgba(124,106,247,0.05); }
@@ -30,10 +26,10 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
 .doc-meta { font-size: 12px; color: var(--text3); }
 .doc-arrow { font-size: 14px; color: var(--text3); }
 .doc-item:hover .doc-arrow { color: var(--accent); }
-
 .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; margin-left: 6px; }
 .tag-plan { background: rgba(124,106,247,0.15); color: var(--accent); border: 1px solid rgba(124,106,247,0.3); }
-
+.tag-meeting { background: rgba(104,211,145,0.1); color: var(--green); border: 1px solid rgba(104,211,145,0.3); }
+.tag-report { background: rgba(246,173,85,0.1); color: var(--orange); border: 1px solid rgba(246,173,85,0.3); }
 .footer { font-size: 12px; color: var(--text3); border-top: 1px solid var(--border); padding-top: 20px; }
 </style>
 </head>
@@ -45,19 +41,47 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
   <p class="sub">업무 진행 내용 및 회의 결과 · 최신순</p>
 
   <div class="section-title">기획 문서</div>
-  <ul class="doc-list">
-    <a class="doc-item" href="./slot-planning.html">
-      <div class="doc-icon">🎰</div>
-      <div class="doc-info">
-        <div class="doc-title">슬롯 커뮤니티 기획서 <span class="tag tag-plan">기획</span></div>
-        <div class="doc-meta">2026.07.15 · SEO 전략 · 차별화 기능 · 이벤트 · 유저 경험</div>
-      </div>
-      <div class="doc-arrow">→</div>
-    </a>
+  <ul class="doc-list" id="doc-list">
+    <!-- 문서들이 여기 자동으로 추가됩니다 -->
   </ul>
 
   <div class="footer">HTML Docs · 2026 · CONFIDENTIAL</div>
 
 </div>
+
+<script>
+// 문서 목록 — 파일명에서 날짜 자동 추출
+const docs = [
+  { file: 'slot-planning-20260715.html', title: '슬롯 커뮤니티 기획서', icon: '🎰', tag: 'plan', desc: 'SEO 전략 · 차별화 기능 · 이벤트 · 유저 경험' },
+];
+
+// 날짜 변환: 20260715 → 2026.07.15
+function parseDate(filename) {
+  const match = filename.match(/(\d{4})(\d{2})(\d{2})/);
+  if (match) return `${match[1]}.${match[2]}.${match[3]}`;
+  return '';
+}
+
+// 태그 라벨
+const tagLabel = { plan: '기획', meeting: '회의', report: '보고서' };
+
+// 렌더링
+const list = document.getElementById('doc-list');
+docs.forEach(doc => {
+  const date = parseDate(doc.file);
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <a class="doc-item" href="./${doc.file}">
+      <div class="doc-icon">${doc.icon}</div>
+      <div class="doc-info">
+        <div class="doc-title">${doc.title} <span class="tag tag-${doc.tag}">${tagLabel[doc.tag]}</span></div>
+        <div class="doc-meta">${date}${doc.desc ? ' · ' + doc.desc : ''}</div>
+      </div>
+      <div class="doc-arrow">→</div>
+    </a>
+  `;
+  list.appendChild(li);
+});
+</script>
 </body>
 </html>
