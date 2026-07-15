@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>슬롯 커뮤니티 기획서 — HTML Docs</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f1117; --surface: #1a1d27; --surface2: #22253a; --border: #2e3150;
+  --accent: #7c6af7; --accent2: #4fd1c5; --orange: #f6ad55; --green: #68d391;
+  --red: #fc8181; --text: #e8eaf0; --text2: #9aa0c0; --text3: #5c6080;
+  --radius: 8px;
+}
+body { font-family: -apple-system, 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.75; }
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+/* 사이드바 */
+.sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 24px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.sidebar-logo { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.sidebar-logo a { color: var(--text2); text-decoration: none; font-size: 12px; }
+.sidebar-logo .logo-title { font-size: 13px; font-weight: 700; color: var(--text); margin-top: 6px; }
+.sidebar-section { padding: 16px 20px 6px; font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text3); text-transform: uppercase; }
+.sidebar-nav a { display: block; padding: 6px 20px; color: var(--text2); text-decoration: none; font-size: 13px; border-left: 2px solid transparent; transition: all 0.15s; }
+.sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(124,106,247,0.08); }
+
+/* 메인 */
+.main { padding: 48px 64px; max-width: 920px; }
+.doc-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+h1 { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+.doc-meta { font-size: 12px; color: var(--text3); margin-bottom: 32px; display: flex; gap: 16px; }
+.section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.section:last-of-type { border-bottom: none; }
+/* details만 있는 섹션 — 여백 없앰 */
+.section.details-only { padding-bottom: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.sec-num { font-size: 11px; font-weight: 700; background: var(--surface2); color: var(--accent); padding: 2px 8px; border-radius: 4px; }
+h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 20px 0 8px; }
+p { color: var(--text2); margin-bottom: 12px; font-size: 14px; }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+/* TL;DR */
+.tldr { background: rgba(124,106,247,0.08); border: 1px solid rgba(124,106,247,0.25); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 32px; }
+.tldr-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px; }
+.tldr ul { padding-left: 16px; }
+.tldr li { color: var(--text2); font-size: 14px; margin-bottom: 4px; }
+.tldr li strong { color: var(--text); }
+
+/* 접히는 섹션 */
+details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0; overflow: hidden; }
+summary { padding: 14px 18px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text); list-style: none; display: flex; align-items: center; gap: 8px; user-select: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: '▶'; font-size: 10px; color: var(--text3); transition: transform 0.2s; }
+details[open] summary::before { transform: rotate(90deg); }
+details[open] summary { border-bottom: 1px solid var(--border); }
+.details-body { padding: 16px 18px; }
+
+/* 탭 */
+.tabs { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 12px 0; }
+.tab-btns { display: flex; background: var(--surface2); border-bottom: 1px solid var(--border); }
+.tab-btn { padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text2); background: transparent; border: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+.tab-content { display: none; padding: 14px 16px; position: relative; background: #12141f; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; color: #a8b5c8; line-height: 1.6; }
+.tab-content.active { display: block; }
+.copy-btn { position: absolute; top: 10px; right: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); padding: 3px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+.copy-btn:hover { color: var(--text); }
+
+/* 테이블 */
+.doc-table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 13px; }
+.doc-table th { background: var(--surface2); color: var(--text); font-weight: 700; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 12px; }
+.doc-table td { padding: 10px 14px; color: var(--text2); border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+/* 리스트 */
+ul.doc-list { list-style: none; padding: 0; margin-bottom: 12px; }
+ul.doc-list li { color: var(--text2); font-size: 14px; padding: 3px 0 3px 18px; position: relative; }
+ul.doc-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 11px; }
+ul.doc-list.orange li::before { color: var(--orange); }
+ul.doc-list.green li::before { color: var(--green); }
+ul.doc-list.teal li::before { color: var(--accent2); }
+
+/* 노트 */
+.note { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 10px 0; font-size: 13.5px; color: var(--text2); }
+.note.green { border-left-color: var(--green); }
+.note.orange { border-left-color: var(--orange); }
+.note.teal { border-left-color: var(--accent2); }
+.note.red { border-left-color: var(--red); }
+.note strong { color: var(--text); }
+
+/* SEO 태그 */
+.seo-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--green); background: rgba(104,211,145,0.08); border: 1px solid rgba(104,211,145,0.2); padding: 3px 10px; border-radius: 4px; margin: 6px 0; }
+.diff-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--orange); background: rgba(246,173,85,0.08); border: 1px solid rgba(246,173,85,0.2); padding: 3px 10px; border-radius: 4px; margin: 6px 0; }
+
+/* 뱃지 */
+.badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+.badge-accent { background: rgba(124,106,247,0.15); color: var(--accent); border: 1px solid rgba(124,106,247,0.3); }
+.badge-green { background: rgba(104,211,145,0.1); color: var(--green); border: 1px solid rgba(104,211,145,0.3); }
+.badge-orange { background: rgba(246,173,85,0.1); color: var(--orange); border: 1px solid rgba(246,173,85,0.3); }
+.badge-teal { background: rgba(79,209,197,0.1); color: var(--accent2); border: 1px solid rgba(79,209,197,0.3); }
+
+/* 카드 그리드 */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; }
+.card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.card.accent::before { background: var(--accent); }
+.card.green::before { background: var(--green); }
+.card.orange::before { background: var(--orange); }
+.card.teal::before { background: var(--accent2); }
+.card-num { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+.card.accent .card-num { color: var(--accent); }
+.card.green .card-num { color: var(--green); }
+.card.orange .card-num { color: var(--orange); }
+.card.teal .card-num { color: var(--accent2); }
+.card-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.card-label { font-size: 11px; color: var(--text2); }
+
+/* 2단 레이아웃 */
+.two-col { display: grid; grid-template-columns: 1fr 200px; gap: 20px; align-items: start; margin: 12px 0; }
+
+/* UI 모형 */
+.mockup { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; font-size: 12px; }
+.mock-hdr { padding: 8px 12px; font-weight: 700; font-size: 12px; color: #fff; }
+.mock-body { padding: 10px 12px; }
+.mock-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.mock-lbl { font-size: 9px; color: var(--text3); width: 32px; flex-shrink: 0; }
+.mock-inp { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; font-size: 9px; color: var(--text2); }
+.mock-inp.active { border-color: var(--accent); background: rgba(124,106,247,0.1); }
+.mock-arrow { text-align: center; font-size: 13px; color: var(--accent); margin: 4px 0; }
+.mock-result { background: rgba(124,106,247,0.1); border: 1px solid rgba(124,106,247,0.3); border-radius: 5px; padding: 6px 8px; font-size: 9px; color: var(--accent); font-weight: 700; text-align: center; }
+.mock-tags { display: flex; gap: 4px; margin-top: 5px; flex-wrap: wrap; }
+.mock-tag { background: rgba(124,106,247,0.15); color: var(--accent); border: 1px solid rgba(124,106,247,0.3); border-radius: 10px; padding: 2px 6px; font-size: 8px; font-weight: 700; }
+.mock-rank { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 10px; }
+.mock-rank:last-child { border-bottom: none; }
+.rank-n { font-weight: 900; width: 18px; }
+.rank-name { flex: 1; color: var(--text2); }
+.rank-score { color: var(--green); font-weight: 700; }
+.mock-quiz-q { font-size: 9px; font-weight: 700; color: var(--text); margin-bottom: 6px; text-align: center; }
+.mock-quiz-opt { border: 1px solid var(--border); border-radius: 5px; padding: 5px 8px; font-size: 9px; color: var(--text2); margin-bottom: 3px; text-align: center; }
+.mock-quiz-opt.sel { border-color: var(--accent); background: rgba(124,106,247,0.1); color: var(--accent); font-weight: 700; }
+.mock-result-box { margin-top: 6px; background: rgba(124,106,247,0.08); border: 1px solid rgba(124,106,247,0.2); border-radius: 5px; padding: 6px; text-align: center; }
+.mock-result-title { font-size: 9px; font-weight: 900; color: var(--accent); }
+.mock-result-sub { font-size: 8px; color: var(--text2); margin-top: 2px; }
+.mock-btn { margin-top: 5px; background: var(--accent); color: #fff; border-radius: 4px; padding: 4px; font-size: 8.5px; font-weight: 700; text-align: center; }
+
+/* 피드 */
+/* 피드 - blablalink 스타일 */
+.mock-feed-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.mock-feed-item:last-child { border-bottom: none; }
+.mock-feed-top { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.mock-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; }
+.mock-feed-userinfo { flex: 1; }
+.mock-feed-name { font-size: 10px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 4px; }
+.mock-feed-time { font-size: 8.5px; color: var(--text3); }
+.mock-follow-btn { background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 4px; padding: 2px 8px; font-size: 8.5px; font-weight: 700; cursor: pointer; }
+.mock-feed-title { font-size: 10px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.mock-feed-desc { font-size: 9px; color: var(--text2); margin-bottom: 6px; line-height: 1.4; }
+.mock-feed-img { width: 100%; height: 60px; border-radius: 5px; background: linear-gradient(135deg,#1a1d27,#22253a); margin-bottom: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.mock-feed-acts { display: flex; gap: 10px; font-size: 9px; color: var(--text3); align-items: center; }
+.mock-feed-act { display: flex; align-items: center; gap: 3px; }
+.mock-feed-act span { font-weight: 500; }
+
+/* 게임 상세 */
+.mock-game-thumb { width: 100%; height: 60px; background: linear-gradient(135deg, #1a1d27, #22253a); border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-bottom: 7px; font-size: 11px; font-weight: 900; color: #fff; position: relative; }
+.mock-game-badge { position: absolute; top: 5px; right: 5px; background: var(--orange); color: #fff; border-radius: 3px; padding: 1px 5px; font-size: 7.5px; font-weight: 700; }
+.mock-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 7px; }
+.mock-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 5px 7px; }
+.mock-stat-lbl { font-size: 7px; color: var(--text3); }
+.mock-stat-val { font-size: 11px; font-weight: 900; color: var(--green); }
+
+/* 이벤트 카드 */
+.ev-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+.ev-hdr { background: var(--surface2); padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+.ev-num { font-size: 18px; font-weight: 900; color: var(--orange); min-width: 26px; }
+.ev-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.ev-body { padding: 12px 16px; }
+.ev-intro { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+
+/* 달력 모형 */
+.mock-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 6px; }
+.cal-d { aspect-ratio: 1; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 7.5px; font-weight: 700; }
+.cal-d.done { background: var(--green); color: #fff; }
+.cal-d.today { background: var(--accent); color: #fff; }
+.cal-d.empty { background: var(--surface); color: var(--text3); }
+
+/* 뱃지 그리드 */
+.mock-badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 6px; }
+.mock-badge-item { border: 1px solid var(--border); border-radius: 5px; padding: 6px; text-align: center; }
+.mock-badge-item.done { border-color: var(--green); background: rgba(104,211,145,0.08); }
+.mock-badge-item.prog { border-color: var(--orange); background: rgba(246,173,85,0.08); }
+.mock-badge-icon { font-size: 14px; margin-bottom: 2px; }
+.mock-badge-name { font-size: 8px; font-weight: 700; color: var(--text2); }
+.mock-badge-done { font-size: 7.5px; color: var(--green); font-weight: 700; }
+.mock-badge-prog { font-size: 7.5px; color: var(--orange); }
+
+/* 프로필 */
+.mock-prof-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.mock-prof-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; }
+.mock-prof-name { font-size: 10px; font-weight: 700; color: var(--text); }
+.mock-prof-title { font-size: 8px; color: var(--accent); background: rgba(124,106,247,0.15); padding: 1px 5px; border-radius: 10px; display: inline-block; }
+.mock-prof-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 6px; }
+.mock-pstat { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 4px; text-align: center; }
+.mock-pstat-num { font-size: 11px; font-weight: 900; color: var(--accent); }
+.mock-pstat-lbl { font-size: 7px; color: var(--text3); }
+.mock-pbadges { display: flex; flex-wrap: wrap; gap: 3px; }
+.mock-pb { background: rgba(124,106,247,0.1); color: var(--accent); border: 1px solid rgba(124,106,247,0.2); border-radius: 8px; padding: 1px 5px; font-size: 7.5px; font-weight: 700; }
+
+/* 채널 */
+.mock-tg-item { padding: 5px 0; border-bottom: 1px solid var(--border); }
+.mock-tg-item:last-child { border-bottom: none; }
+.mock-tg-label { font-size: 8px; color: var(--text3); margin-bottom: 2px; }
+.mock-tg-text { font-size: 9px; color: var(--text); font-weight: 600; }
+.mock-tg-sub { font-size: 8px; color: var(--accent2); }
+
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 24px 20px; }
+  .two-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- 사이드바 -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <a href="#">← HTML Docs</a>
+    <div class="logo-title">슬롯 커뮤니티 기획서</div>
+  </div>
+  <div class="sidebar-section">개요</div>
+  <nav class="sidebar-nav">
+    <a href="#overview">TL;DR 요약</a>
+  </nav>
+  <div class="sidebar-section">01 SEO 분석</div>
+  <nav class="sidebar-nav">
+    <a href="#seo-tech">기술적 SEO 8가지</a>
+    <a href="#seo-content">콘텐츠 전략</a>
+  </nav>
+  <div class="sidebar-section">02 우리만의 무기</div>
+  <nav class="sidebar-nav">
+    <a href="#diff">차별화 기능 3가지</a>
+    <a href="#event">이벤트 전략 5가지</a>
+  </nav>
+  <div class="sidebar-section">03 유저 경험</div>
+  <nav class="sidebar-nav">
+    <a href="#user-target">타겟 유저 정의</a>
+    <a href="#profile">프로필 & 칭호</a>
+    <a href="#social">소셜 & 개인화</a>
+    <a href="#freeslot">무료슬롯 고도화</a>
+  </nav>
+  <div class="sidebar-section">04 외부 확장</div>
+  <nav class="sidebar-nav">
+    <a href="#channel">멀티채널 전략</a>
+  </nav>
+</nav>
+
+<!-- 메인 -->
+<main class="main">
+
+<div class="doc-eyebrow">PLANNING · 2026-07-15</div>
+<h1>슬롯 커뮤니티 기획서</h1>
+<div class="doc-meta">
+  <span>📄 slotbuff4.com 벤치마킹 기반</span>
+  <span>🔒 내부 검토용</span>
+</div>
+
+<div class="tldr" id="overview">
+  <div class="tldr-label">TL;DR</div>
+  <ul>
+    <li>슬롯버프를 레퍼런스로 한 신규 슬롯 커뮤니티 사이트 기획 — <strong>어필리에이트 수익 모델</strong></li>
+    <li>슬롯버프 SEO 구조를 그대로 적용하고 <strong>차별화 기능 3가지 + 이벤트 5가지</strong>를 추가한다</li>
+    <li>유저가 올리는 후기가 SEO 콘텐츠가 되는 <strong>UGC 자동화 구조</strong>가 핵심</li>
+  </ul>
+</div>
+
+<hr>
+
+<!-- ═══ 01 SEO ═══ -->
+<div class="section" id="seo-tech">
+  <h2><span class="sec-num">01</span> 벤치마킹 — 슬롯버프 SEO 분석</h2>
+  <p>slotbuff4.com을 직접 크롤링하여 분석한 결과다. 검색 노출에 유리한 구조를 갖추고 있는 8가지 요소를 우리 사이트에도 동일하게 적용해야 한다.</p>
+
+  <!-- SEO 01 -->
+  <details open>
+    <summary>① 메타태그 구조</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <p>페이지마다 title, description, og태그, twitter카드가 개별 세팅되어 있다. 구글은 title 앞부분을 더 중요하게 보기 때문에 메인 키워드를 앞쪽에 배치해야 한다.</p>
+          <ul class="doc-list">
+            <li>title 앞쪽에 핵심 키워드 배치 필수</li>
+            <li>og태그 + twitter카드 완비 — SNS 공유 시 썸네일·설명 자동 노출</li>
+            <li>메인, 게임사별, 후기 페이지 전부 개별 세팅 필수</li>
+          </ul>
+          <div class="seo-tag">SEO 효과</div>
+          <div class="note">og태그가 완비되면 카카오톡 공유 시 클릭율이 직접 올라간다.</div>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:#1D4ED8;">🏷️ 메타태그 구조</div>
+            <div class="mock-body">
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;margin-bottom:5px;">
+                <div style="font-size:8px;color:var(--text3);margin-bottom:1px;">title</div>
+                <div style="font-size:8.5px;color:#60A5FA;font-weight:700;">무료슬롯 체험 - (사이트명) 인기 슬롯 무료플레이</div>
+              </div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;margin-bottom:5px;">
+                <div style="font-size:8px;color:var(--text3);margin-bottom:1px;">description</div>
+                <div style="font-size:8px;color:var(--text2);">프라그마틱, 노리밋시티 등 인기 슬롯을 로그인 없이 무료 체험...</div>
+              </div>
+              <div style="display:flex;gap:3px;flex-wrap:wrap;">
+                <span style="background:rgba(59,130,246,0.15);color:#60A5FA;border:1px solid rgba(59,130,246,0.3);border-radius:3px;padding:2px 5px;font-size:7.5px;font-weight:700;">og:title ✓</span>
+                <span style="background:rgba(59,130,246,0.15);color:#60A5FA;border:1px solid rgba(59,130,246,0.3);border-radius:3px;padding:2px 5px;font-size:7.5px;font-weight:700;">og:image ✓</span>
+                <span style="background:rgba(59,130,246,0.15);color:#60A5FA;border:1px solid rgba(59,130,246,0.3);border-radius:3px;padding:2px 5px;font-size:7.5px;font-weight:700;">twitter:card ✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SEO 02 -->
+  <details>
+    <summary>② 게임사별 랜딩페이지</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <p>"프라그마틱 무료슬롯" 키워드 검색 시 해당 전용 페이지가 바로 노출되는 구조다.</p>
+          <ul class="doc-list">
+            <li>/freeslot/pragmaticplay → "프라그마틱 무료슬롯"</li>
+            <li>/freeslot/nolimitcity → "노리밋시티 무료슬롯"</li>
+            <li>게임사별 전용 페이지 최소 9개 이상 구현 필수</li>
+          </ul>
+          <div class="seo-tag">SEO 효과</div>
+          <div class="note">전용 페이지가 없으면 카테고리 키워드를 절대 잡을 수 없다.</div>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:#1D4ED8;">🎮 URL 구조</div>
+            <div class="mock-body">
+              <div style="font-size:8px;color:var(--text3);margin-bottom:4px;">게임사별 전용 URL</div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 8px;font-size:8.5px;color:#60A5FA;font-weight:700;margin-bottom:3px;">/freeslot/<span style="color:var(--accent);">pragmaticplay</span></div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 8px;font-size:8.5px;color:#60A5FA;font-weight:700;margin-bottom:3px;">/freeslot/<span style="color:var(--accent);">nolimitcity</span></div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 8px;font-size:8.5px;color:#60A5FA;font-weight:700;margin-bottom:6px;">/freeslot/<span style="color:var(--accent);">pgsoft</span></div>
+              <div style="background:rgba(104,211,145,0.08);border:1px solid rgba(104,211,145,0.2);border-radius:5px;padding:5px;font-size:8.5px;color:var(--green);font-weight:700;text-align:center;">🔍 구글 검색 1페이지 노출 ↑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SEO 03~08 통합 -->
+  <details>
+    <summary>③ FAQ · ④ WebP · ⑤ Canonical · ⑥ URL · ⑦ 내부링크 · ⑧ 모바일</summary>
+    <div class="details-body">
+      <table class="doc-table">
+        <thead><tr><th>항목</th><th>내용</th><th>SEO 효과</th></tr></thead>
+        <tbody>
+          <tr><td><strong>FAQ (리치 스니펫)</strong></td><td>FAQ 스키마 마크업 적용. 최소 10개 이상 실제 검색 질문으로 구성. 개발자 요청 필수.</td><td>검색 결과 2배 크게 노출. 클릭율 급상승.</td></tr>
+          <tr><td><strong>WebP 이미지</strong></td><td>JPG 대비 30~40% 용량 감소. 업로드 시 자동 변환 세팅 필수.</td><td>로딩 속도 향상 → Core Web Vitals 개선</td></tr>
+          <tr><td><strong>Canonical 태그</strong></td><td>/board?page=2 등 파생 URL에 원본 페이지 지정. 개발 초기부터 적용 필수.</td><td>검색 점수 분산 방지 → 한 곳에 집중</td></tr>
+          <tr><td><strong>URL 구조</strong></td><td>/freeslot/pragmaticplay 형태. 숫자 ID URL(/page?id=1234) 사용 금지.</td><td>구글이 페이지 내용 즉시 파악</td></tr>
+          <tr><td><strong>내부 링크</strong></td><td>게임사 → 후기 → 추천 → 무료체험 흐름으로 촘촘하게 연결.</td><td>새 페이지 빠른 색인 + 체류시간 증가</td></tr>
+          <tr><td><strong>모바일 퍼스트</strong></td><td>처음부터 모바일 기준 설계. 후기 작성·이벤트 참여·무료체험 모바일 원터치 완료.</td><td>구글 모바일 기준 순위 산정 → 필수</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+<!-- 콘텐츠 전략 -->
+<details>
+    <summary><span class="sec-num" style="margin-right:8px;">1-2</span> 콘텐츠 전략 — UGC가 SEO의 핵심</summary>
+    <div class="details-body">
+  <p>유저가 만들어내는 콘텐츠(UGC)가 슬롯버프 SEO의 핵심이다. 유저들이 후기를 올릴 때마다 검색 키워드가 자동으로 쌓인다.</p>
+  <table class="doc-table">
+    <thead><tr><th>콘텐츠 유형</th><th>특징</th><th style="text-align:center">SEO</th><th style="text-align:center">커뮤니티</th></tr></thead>
+    <tbody>
+      <tr><td>슬롯 리뷰 영상</td><td>유튜브 연동 임베드</td><td style="text-align:center">★★★</td><td style="text-align:center">★★★</td></tr>
+      <tr><td>무료슬롯 후기</td><td>유저 UGC — 롱테일 키워드 자동 생성</td><td style="text-align:center">★★★</td><td style="text-align:center">★★★</td></tr>
+      <tr><td>커뮤니티 인기글</td><td>자유게시판 인기 콘텐츠</td><td style="text-align:center">★★</td><td style="text-align:center">★★★</td></tr>
+      <tr><td>연재 게시판</td><td>스토리형 장기 콘텐츠 — 재방문 유도</td><td style="text-align:center">★★★</td><td style="text-align:center">★★</td></tr>
+      <tr><td>게임사 리뷰</td><td>키워드 타겟 정보글</td><td style="text-align:center">★★★</td><td style="text-align:center">★</td></tr>
+      <tr><td>먹튀사이트 제보</td><td>신뢰 콘텐츠 — 제휴 전환 역할</td><td style="text-align:center">★★</td><td style="text-align:center">★★</td></tr>
+      <tr><td>이벤트 참여글</td><td>바이럴 참여형</td><td style="text-align:center">★</td><td style="text-align:center">★★★</td></tr>
+    </tbody>
+  </table>
+  <div class="note">💡 <strong>UGC 자동화:</strong> 후기 올릴 때 게임명과 배수를 입력하면 "도그하우스 3,500배 후기 [2026.07]" 형태의 제목이 자동 생성된다. 유저가 활발할수록 롱테일 키워드가 자동으로 쌓이는 선순환 구조.</div>
+    </div>
+  </details>
+<hr>
+
+<!-- ═══ 02 차별화 ═══ -->
+<div class="section" id="diff">
+  <h2><span class="sec-num">02</span> 우리만의 무기 — 차별화 기능 3가지</h2>
+  <p>슬롯버프에 없는 기능들이다. SEO 경쟁력과 유저 재방문 구조를 동시에 만드는 핵심 기능이다.</p>
+
+  <!-- 차별화 01 -->
+  <details open>
+    <summary>① 후기 제목 자동완성</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <p>후기 올릴 때 게임사·게임명·배수를 입력하면 SEO 최적화 제목이 자동 완성된다.</p>
+          <table class="doc-table">
+            <tbody>
+              <tr><td><strong>게임사 선택</strong></td><td>드롭다운 선택</td></tr>
+              <tr><td><strong>게임명 선택</strong></td><td>드롭다운 선택</td></tr>
+              <tr><td><strong>배수 입력</strong></td><td>숫자 입력 → 제목 자동 완성</td></tr>
+              <tr><td><strong>결과 예시</strong></td><td>"도그하우스 3,500배 후기 [2026.07]"</td></tr>
+              <tr><td><strong>태그 자동 생성</strong></td><td>#프라그마틱 #도그하우스 #3500배</td></tr>
+            </tbody>
+          </table>
+          <div class="seo-tag">SEO 효과</div>
+          <div class="note">"게임명 + 배수 + 후기" 롱테일 키워드가 자동으로 쌓인다. ②번 통계 페이지와 연동.</div>
+          <div class="diff-tag">★ 차별점</div>
+          <div class="note orange">슬롯버프도 후기가 쌓이지만 제목 일관성이 없어 키워드 효과가 분산된다.</div>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--accent);">✍️ 후기 작성 폼</div>
+            <div class="mock-body">
+              <div class="mock-row"><span class="mock-lbl">게임사</span><div class="mock-inp">프라그마틱 ▾</div></div>
+              <div class="mock-row"><span class="mock-lbl">게임명</span><div class="mock-inp">도그하우스 ▾</div></div>
+              <div class="mock-row"><span class="mock-lbl">배수</span><div class="mock-inp active">3500</div></div>
+              <div class="mock-arrow">↓ 자동 완성</div>
+              <div class="mock-result">"도그하우스 3,500배 후기 [2026.07]"</div>
+              <div class="mock-tags">
+                <span class="mock-tag">#프라그마틱</span>
+                <span class="mock-tag">#도그하우스</span>
+                <span class="mock-tag">#3500배</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 차별화 02 -->
+  <details>
+    <summary>② 게임별 실시간 통계 + 명예의 전당</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <p>유저가 후기에 배수를 입력하면 자동으로 통계에 반영된다. ①번과 연동.</p>
+          <table class="doc-table">
+            <tbody>
+              <tr><td><strong>오늘의 기록</strong></td><td>매일 리셋 — 오늘 최고 배수, 참여자 수 실시간 반영</td></tr>
+              <tr><td><strong>역대 명예의 전당</strong></td><td>누적 — 게임별 역대 1위 닉네임 영구 등재</td></tr>
+              <tr><td><strong>노출 위치</strong></td><td>메인 사이드바 TOP 3 + 전용 상세 페이지</td></tr>
+            </tbody>
+          </table>
+          <div class="seo-tag">SEO 효과</div>
+          <div class="note">매일 데이터가 바뀌어 구글이 매일 크롤링. "도그하우스 역대 최고 배수" 키워드 선점 가능.</div>
+          <div class="diff-tag">★ 차별점</div>
+          <div class="note orange">슬롯버프에 없는 페이지. 오늘의 기록은 매일 방문 이유, 명예의 전당은 장기 동기부여.</div>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--accent);">🏆 오늘의 기록</div>
+            <div class="mock-body">
+              <div style="font-size:8.5px;font-weight:700;color:var(--text);margin-bottom:5px;">도그하우스 · 2026.07.14</div>
+              <div class="mock-rank"><span class="rank-n" style="color:var(--orange);">🥇</span><span class="rank-name">슬롯마스터</span><span class="rank-score">12,400배</span><span style="background:rgba(246,173,85,0.15);color:var(--orange);border:1px solid rgba(246,173,85,0.3);border-radius:3px;padding:1px 4px;font-size:7.5px;font-weight:700;">신기록</span></div>
+              <div class="mock-rank"><span class="rank-n" style="color:#94A3B8;">🥈</span><span class="rank-name">헌터킹</span><span class="rank-score">8,200배</span></div>
+              <div class="mock-rank"><span class="rank-n" style="color:#92400E;">🥉</span><span class="rank-name">빅윈러</span><span class="rank-score">5,600배</span></div>
+              <div style="margin-top:6px;display:flex;justify-content:space-between;font-size:8px;color:var(--text3);">
+                <span>오늘 참여자 <strong style="color:var(--accent);">47명</strong></span>
+                <span>실시간 업데이트</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 차별화 03 -->
+  <details>
+    <summary>③ 슬롯 궁합 테스트</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <p>"어떤 슬롯이 나한테 맞을까?" 퀴즈 4~5개에 답하면 게임을 추천해준다.</p>
+          <table class="doc-table">
+            <tbody>
+              <tr><td><strong>질문 예시</strong></td><td>"크게 한 번 vs 조금씩 자주" / "스릴 vs 안정"</td></tr>
+              <tr><td><strong>결과</strong></td><td>"당신은 도그하우스 타입!" → 무료체험 바로 연결</td></tr>
+              <tr><td><strong>공유</strong></td><td>카카오톡·SNS 공유 버튼 → 바이럴 유도</td></tr>
+            </tbody>
+          </table>
+          <div class="seo-tag">SEO 효과</div>
+          <div class="note">"슬롯 추천", "슬롯 입문" 키워드 선점. 결과 공유로 자연 유입 생성.</div>
+          <div class="diff-tag">★ 차별점</div>
+          <div class="note orange">슬롯버프는 입문자 진입 장치가 없다. 궁합 테스트로 입문자까지 타겟 확장.</div>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--accent);">🎯 슬롯 궁합 테스트</div>
+            <div class="mock-body">
+              <div class="mock-quiz-q">나는 어떤 스타일?</div>
+              <div class="mock-quiz-opt sel">💥 한 번에 크게 터지는 게 좋아</div>
+              <div class="mock-quiz-opt">✨ 조금씩 자주 터지는 게 좋아</div>
+              <div class="mock-result-box">
+                <div class="mock-result-title">🐕 당신은 도그하우스 타입!</div>
+                <div class="mock-result-sub">고변동성 · 최대 11,000배 · 강력 추천</div>
+                <div class="mock-btn">무료체험 바로 하기 →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+<!-- ═══ 이벤트 ═══ -->
+<div class="section" id="event">
+  <h2><span class="sec-num">2-2</span> 이벤트 전략 5가지</h2>
+  <p>이벤트는 단순한 참여 유도가 아니다. 콘텐츠를 만들어내고 SEO 키워드를 쌓는 구조로 설계한다. 보상은 제휴 카지노와 협상을 통해 프리스핀 또는 보너스 머니로 제공한다.</p>
+
+  <details open>
+    <summary><span style="font-size:18px;font-weight:900;color:var(--orange);margin-right:4px;">01</span> 이달의 게임 챌린지</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <div class="ev-intro">매달 게임 하나 지정. 해당 게임 후기 올리면 자동 참여. 월말 최고 배수 TOP 3에게 프리스핀 지급.</div>
+          <ul class="doc-list orange">
+            <li>한 게임에 후기 집중 → 단기간에 해당 게임 키워드 선점</li>
+            <li>매달 다른 게임 지정 → 게임사 키워드 돌아가며 확보</li>
+            <li>평소 하던 게임 후기만 올리면 되어 참여 장벽 낮음</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--orange);color:#000;">🏅 7월 챌린지 현황</div>
+            <div class="mock-body">
+              <div style="background:rgba(246,173,85,0.1);border:1px solid rgba(246,173,85,0.2);border-radius:5px;padding:5px 8px;text-align:center;margin-bottom:6px;">
+                <div style="font-size:8px;color:var(--orange);font-weight:700;">이달의 게임: 🐕 도그하우스</div>
+                <div style="font-size:7.5px;color:var(--text3);">2026.07.01 ~ 07.31</div>
+              </div>
+              <div class="mock-rank"><span class="rank-n" style="color:var(--orange);">🥇</span><span class="rank-name">슬롯킹</span><span class="rank-score">12,400배</span></div>
+              <div class="mock-rank"><span class="rank-n" style="color:#94A3B8;">🥈</span><span class="rank-name">빅윈러</span><span class="rank-score">8,200배</span></div>
+              <div class="mock-rank"><span class="rank-n" style="color:#92400E;">🥉</span><span class="rank-name">잭팟맨</span><span class="rank-score">5,600배</span></div>
+              <div style="margin-top:5px;background:rgba(246,173,85,0.1);border:1px solid rgba(246,173,85,0.2);border-radius:4px;padding:4px;font-size:8px;color:var(--orange);font-weight:700;text-align:center;">보상: 프리스핀 50회 🎰</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span style="font-size:18px;font-weight:900;color:var(--orange);margin-right:4px;">02</span> 신규 게임 First 리뷰 이벤트</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <div class="ev-intro">새 슬롯게임 출시 직후 가장 먼저 리뷰를 올린 사람에게 보너스 머니 지급. 스크린샷 필수.</div>
+          <ul class="doc-list orange">
+            <li>새 게임 나오자마자 유저들이 달려들어 리뷰 작성</li>
+            <li>우리 사이트가 항상 신규 게임 키워드 1등 선점</li>
+            <li>"새 게임 나오면 여기가 제일 빠르다" 인식 형성</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--orange);color:#000;">🆕 신규 게임 알림</div>
+            <div class="mock-body">
+              <div style="background:rgba(104,211,145,0.08);border:1.5px solid rgba(104,211,145,0.2);border-radius:6px;padding:8px 10px;">
+                <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:5px;">🔥 First 리뷰 이벤트</div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 7px;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:9px;font-weight:700;color:var(--text);">더 빅 도그하우스</span>
+                  <span style="background:var(--red);color:#fff;border-radius:3px;padding:1px 5px;font-size:7.5px;font-weight:700;">NEW</span>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 7px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:9px;font-weight:700;color:var(--text);">머니 플레인</span>
+                  <span style="background:var(--red);color:#fff;border-radius:3px;padding:1px 5px;font-size:7.5px;font-weight:700;">NEW</span>
+                </div>
+                <div style="background:rgba(246,173,85,0.1);border:1px solid rgba(246,173,85,0.2);border-radius:4px;padding:4px;font-size:8.5px;color:var(--orange);font-weight:700;text-align:center;">🥇 1등 보너스 머니 $50 지급</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span style="font-size:18px;font-weight:900;color:var(--orange);margin-right:4px;">03</span> 배수 챌린지 토너먼트</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <div class="ev-intro">2주 동안 최고 배수 인증한 사람 우승. 스크린샷 필수. 우승 기록은 명예의 전당 영구 등재.</div>
+          <ul class="doc-list orange">
+            <li>토너먼트 기간 후기 폭발 → SEO 콘텐츠 단기 급증</li>
+            <li>토너먼트 자체가 커뮤니티 화제 → 텔레그램·SNS 자연 확산</li>
+            <li>명예의 전당 연동 → 우승 기록 영구 보존으로 도전욕구 자극</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--orange);color:#000;">⚔️ 배수 토너먼트</div>
+            <div class="mock-body">
+              <div style="background:linear-gradient(135deg,rgba(246,173,85,0.2),rgba(246,173,85,0.1));border-radius:5px;padding:6px 8px;text-align:center;margin-bottom:6px;">
+                <div style="font-size:9px;font-weight:900;color:var(--orange);">7월 2주차 토너먼트</div>
+                <div style="font-size:8px;color:var(--text3);">07.14 ~ 07.28 · D-14</div>
+              </div>
+              <div class="mock-rank"><span class="rank-n" style="color:var(--orange);">🥇</span><span class="rank-name">슬롯마스터</span><span class="rank-score">18,400배</span></div>
+              <div class="mock-rank"><span class="rank-n" style="color:#94A3B8;">🥈</span><span class="rank-name">킹오브슬롯</span><span class="rank-score">12,100배</span></div>
+              <div class="mock-rank"><span class="rank-n" style="color:#92400E;">🥉</span><span class="rank-name">잭팟헌터</span><span class="rank-score">9,800배</span></div>
+              <div style="margin-top:5px;font-size:8px;color:var(--orange);font-weight:700;text-align:center;">우승자 → 명예의 전당 영구 등재 🏆</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span style="font-size:18px;font-weight:900;color:var(--orange);margin-right:4px;">04</span> 슬롯 일기 챌린지</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <div class="ev-intro">한 달 동안 오늘 플레이 기록 짧게 올리기. 두 가지 방식 동시 운영.</div>
+          <ul class="doc-list orange">
+            <li>개근상: 30일 매일 올린 사람 보상 (하루 빠지면 탈락)</li>
+            <li>다작상: 한 달 가장 많이 올린 TOP 3 보상</li>
+            <li>매일 콘텐츠 업데이트 → 구글 매일 크롤링 → 색인 속도 향상</li>
+            <li>30일 개근 시 습관 형성 → 장기 유저로 자연 전환</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--orange);color:#000;">📅 슬롯 일기 챌린지</div>
+            <div class="mock-body">
+              <div style="font-size:8.5px;font-weight:700;color:var(--text);margin-bottom:5px;">7월 개근 현황 — 슬롯킹</div>
+              <div class="mock-cal">
+                <div class="cal-d done">1</div><div class="cal-d done">2</div><div class="cal-d done">3</div><div class="cal-d done">4</div><div class="cal-d done">5</div><div class="cal-d done">6</div><div class="cal-d done">7</div>
+                <div class="cal-d done">8</div><div class="cal-d done">9</div><div class="cal-d done">10</div><div class="cal-d done">11</div><div class="cal-d done">12</div><div class="cal-d done">13</div><div class="cal-d today">14</div>
+                <div class="cal-d empty">15</div><div class="cal-d empty">16</div><div class="cal-d empty">17</div><div class="cal-d empty">18</div><div class="cal-d empty">19</div><div class="cal-d empty">20</div><div class="cal-d empty">21</div>
+              </div>
+              <div style="background:var(--border);border-radius:3px;height:6px;margin-bottom:4px;overflow:hidden;"><div style="background:linear-gradient(90deg,var(--green),var(--accent2));height:100%;width:47%;border-radius:3px;"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--text3);"><span>14일 연속 ✅</span><span>목표: 30일 개근</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span style="font-size:18px;font-weight:900;color:var(--orange);margin-right:4px;">05</span> 게임사 정복 챌린지</summary>
+    <div class="details-body">
+      <div class="two-col">
+        <div>
+          <div class="ev-intro">게임사별 후기 5개 올리면 뱃지 획득. 프로필에 영구 표시.</div>
+          <ul class="doc-list orange">
+            <li>프라그마틱 후기 5개 → "프라그마틱 정복자" 뱃지</li>
+            <li>게임사별 키워드가 고르게 쌓임</li>
+            <li>뱃지 모으는 재미 → 장기 리텐션 기여</li>
+            <li>슬롯버프에 없는 구조 → 우리만의 차별점</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mockup">
+            <div class="mock-hdr" style="background:var(--orange);color:#000;">🏅 게임사 정복 현황</div>
+            <div class="mock-body">
+              <div class="mock-badge-grid">
+                <div class="mock-badge-item done"><div class="mock-badge-icon">🎮</div><div class="mock-badge-name">프라그마틱</div><div class="mock-badge-done">정복 완료 ✓</div></div>
+                <div class="mock-badge-item done"><div class="mock-badge-icon">🎯</div><div class="mock-badge-name">노리밋시티</div><div class="mock-badge-done">정복 완료 ✓</div></div>
+                <div class="mock-badge-item prog"><div class="mock-badge-icon">🎲</div><div class="mock-badge-name">PG소프트</div><div class="mock-badge-prog">3/5 진행중</div></div>
+                <div class="mock-badge-item"><div class="mock-badge-icon">🔒</div><div class="mock-badge-name">플레이엔고</div><div class="mock-badge-prog">0/5</div></div>
+              </div>
+              <div style="background:rgba(104,211,145,0.08);border:1px solid rgba(104,211,145,0.2);border-radius:4px;padding:4px;font-size:8px;color:var(--green);font-weight:700;text-align:center;">2개 정복 완료 → 뱃지 획득! 🏅</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+<hr>
+
+<!-- ═══ 03 유저 경험 ═══ -->
+<div class="section" id="user-target">
+  <h2><span class="sec-num">03</span> 유저 경험 — 타겟 유저 정의</h2>
+  <p>슬롯버프는 중간~고수 유저 위주로 설계되어 있어 처음 접하는 유저가 진입하기 어려운 구조다. 우리는 세 그룹을 모두 고려한 설계로 슬롯버프가 놓치는 유저층까지 잡는다.</p>
+
+  <details open>
+    <summary>① 입문자</summary>
+    <div class="details-body">
+      <p>슬롯을 처음 접하거나 관심이 생긴 유저. 어떤 게임을 해야 할지 모르고 용어 자체가 낯선 그룹.</p>
+      <ul class="doc-list green">
+        <li>슬롯 궁합 테스트로 첫 진입 허들 제거</li>
+        <li>게임 상세 페이지에서 RTP·변동성을 쉬운 말로 설명</li>
+        <li>무료체험으로 부담 없이 먼저 경험 → 후기 작성으로 자연 연결</li>
+      </ul>
+      <div class="seo-tag">SEO 효과</div>
+      <div class="note green">"슬롯이란", "슬롯 처음 하는 법" 키워드는 슬롯버프가 아직 잡지 못한 영역. 경쟁 없이 상단 노출 가능.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>② 중간 유저</summary>
+    <div class="details-body">
+      <p>어느 정도 경험이 있고 정보를 찾아다니는 유저. 커뮤니티 활동의 핵심 축.</p>
+      <ul class="doc-list">
+        <li>실시간 통계로 오늘의 핫한 게임 확인</li>
+        <li>이달의 게임 챌린지·슬롯 일기 챌린지로 꾸준한 참여 유도</li>
+        <li>피드형 커뮤니티로 다른 유저 후기를 소셜 피드처럼 소비</li>
+      </ul>
+      <div class="seo-tag">SEO 효과</div>
+      <div class="note">이 그룹이 올리는 후기가 사이트 SEO 콘텐츠의 대부분을 만들어낸다. 중간 유저가 활발할수록 롱테일 키워드가 쌓인다.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>③ 고수</summary>
+    <div class="details-body">
+      <p>오래 해온 유저. 커뮤니티에서 기록을 남기고 인정받고 싶은 욕구가 있는 그룹.</p>
+      <ul class="doc-list orange">
+        <li>명예의 전당 역대 기록 영구 등재</li>
+        <li>프로필 칭호·뱃지로 커뮤니티 내 존재감</li>
+        <li>배수 챌린지 토너먼트로 경쟁 구도 형성</li>
+      </ul>
+      <div class="seo-tag">SEO 효과</div>
+      <div class="note">고수 유저가 올리는 콘텐츠는 조회수·체류시간이 높아 SEO에 긍정적인 영향을 준다.</div>
+    </div>
+  </details>
+
+  <div class="note green">💡 슬롯버프는 입문자를 잡는 장치가 없다. 우리가 입문자부터 설계하면 슬롯버프가 놓치는 유저층을 추가로 확보하면서 SEO 키워드도 확장된다.</div>
+<!-- 프로필 & 칭호 -->
+<details>
+    <summary><span class="sec-num" style="margin-right:8px;">3-2</span> 유저 정체성 & 프로필</summary>
+    <div class="details-body">
+  <p>슬롯버프는 닉네임만 있다. 우리는 활동할수록 내 존재가 사이트에 쌓이는 구조를 만든다. 내 기록이 쌓일수록 이 사이트를 떠나기 아까워진다.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>프로필 페이지</h3>
+      <p>유저마다 전용 프로필 페이지. 다른 유저도 볼 수 있다.</p>
+      <ul class="doc-list">
+        <li>내 역대 최고 배수 기록</li>
+        <li>내가 주로 하는 게임사 TOP 3</li>
+        <li>획득한 뱃지 모음 (게임사 정복 챌린지 연동)</li>
+        <li>이달의 챌린지 참여 및 순위 기록</li>
+        <li>작성한 후기·슬롯 일기 모아보기</li>
+        <li>가입일부터 현재까지 총 후기 수</li>
+      </ul>
+      <h3>칭호 시스템</h3>
+      <table class="doc-table">
+        <thead><tr><th>칭호</th><th>조건</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>슬롯 입문자</td><td>후기 10개</td><td>—</td></tr>
+          <tr><td>슬롯 헌터</td><td>후기 50개</td><td>—</td></tr>
+          <tr><td>슬롯 마스터</td><td>후기 100개</td><td>—</td></tr>
+          <tr><td>게임사 정복자</td><td>게임사 뱃지 5개 이상</td><td>이벤트 ⑤번 연동</td></tr>
+          <tr><td>이달의 챔피언</td><td>챌린지 1위</td><td>한 달간 유지</td></tr>
+          <tr><td>전설</td><td>역대 배수 1위</td><td>깨지기 전까지 영구 유지</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="mockup">
+        <div class="mock-hdr" style="background:var(--green);color:#000;">👤 프로필 카드</div>
+        <div class="mock-body">
+          <div class="mock-prof-top">
+            <div class="mock-prof-avatar">S</div>
+            <div>
+              <div class="mock-prof-name">슬롯마스터</div>
+              <div class="mock-prof-title">🏆 이달의 챔피언</div>
+            </div>
+          </div>
+          <div class="mock-prof-stats">
+            <div class="mock-pstat"><div class="mock-pstat-num">247</div><div class="mock-pstat-lbl">총 후기</div></div>
+            <div class="mock-pstat"><div class="mock-pstat-num" style="font-size:9px;">12,400배</div><div class="mock-pstat-lbl">최고 배수</div></div>
+          </div>
+          <div class="mock-pbadges">
+            <span class="mock-pb">프라그마틱 정복자</span>
+            <span class="mock-pb">30일 개근</span>
+            <span class="mock-pb">전설</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </details>
+<!-- 소셜 & 개인화 -->
+<details>
+    <summary><span class="sec-num" style="margin-right:8px;">3-3</span> 소셜 요소 & 개인화</summary>
+    <div class="details-body">
+  <div class="two-col">
+    <div>
+      <h3>피드형 커뮤니티</h3>
+      <p>슬롯버프는 게시판 구조다. 유저끼리 연결되는 구조가 없다. 우리는 피드형 소셜 구조를 처음부터 적용한다.</p>
+      <ul class="doc-list green">
+        <li>내가 팔로우한 유저의 새 후기가 내 피드에 노출</li>
+        <li>좋아요·대박·부럽다 등 슬롯 감성 반응 버튼</li>
+        <li>좋아요 많이 받은 글 자동 인기글 선정</li>
+        <li>내 프로필에 "받은 좋아요 총 OOO개" 누적 표시</li>
+      </ul>
+      <div class="note orange">▶ 팔로우 시스템은 유저가 쌓인 이후 순차 추가. 초기에는 피드 + 좋아요부터 시작.</div>
+      <div class="seo-tag">SEO 효과</div>
+      <div class="note">인기글 체류시간 향상 → 구글 신뢰도에 긍정적.</div>
+
+      <h3>개인화</h3>
+      <table class="doc-table">
+        <tbody>
+          <tr><td><strong>지금 당장</strong></td><td>게임사 구독 기능. 선호 게임사 설정 시 메인 피드 우선 노출. 개발 난이도 낮다.</td></tr>
+          <tr><td><strong>나중에</strong></td><td>맞춤 추천 알고리즘. 행동 패턴 분석 기반. 데이터 충분히 쌓인 이후 구현.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="mockup">
+        <div class="mock-hdr" style="background:var(--green);color:#000;">📱 소셜 피드</div>
+        <div class="mock-body" style="padding:8px 10px;">
+          <!-- 탭 -->
+          <div style="display:flex;border-bottom:2px solid var(--border);margin-bottom:8px;">
+            <div style="font-size:10px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);padding:4px 10px;margin-bottom:-2px;">홈</div>
+            <div style="font-size:10px;color:var(--text3);padding:4px 10px;">인기</div>
+            <div style="font-size:10px;color:var(--text3);padding:4px 10px;">팔로잉</div>
+          </div>
+
+          <!-- 포스트 1 -->
+          <div class="mock-feed-item">
+            <div class="mock-feed-top">
+              <div class="mock-avatar" style="background:linear-gradient(135deg,#F59E0B,#EF4444);">K</div>
+              <div class="mock-feed-userinfo">
+                <div class="mock-feed-name">슬롯킹 🏆 <span style="background:rgba(252,129,129,0.2);color:var(--red);border:1px solid rgba(252,129,129,0.3);border-radius:3px;padding:1px 5px;font-size:7.5px;font-weight:700;">HOT</span></div>
+                <div class="mock-feed-time">5분 전</div>
+              </div>
+              <button class="mock-follow-btn">+ 팔로우</button>
+            </div>
+            <div class="mock-feed-title">도그하우스 3,500배 후기 🔥</div>
+            <div class="mock-feed-desc">오늘 진짜 말도 안되는 배수 나왔다... 스크린샷 첨부함</div>
+            <div class="mock-feed-img">🎰</div>
+            <div class="mock-feed-acts">
+              <div class="mock-feed-act">👁️ <span>1.2k</span></div>
+              <div class="mock-feed-act">💬 <span>34</span></div>
+              <div class="mock-feed-act">👍 <span>대박 128</span></div>
+            </div>
+          </div>
+
+          <!-- 포스트 2 -->
+          <div class="mock-feed-item">
+            <div class="mock-feed-top">
+              <div class="mock-avatar" style="background:linear-gradient(135deg,#6D28D9,#3B82F6);">B</div>
+              <div class="mock-feed-userinfo">
+                <div class="mock-feed-name">빅윈러</div>
+                <div class="mock-feed-time">12분 전</div>
+              </div>
+              <button class="mock-follow-btn">+ 팔로우</button>
+            </div>
+            <div class="mock-feed-title">북몬스터 2천원으로 맥스윈!</div>
+            <div class="mock-feed-desc">진짜 실화냐 2천원 넣고 이게 나옴</div>
+            <div class="mock-feed-acts">
+              <div class="mock-feed-act">👁️ <span>847</span></div>
+              <div class="mock-feed-act">💬 <span>21</span></div>
+              <div class="mock-feed-act">🔥 <span>부럽다 89</span></div>
+            </div>
+          </div>
+
+          <!-- 포스트 3 -->
+          <div class="mock-feed-item">
+            <div class="mock-feed-top">
+              <div class="mock-avatar" style="background:linear-gradient(135deg,#059669,#0891B2);">J</div>
+              <div class="mock-feed-userinfo">
+                <div class="mock-feed-name">잭팟맨</div>
+                <div class="mock-feed-time">30분 전</div>
+              </div>
+              <button class="mock-follow-btn">+ 팔로우</button>
+            </div>
+            <div class="mock-feed-title">오늘의 슬롯 일기 #15 📔</div>
+            <div class="mock-feed-desc">오늘도 도그하우스만 팠다 보너스 3번 나왔는데...</div>
+            <div class="mock-feed-acts">
+              <div class="mock-feed-act">👁️ <span>312</span></div>
+              <div class="mock-feed-act">💬 <span>8</span></div>
+              <div class="mock-feed-act">👍 <span>45</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </details>
+<!-- 무료슬롯 고도화 -->
+<details>
+    <summary><span class="sec-num" style="margin-right:8px;">3-5</span> 무료슬롯 체험 고도화</summary>
+    <div class="details-body">
+  <p>슬롯버프는 게임 목록에서 클릭하면 바로 실행되고 끝이다. 우리는 체험 전후에 콘텐츠를 붙여서 더 오래 머물고 후기까지 이어지는 구조를 만든다.</p>
+  <div class="two-col">
+    <div>
+      <h3>게임 상세 페이지</h3>
+      <p>클릭 시 바로 실행이 아니라 상세 페이지 먼저 노출.</p>
+      <table class="doc-table">
+        <thead><tr><th>표시 정보</th><th>SEO 키워드 효과</th></tr></thead>
+        <tbody>
+          <tr><td>RTP (환수율)</td><td>"도그하우스 RTP" 키워드 선점</td></tr>
+          <tr><td>변동성</td><td>"도그하우스 변동성" 키워드</td></tr>
+          <tr><td>유저 평균 배수</td><td>실시간 데이터 → 재방문 유도</td></tr>
+          <tr><td>커뮤니티 평점</td><td>신뢰도 향상</td></tr>
+          <tr><td>최근 후기 3개</td><td>후기 페이지 내부 링크</td></tr>
+        </tbody>
+      </table>
+      <div class="seo-tag">SEO 효과</div>
+      <div class="note">슬롯버프에 없는 게임 상세 페이지로 RTP·변동성 키워드 경쟁 없이 선점.</div>
+      <table class="doc-table" style="margin-top:12px;">
+        <tbody>
+          <tr><td><strong>비슷한 게임 추천</strong></td><td>하단 유사 게임 노출 → 체류시간 증가</td></tr>
+          <tr><td><strong>체험 후 유도</strong></td><td>"후기 남기고 포인트 받기" 팝업</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="mockup">
+        <div class="mock-hdr" style="background:var(--green);color:#000;">🎮 게임 상세 페이지</div>
+        <div class="mock-body">
+          <div class="mock-game-thumb">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,106,247,0.5),rgba(29,78,216,0.5));border-radius:5px;"></div>
+            <span style="position:relative;z-index:1;">🐕 도그하우스</span>
+            <div class="mock-game-badge">Pragmatic Play</div>
+          </div>
+          <div class="mock-stat-grid">
+            <div class="mock-stat"><div class="mock-stat-lbl">RTP</div><div class="mock-stat-val">96.5%</div></div>
+            <div class="mock-stat"><div class="mock-stat-lbl">변동성</div><div class="mock-stat-val" style="color:var(--orange);">높음</div></div>
+            <div class="mock-stat"><div class="mock-stat-lbl">평균 배수</div><div class="mock-stat-val" style="color:var(--accent);">847배</div></div>
+            <div class="mock-stat"><div class="mock-stat-lbl">최대 배수</div><div class="mock-stat-val" style="color:var(--orange);">11,664배</div></div>
+          </div>
+          <div style="font-size:8px;color:var(--text3);margin-bottom:4px;">최근 후기</div>
+          <div style="background:var(--surface);border-radius:4px;padding:4px 6px;margin-bottom:3px;display:flex;justify-content:space-between;font-size:8.5px;"><span style="color:var(--text);">슬롯킹 · 3,500배 🔥</span><span style="color:var(--accent);">👍 128</span></div>
+          <div style="background:var(--surface);border-radius:4px;padding:4px 6px;margin-bottom:6px;display:flex;justify-content:space-between;font-size:8.5px;"><span style="color:var(--text);">빅윈러 · 2,100배</span><span style="color:var(--accent);">👍 89</span></div>
+          <div style="background:var(--accent);color:#fff;border-radius:5px;padding:6px;font-size:9px;font-weight:700;text-align:center;">🎮 무료체험 시작하기</div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </details>
+<!-- ═══ 04 멀티채널 ═══ -->
+<details>
+    <summary><span class="sec-num" style="margin-right:8px;">04</span> 외부 확장 — 멀티채널</summary>
+    <div class="details-body">
+  <p>모든 채널을 동시에 운영하기보다 우선순위를 나눠서 접근한다. 슬롯/카지노 유저 특성상 익명성을 중시하기 때문에 채널 선택도 이를 고려해야 한다.</p>
+  <table class="doc-table">
+    <thead><tr><th>채널</th><th>역할</th><th>주요 콘텐츠</th><th style="text-align:center">우선순위</th><th>시작</th></tr></thead>
+    <tbody>
+      <tr><td><strong>텔레그램</strong></td><td>고관여 유저 관리 + CS</td><td>이벤트 공지, 신규 게임 알림, 1:1 문의</td><td style="text-align:center">★★★</td><td><span class="badge badge-green">즉시</span></td></tr>
+      <tr><td><strong>유튜브</strong></td><td>영상 SEO + 브랜드 인지</td><td>유저 빅윈 영상 큐레이션</td><td style="text-align:center">★★★</td><td><span class="badge badge-green">즉시</span></td></tr>
+      <tr><td>X (트위터)</td><td>SNS 브랜딩</td><td>이벤트 공유, 업데이트 알림</td><td style="text-align:center">★★</td><td><span class="badge badge-orange">나중에</span></td></tr>
+      <tr><td>핀터레스트</td><td>이미지 SEO</td><td>게임 썸네일, 인포그래픽</td><td style="text-align:center">★</td><td><span class="badge badge-orange">나중에</span></td></tr>
+      <tr><td>레딧</td><td>해외 유입</td><td>영어권 유저 타겟</td><td style="text-align:center">★</td><td><span class="badge badge-orange">나중에</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="two-col">
+    <div>
+      <h3>텔레그램 — 즉시 시작</h3>
+      <p>슬롯/카지노 유저들이 익명성 때문에 카카오톡보다 텔레그램을 선호한다. 이벤트 공지, 신규 게임 알림, 1:1 문의 전부 여기서 해결. SEO 직접 효과보다는 재방문율과 유저 리텐션에 기여한다.</p>
+      <h3>유튜브 — 즉시 시작</h3>
+      <p>유저 빅윈 영상 큐레이션부터 시작. 직접 촬영 없이도 운영 가능하다. 유튜브는 구글 소유라 영상이 구글 검색에도 노출된다.</p>
+      <div class="seo-tag">SEO 효과</div>
+      <div class="note teal">유튜브 영상 설명란에 사이트 링크 배치 → 유튜브 + 구글 검색 동시에 잡는다.</div>
+    </div>
+    <div>
+      <div class="mockup">
+        <div class="mock-hdr" style="background:#1D4ED8;">📣 텔레그램 채널</div>
+        <div class="mock-body">
+          <div class="mock-tg-item">
+            <div class="mock-tg-label">📢 공지</div>
+            <div class="mock-tg-text">7월 이달의 챌린지 시작!</div>
+            <div style="font-size:8px;color:var(--text3);">이번 달 게임: 도그하우스 🐕</div>
+          </div>
+          <div class="mock-tg-item">
+            <div class="mock-tg-label">🎮 신규 게임 알림</div>
+            <div class="mock-tg-text">더 빅 도그하우스 출시!</div>
+            <div class="mock-tg-sub">→ First 리뷰 이벤트 진행중</div>
+          </div>
+          <div class="mock-tg-item" style="border-bottom:none;">
+            <div class="mock-tg-label">👥 구독자</div>
+            <div style="font-size:13px;font-weight:900;color:var(--accent);">2,847명</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </details>
+</div>
+
+<div style="padding:40px 0 20px;font-size:12px;color:var(--text3);border-top:1px solid var(--border);display:flex;justify-content:space-between;">
+  <span>HTML Docs · 슬롯 커뮤니티 기획서 · 2026-07-15</span>
+  <span>CONFIDENTIAL · 무단 배포 금지</span>
+</div>
+
+</main>
+</div>
+
+<script>
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + entry.target.id) link.classList.add('active');
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// 탭 기능
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabs = btn.closest('.tabs');
+    tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    tabs.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    tabs.querySelector('#' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// 복사 버튼
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const code = btn.closest('.tab-content').querySelector('code, pre') || btn.parentElement;
+    navigator.clipboard.writeText(code.textContent.trim());
+    btn.textContent = '복사됨!';
+    setTimeout(() => btn.textContent = '복사', 1500);
+  });
+});
+</script>
+</body>
+</html>
