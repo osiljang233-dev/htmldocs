@@ -78,9 +78,9 @@ async function loadDocs() {
     let htmlFiles = files
       .filter(f => f.name.endsWith('.html') && f.name !== 'index.html')
       .sort((a, b) => {
-        const da = parseSortKey(b.name);
-        const db = parseSortKey(a.name);
-        if (da !== db) return da > db ? -1 : 1;
+        const da = parseSortKey(a.name);
+        const db = parseSortKey(b.name);
+        if (da !== db) return db > da ? -1 : 1;
         // 같은 날짜면 meta 순서 기준
         const ia = Object.keys(meta).indexOf(a.name);
         const ib = Object.keys(meta).indexOf(b.name);
