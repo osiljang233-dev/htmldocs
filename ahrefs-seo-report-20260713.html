@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ahrefs — SEO 데이터 인텔리전스 플랫폼 심층 분석</title>
+<style>
+  :root {
+    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3350;
+    --accent: #ff6b35; --accent2: #ff9a6c;
+    --green: #2ecc71; --blue: #4a9eff; --purple: #7c6af7;
+    --gold: #f5c842; --red: #e8412a;
+    --text: #d4d8e8; --text-dim: #8890b0; --text-bright: #f0f2ff;
+    --mono: 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; font-size: 15px; line-height: 1.75; padding: 0 0 80px; }
+
+  .doc-header { background: var(--bg2); border-bottom: 2px solid var(--accent); padding: 32px 40px 28px; position: sticky; top: 0; z-index: 100; }
+  .doc-header .breadcrumb { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-family: var(--mono); }
+  .doc-header .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .doc-header .badge { display: inline-block; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 1px; margin-right: 8px; vertical-align: middle; }
+  .doc-header h1 { font-size: 22px; font-weight: 800; color: var(--text-bright); margin-top: 6px; }
+  .doc-header h1 span { color: var(--accent); }
+  .doc-header .meta { font-size: 12px; color: var(--text-dim); margin-top: 6px; font-family: var(--mono); }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 40px 40px 0; }
+
+  .tldr { background: var(--bg2); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 6px; padding: 20px 24px; margin-bottom: 32px; }
+  .tldr-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; font-weight: 700; margin-bottom: 10px; }
+  .tldr ul { padding-left: 20px; }
+  .tldr li { margin-bottom: 5px; font-size: 14px; }
+
+  .section { margin-bottom: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .section-header { display: flex; align-items: center; gap: 14px; padding: 18px 24px; cursor: pointer; user-select: none; list-style: none; }
+  .section-header::-webkit-details-marker { display: none; }
+  details[open] > .section-header { border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 1px; font-weight: 700; background: rgba(255,107,53,0.1); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .section-title { font-size: 16px; font-weight: 700; color: var(--text-bright); flex: 1; }
+  .toggle-icon { font-size: 12px; color: var(--text-dim); transition: transform 0.2s; }
+  details[open] .toggle-icon { transform: rotate(90deg); }
+  .section-body { padding: 24px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .four-col { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 14px 0; }
+
+  .callout { border-radius: 6px; padding: 14px 16px; margin: 10px 0; border-left: 3px solid; }
+  .callout-orange { background: rgba(255,107,53,0.08); border-color: var(--accent); }
+  .callout-green { background: rgba(46,204,113,0.08); border-color: var(--green); }
+  .callout-blue { background: rgba(74,158,255,0.08); border-color: var(--blue); }
+  .callout-gold { background: rgba(245,200,66,0.08); border-color: var(--gold); }
+  .callout-purple { background: rgba(124,106,247,0.08); border-color: var(--purple); }
+  .callout-red { background: rgba(232,65,42,0.08); border-color: var(--red); }
+  .callout-label { font-size: 11px; font-weight: 700; font-family: var(--mono); letter-spacing: 1px; margin-bottom: 8px; }
+  .callout-orange .callout-label { color: var(--accent2); }
+  .callout-green .callout-label { color: var(--green); }
+  .callout-blue .callout-label { color: var(--blue); }
+  .callout-gold .callout-label { color: var(--gold); }
+  .callout-purple .callout-label { color: var(--purple); }
+  .callout-red .callout-label { color: var(--red); }
+  .callout p, .callout li { font-size: 13px; }
+  .callout ul { padding-left: 16px; }
+  .callout li { margin-bottom: 4px; }
+
+  .card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 8px; }
+  .card-body { font-size: 12px; color: var(--text); line-height: 1.7; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(6,1fr); gap: 8px; margin: 16px 0; }
+  .stat-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 12px 8px; text-align: center; }
+  .stat-value { font-size: 18px; font-weight: 900; color: var(--accent); font-family: var(--mono); line-height: 1.2; }
+  .stat-label { font-size: 10px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg3); border: 1px solid var(--border); padding: 9px 12px; text-align: left; color: var(--text-dim); font-size: 11px; font-family: var(--mono); font-weight: 700; }
+  td { border: 1px solid var(--border); padding: 9px 12px; color: var(--text); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td strong { color: var(--text-bright); }
+
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; font-family: var(--mono); margin: 2px; }
+  .tag-orange { background: rgba(255,107,53,0.2); color: var(--accent); border: 1px solid var(--accent); }
+  .tag-blue { background: rgba(74,158,255,0.2); color: var(--blue); border: 1px solid var(--blue); }
+  .tag-green { background: rgba(46,204,113,0.2); color: var(--green); border: 1px solid var(--green); }
+  .tag-purple { background: rgba(124,106,247,0.2); color: var(--purple); border: 1px solid var(--purple); }
+
+  .feature-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; margin-bottom: 12px; }
+  .feature-title { font-size: 14px; font-weight: 700; color: var(--text-bright); margin-bottom: 8px; }
+  .feature-body { font-size: 13px; color: var(--text); margin-bottom: 10px; }
+  .feature-tip { background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2); border-radius: 4px; padding: 8px 12px; font-size: 12px; color: var(--text-dim); }
+  .feature-tip-label { font-size: 10px; font-weight: 700; color: var(--accent); font-family: var(--mono); margin-bottom: 4px; }
+
+  .step-list { margin: 10px 0; }
+  .step-item { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .step-num { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 3px; font-family: var(--mono); flex-shrink: 0; margin-top: 2px; }
+  .step-text { font-size: 13px; flex: 1; }
+  .step-sub { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+
+  .case-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin: 14px 0; }
+  .case-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 14px 10px; }
+  .case-company { font-size: 12px; font-weight: 700; color: var(--text-bright); margin-bottom: 4px; }
+  .case-result { font-size: 18px; font-weight: 900; color: var(--green); font-family: var(--mono); margin-bottom: 4px; }
+  .case-desc { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
+
+  ul.plain { padding-left: 18px; }
+  ul.plain li { font-size: 13px; margin-bottom: 5px; }
+
+  .channel-card { display: flex; gap: 12px; align-items: flex-start; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 14px; margin-bottom: 10px; }
+  .channel-icon { font-size: 22px; flex-shrink: 0; }
+  .channel-info { flex: 1; }
+  .channel-name { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 3px; }
+  .channel-tag { font-size: 10px; font-family: var(--mono); color: var(--accent); margin-bottom: 5px; }
+  .channel-desc { font-size: 12px; color: var(--text); }
+
+  .doc-footer { text-align: center; padding: 40px; font-size: 11px; color: var(--text-dim); font-family: var(--mono); border-top: 1px solid var(--border); margin-top: 60px; }
+  .doc-footer a { color: var(--blue); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 16px 0; }
+    .doc-header { padding: 20px 16px; }
+    .two-col, .three-col, .four-col { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: repeat(3,1fr); }
+    .case-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="breadcrumb"><a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> / Ahrefs 분석</div>
+  <div>
+    <span class="badge">📊 플랫폼 분석</span>
+    <span style="font-size:12px;color:var(--text-dim);font-family:var(--mono);">2026-07-13</span>
+  </div>
+  <h1>Ahrefs — <span>SEO 데이터 인텔리전스 플랫폼 심층 분석</span></h1>
+  <div class="meta">AHREFS-SEO-REPORT · 2026-07-13 · 도입 근거 · 글로벌 현황 · 인프라 스펙 · 핵심 기능 8가지 · 실전 워크플로우 · 실제 성과 사례</div>
+</div>
+
+<div class="container">
+
+  <div class="tldr">
+    <div class="tldr-label">TL;DR</div>
+    <ul>
+      <li>오가닉 검색은 전체 웹 트래픽의 53%를 차지하는 최대 유입 채널 — 광고보다 규모가 큼</li>
+      <li>신규 페이지 중 1년 내 구글 Top10 진입률은 <strong>1.74%</strong> — 전략 없이 올리면 98%는 묻힘</li>
+      <li>Fortune 500 기업의 44%가 도입, 글로벌 SEO/SEM 시장 점유율 구글 다음 2위</li>
+      <li>키워드 리서치 2~3일 → 30분, 경쟁사 분석 불가능 → 5분, 사이트 기술 진단 전문가 의뢰 → 자동(수분)</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 01 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 01</span>
+      <span class="section-title">왜 써야 하는가 — 도입 근거</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <ul class="plain">
+          <li>오가닉 검색은 전체 웹 트래픽의 <strong>53%</strong>를 차지하는 최대 유입 채널 — 광고보다 규모가 큼 <span style="font-size:11px;color:var(--text-dim);">(Ahrefs 자체 연구 2026)</span></li>
+          <li>신규 페이지 중 1년 내 구글 Top10 진입률은 <strong>1.74%</strong> — 전략 없이 올리면 98%는 묻힘 <span style="font-size:11px;color:var(--text-dim);">(Ahrefs 자체 연구 2026)</span></li>
+          <li>전체 페이지의 <strong>96.55%</strong>는 구글에서 트래픽 0 — 대부분의 콘텐츠는 검색에 노출조차 안 됨 <span style="font-size:11px;color:var(--text-dim);">(Ahrefs 자체 연구 2026)</span></li>
+          <li>AI 오버뷰 확산으로 오가닉 클릭률 <strong>58% 감소</strong> — SEO 전략 없인 트래픽이 더 빠르게 줄어드는 시대 <span style="font-size:11px;color:var(--text-dim);">(Seer Interactive 2025)</span></li>
+        </ul>
+        <ul class="plain">
+          <li>유료 광고(CPC)는 예산이 끊기면 즉시 소멸. SEO 콘텐츠는 한 번 올라가면 수년간 복리로 트래픽 생성</li>
+          <li>경쟁사들이 이미 Ahrefs로 데이터 기반 전략 실행 중 — 수작업으로 대응하는 건 구조적 열위</li>
+          <li>Fortune 500 기업의 <strong>44%</strong>가 선택 — 데이터 없이는 방향을 잡을 수 없음 <span style="font-size:11px;color:var(--text-dim);">(Ahrefs 공식)</span></li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 02 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 02</span>
+      <span class="section-title">전 세계 사용 현황</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <ul class="plain">
+        <li>전 세계 <strong>55,639개</strong> 이상 기업 사용 중 <span style="font-size:11px;color:var(--text-dim);">(Datmix, 2026)</span></li>
+        <li>Fortune 500 기업의 <strong>44%</strong> 도입 <span style="font-size:11px;color:var(--text-dim);">(Ahrefs 공식)</span></li>
+        <li>Publicis Groupe, WPP, Dentsu, IPG Mediabrands 등 세계 최대 광고 그룹 전사 도입</li>
+        <li>매주 신규 가입자 <strong>약 20,000명</strong> 증가</li>
+        <li>미국 24,718개사(57%) · 영국 4,651개사 · 인도 3,446개사 <span style="font-size:11px;color:var(--text-dim);">(Datmix)</span></li>
+        <li>SEO/SEM 시장점유율 <strong>14.38%</strong> — 구글 광고 다음 2위</li>
+        <li>외부 투자 없이 ARR <strong>$149.1M</strong> 달성 (2024) <span style="font-size:11px;color:var(--text-dim);">(Founder Ventures)</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- SECTION 03 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 03</span>
+      <span class="section-title">인프라 규모 (데이터 신뢰도 근거)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-value">4,565억</div><div class="stat-label">크롤링 페이지 수</div></div>
+        <div class="stat-box"><div class="stat-value">35조 개</div><div class="stat-label">백링크 데이터 (15~30분 갱신)</div></div>
+        <div class="stat-box"><div class="stat-value">287억 개</div><div class="stat-label">키워드 데이터베이스</div></div>
+        <div class="stat-box"><div class="stat-value">3,600+</div><div class="stat-label">운영 서버 수</div></div>
+        <div class="stat-box"><div class="stat-value">80억 페이지</div><div class="stat-label">AhrefsBot 일일 처리량</div></div>
+        <div class="stat-box"><div class="stat-value">전체 2위</div><div class="stat-label">크롤러 규모 (구글보다 다음)</div></div>
+      </div>
+      <p style="font-size:11px;color:var(--text-dim);margin-top:8px;">출처: Ahrefs 공식 · sgmagazine Ahrefs Statistics 2026</p>
+    </div>
+  </details>
+
+  <!-- SECTION 04 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 04</span>
+      <span class="section-title">핵심 기능 8가지 — 활용 전략 & 기대 효과</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <!-- 1. Keywords Explorer -->
+          <div class="feature-card">
+            <div class="feature-title">1. 키워드 익스플로러 (Keywords Explorer)</div>
+            <div class="feature-body">수십억 개 키워드의 월간 검색량(정확한 수치), 키워드 난이도(KD 0~100), 클릭률, Traffic Potential(실제 클릭 트래픽 추정치) 등 제공. 구글 키워드 플래너 대비 33% 정확도 우위.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              KD 0~30, 월 검색량 500 이상 키워드 집중 공략 시 신규 사이트도 6~12개월 내 상위 노출 가능. Traffic Potential로 AI 오버뷰가 클릭을 가로채는 키워드 사전 필터링 → 콘텐츠 투자 낭비 방지.
+              <div style="margin-top:6px;"><span class="tag tag-orange">Keywords Explorer</span></div>
+            </div>
+          </div>
+
+          <!-- 2. Site Explorer -->
+          <div class="feature-card">
+            <div class="feature-title">2. 사이트 익스플로러 (Site Explorer)</div>
+            <div class="feature-body">사이트 URL 입력 시 열어 볼 수 있는 오가닉 트래픽, 상위 노출 키워드 전체, 트래픽 상위 페이지, 백링크 프로필(출처·앵킬·시기) 전부 노출. 과거 데이터 비교로 경쟁사 순위 상승 원인 역추적 가능.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              경쟁사 Top Pages 분석 → 더 완성도 높은 콘텐츠로 동일 키워드 공략. 경쟁사 백링크 추적 추출 → 같은 사이트 아웃리치. 경쟁사 SEO 전략 전체 역공학(Reverse Engineering) 가능.
+              <div style="margin-top:6px;"><span class="tag tag-orange">Site Explorer</span></div>
+            </div>
+          </div>
+
+          <!-- 3. Content Gap -->
+          <div class="feature-card">
+            <div class="feature-title">3. 콘텐츠 갭 (Content Gap)</div>
+            <div class="feature-body">경쟁사 3~5개 입력 → "경쟁사는 상위 노출, 우리는 없는 키워드" 자동 추출. 엑셀 수작업으로 수일 걸리던 분석이 1분 내 완료.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              추출된 키워드 = 즉시 공략 가능한 블루오션 목록. 경쟁사 3개 이상에서 동시 노출 키워드는 검증된 수요이므로 콘텐츠 기획 최우선 배치.
+              <div style="margin-top:6px;"><span class="tag tag-orange">Content Gap</span></div>
+            </div>
+          </div>
+
+          <!-- 4. Rank Tracker -->
+          <div class="feature-card">
+            <div class="feature-title">4. 순위 트래커 (Rank Tracker)</div>
+            <div class="feature-body">목표 키워드 구글 순위 자동 추적. 데스크톱/모바일 분리, 190개 지역 지원. 경쟁사 순위 등시 추적.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              SEO 업무 전체 순위 변화를 객관적 KPI로 측정. 순위 급락 시 즉시 알림 → 원인 분석 및 대응. 경쟁사 급상승 시 원인(신규 콘텐츠·백링크 급증) 즉시 파악.
+              <div style="margin-top:6px;"><span class="tag tag-orange">Rank Tracker</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- 5. Site Audit -->
+          <div class="feature-card">
+            <div class="feature-title">5. 사이트 감사 (Site Audit)</div>
+            <div class="feature-body">기술적 SEO 문제를 자동 진단. 깨진 링크, 리다이렉트 체인, 중복 콘텐츠, 누락 메타태그, 크롤링 오류, 페이지 속도, 구조화 데이터 오류 자동 탐지. 심각도별 분류 및 SEO 점수 0~100 수치화.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              기술적 SEO 문제만 해결해도 트래픽 20~30% 상승 사례 빈번. 신규 사이트 런칭 전 사전 점검. 트래픽 급락 시 원인 진단 도구로 활용.
+              <div style="margin-top:6px;"><span class="tag tag-blue">Site Audit</span></div>
+            </div>
+          </div>
+
+          <!-- 6. Content Explorer -->
+          <div class="feature-card">
+            <div class="feature-title">6. 콘텐츠 익스플로러 (Content Explorer)</div>
+            <div class="feature-body">179억 개 페이지이든 DB에서 특정 주제 검색 → 가장 많이 공유되고 백링크 많이 받은 콘텐츠 목록 추출. 발행일, 트래픽·도메인·콘텐츠 필터링 가능.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              시장에서 검증된 콘텐츠 포맷·각도·파악. 백링크 많이 받은 경쟁사 페이지 분석 → 더 완성도 높은 콘텐츠로 제작. 링크 획득 가능성 높은 콘텐츠 유형 사전 파악.
+              <div style="margin-top:6px;"><span class="tag tag-blue">Content Explorer</span></div>
+            </div>
+          </div>
+
+          <!-- 7. AI 연동 MCP -->
+          <div class="feature-card">
+            <div class="feature-title">7. AI 연동 — Ahrefs MCP (2026 신기능)</div>
+            <div class="feature-body">ChatGPT, Claude, Copilot이 Ahrefs 실시간 데이터에 직접 연동. AI에게 키워드 분석 요청 시 Ahrefs DB 기반 즉시 답변.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              Hermes와 연동 시 키워드 분석 → 블로그 초안 자동 생성 → SEO 최적화 파이프라인 구축. 수작업 수일 걸리던 키워드 리서치 + 콘텐츠 기획 완전 자동화.
+              <div style="margin-top:6px;"><span class="tag tag-purple">Ahrefs MCP</span> <span class="tag tag-purple">Hermes</span></div>
+            </div>
+          </div>
+
+          <!-- 8. Brand Radar -->
+          <div class="feature-card">
+            <div class="feature-title">8. 브랜드 레이더 (Brand Radar, 2026 신기능)</div>
+            <div class="feature-body">ChatGPT, Perplexity, Gemini 등 7개 AI 플랫폼에서 브랜드/키워드 언급 추적. 월 1억 5천만 개 이상 AI 프롬프트 모니터링.</div>
+            <div class="feature-tip">
+              <div class="feature-tip-label">활용 전략 & 기대 효과</div>
+              AI 검색이 구글 클릭률을 58% 낮추는 시대, "AI 검색에서 우리가 언급되는가"가 진짜 SEO가 됨. 경쟁사 대비 AI 언급 점유율 격차 즉시 파악 → 콘텐츠/스키마 전략 수정.
+              <div style="margin-top:6px;"><span class="tag tag-green">Brand Radar</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 05 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 05</span>
+      <span class="section-title">Ahrefs 기반 SEO 실전 워크플로우 — 랜딩페이지 트래픽 확보까지</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div>
+              <div class="step-text"><strong>랜딩페이지 목적 키워드 설정</strong></div>
+              <div class="step-sub">랜딩페이지가 집중할 핵심 키워드 1~2개 결정. 예시 키워드는 경쟁이 세서 바로 1등 불가 → 롱테일 키워드 전략으로 우회</div>
+              <div style="margin-top:6px;"><span class="tag tag-orange">Keywords Explorer</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div>
+              <div class="step-text"><strong>경쟁사 분석 & 블루오션 발굴</strong></div>
+              <div class="step-sub">경쟁사 3~5개 Site Explorer → 트래픽 상위 페이지 파악. Content Gap으로 "경쟁사는 있는데 우리는 없는 키워드" 추출 → 즉시 공략 가능한 목록 확보</div>
+              <div style="margin-top:6px;"><span class="tag tag-orange">Site Explorer</span> <span class="tag tag-orange">Content Gap</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-text"><strong>키워드 우선순위 결정</strong></div>
+              <div class="step-sub">KD 0~30, 월 검색량 500 이상 키워드 필터링 → 6개월 내 상위 노출 가능한 것 vs 장기 목표 분류. Traffic Potential로 실제 클릭 트래픽 추정치 확인</div>
+              <div style="margin-top:6px;"><span class="tag tag-orange">Keywords Explorer</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div>
+              <div class="step-text"><strong>콘텐츠 기획 & Hermes 자동 생성</strong></div>
+              <div class="step-sub">Content Explorer로 해당 키워드에서 잘 되는 콘텐츠 포맷 파악 → Hermes가 키워드 최적화된 블로그 초안 자동 생성 → 검토 후 발행</div>
+              <div style="margin-top:6px;"><span class="tag tag-orange">Content Explorer</span> <span class="tag tag-purple">Hermes</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">5</div>
+            <div>
+              <div class="step-text"><strong>발행 → 구글 크롤링 → 순위 상승</strong></div>
+              <div class="step-sub">발행된 블로그가 구글에 인덱싱 → 해당 키워드로 순위 획득 → 블로그 트래픽이 내부 링크 타고 랜딩페이지로 유입. 랜딩페이지 자체도 핵심 키워드 1~2개로 최적화</div>
+              <div style="margin-top:6px;"><span class="tag tag-green">트래픽 유입</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">6</div>
+            <div>
+              <div class="step-text"><strong>순위 추적 & 지속 개선</strong></div>
+              <div class="step-sub">Rank Tracker로 키워드별 순위 매일 추적 → 반응 없으면 콘텐츠 업데이트 → 상위 노출되면 백링크 아웃리치 → 상위 순위 고착. 매달 Site Audit 월 1회로 기술 건강 유지</div>
+              <div style="margin-top:6px;"><span class="tag tag-orange">Rank Tracker</span> <span class="tag tag-blue">Site Audit</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:14px;">Ahrefs로 분석 가능한 유입 채널</p>
+          <div class="channel-card">
+            <div class="channel-icon">📝</div>
+            <div class="channel-info">
+              <div class="channel-name">블로그 SEO</div>
+              <div class="channel-tag">핵심 채널</div>
+              <div class="channel-desc">롱테일 키워드 하나당 블로그 글 하나. 키워드 수만큼 입구가 생겨서 랜딩페이지로의 트래픽 집결</div>
+            </div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">▶️</div>
+            <div class="channel-info">
+              <div class="channel-name">유튜브 쇼츠</div>
+              <div class="channel-tag">데이터 활용</div>
+              <div class="channel-desc">Ahrefs 데이터 주제/패턴이 쇼츠 조회수 높을 키워드 찾기. 영상 설명·링크로 랜딩페이지 유입</div>
+            </div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">👀</div>
+            <div class="channel-info">
+              <div class="channel-name">경쟁사 채널 벤치마킹</div>
+              <div class="channel-tag">데이터 활용</div>
+              <div class="channel-desc">경쟁사 블로그·소셜 콘텐츠 중 백링크 공유 많이 받은 것 분석 → 우리 콘텐츠 전략에 반영</div>
+            </div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-icon">📈</div>
+            <div class="channel-info">
+              <div class="channel-name">키워드 트렌드 모니터링</div>
+              <div class="channel-tag">데이터 활용</div>
+              <div class="channel-desc">매주 급상승 키워드 자동 수집 → 빠르게 대응하는 콘텐츠 제작으로 트래픽 선점</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 06 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 06</span>
+      <span class="section-title">실제 성과 사례</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="case-grid">
+        <div class="case-card">
+          <div class="case-company">Medical<br>(헬스케어 테크)</div>
+          <div class="case-result">트래픽 10배↑</div>
+          <div class="case-desc">Ahrefs 키워드 검색 + 콘텐츠 갭 분석 집중 적용</div>
+        </div>
+        <div class="case-card">
+          <div class="case-company">CarMats<br>(영국 이커머스)</div>
+          <div class="case-result">연매출 £900만</div>
+          <div class="case-desc">Ahrefs 기반 SEO 전략으로 유기적 트래픽 → 매출 직결</div>
+        </div>
+        <div class="case-card">
+          <div class="case-company">Healthspan<br>(건강 보조제)</div>
+          <div class="case-result">오가닉 매출 144%↑</div>
+          <div class="case-desc">구글 패널티 회복 후 유료 광고 의존도 대폭 감소</div>
+        </div>
+        <div class="case-card">
+          <div class="case-company">BuzzStream<br>(SEO 툴)</div>
+          <div class="case-result">트래픽 300%↑</div>
+          <div class="case-desc">저성과 블로그 100개 정리 + Ahrefs 키워드 전략, 12개월 내</div>
+        </div>
+        <div class="case-card">
+          <div class="case-company">ROIpad 블로그<br>(마케팅)</div>
+          <div class="case-result">트래픽 200%↑</div>
+          <div class="case-desc">콘텐츠 갭 분석으로 경쟁사 없는 키워드 집중 공략</div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 07 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 07</span>
+      <span class="section-title">업무 효율 개선 (수작업 vs Ahrefs)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <table>
+        <thead><tr><th>작업</th><th>수작업</th><th>Ahrefs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>키워드 리서치</strong></td><td>2~3일</td><td style="color:var(--green);">30분</td></tr>
+          <tr><td><strong>경쟁사 트래픽 분석</strong></td><td style="color:var(--red);">불가능</td><td style="color:var(--green);">5분</td></tr>
+          <tr><td><strong>백링크 현황 파악</strong></td><td style="color:var(--red);">불가능</td><td style="color:var(--green);">즉시</td></tr>
+          <tr><td><strong>사이트 기술 진단</strong></td><td>전문가 의뢰</td><td style="color:var(--green);">자동(수분)</td></tr>
+          <tr><td><strong>순위 추적</strong></td><td>매일 수동</td><td style="color:var(--green);">자동 알림</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+</div>
+
+<div class="doc-footer">
+  <a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> &nbsp;·&nbsp;
+  AHREFS-SEO-REPORT · 2026-07-13 &nbsp;·&nbsp; CONFIDENTIAL &nbsp;·&nbsp;
+  출처: Ahrefs 공식 · Datmix · Seer Interactive · Founder Ventures · sgmagazine
+</div>
+
+</body>
+</html>
