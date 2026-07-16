@@ -41,9 +41,7 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
   <p class="sub">업무 진행 내용 및 회의 결과 · 최신순</p>
 
   <div class="section-title">기획 문서</div>
-  <ul class="doc-list" id="doc-list">
-    <!-- 문서들이 여기 자동으로 추가됩니다 -->
-  </ul>
+  <ul class="doc-list" id="doc-list"></ul>
 
   <div class="footer">HTML Docs · 2026 · CONFIDENTIAL</div>
 
@@ -52,7 +50,8 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
 <script>
 const docs = [
   { file: 'naming-report-20260715.html', title: '슬롯 커뮤니티 브랜드 네이밍 분석 보고서', icon: '🏷️', tag: 'report', desc: '붐슬롯 · 핫슬롯 · 슬롯크루 · 슬롯그램 · 히트슬롯 TOP5 분석' },
-  { file: 'slot-planning.html', title: '슬롯 커뮤니티 기획서', icon: '🎰', tag: 'plan', desc: 'SEO 전략 · 차별화 기능 · 이벤트 · 유저 경험' },
+  { file: 'slot-planning-20260715.html', title: '슬롯 커뮤니티 기획서', icon: '🎰', tag: 'plan', desc: 'SEO 전략 · 차별화 기능 · 이벤트 · 유저 경험' },
+  { file: 'seo-alert-report-20260713.html', title: '구글이 잡아내는 것들 — 2026 최신 경보', icon: '⚠️', tag: 'report', desc: '알고리즘 타임라인 · E-E-A-T · 블랙햇 비교표 · 실전 체크리스트' },
 ];
 
 function parseDate(filename) {
@@ -60,6 +59,13 @@ function parseDate(filename) {
   if (match) return `${match[1]}.${match[2]}.${match[3]}`;
   return '';
 }
+
+// 날짜 기준 최신순 정렬
+docs.sort((a, b) => {
+  const da = a.file.match(/(\d{8})/)?.[1] || '0';
+  const db = b.file.match(/(\d{8})/)?.[1] || '0';
+  return db.localeCompare(da);
+});
 
 const tagLabel = { plan: '기획', meeting: '회의', report: '보고서' };
 
