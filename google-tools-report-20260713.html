@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구글 자체 툴 3종 세트 — SEO 데이터 분석 플랫폼 심층 분석</title>
+<style>
+  :root {
+    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3350;
+    --accent: #7c6af7; --accent2: #a89bf8;
+    --green: #2ecc71; --blue: #4a9eff; --gold: #f5c842;
+    --orange: #ff6b35; --red: #e8412a;
+    --text: #d4d8e8; --text-dim: #8890b0; --text-bright: #f0f2ff;
+    --mono: 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; font-size: 15px; line-height: 1.75; padding: 0 0 80px; }
+
+  .doc-header { background: var(--bg2); border-bottom: 2px solid var(--accent); padding: 32px 40px 28px; position: sticky; top: 0; z-index: 100; }
+  .doc-header .breadcrumb { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-family: var(--mono); }
+  .doc-header .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .doc-header .badge { display: inline-block; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 1px; margin-right: 8px; vertical-align: middle; }
+  .doc-header h1 { font-size: 22px; font-weight: 800; color: var(--text-bright); margin-top: 6px; }
+  .doc-header h1 span { color: var(--accent2); }
+  .doc-header .meta { font-size: 12px; color: var(--text-dim); margin-top: 6px; font-family: var(--mono); }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 40px 40px 0; }
+
+  .tldr { background: var(--bg2); border: 1px solid var(--border); border-left: 4px solid var(--gold); border-radius: 6px; padding: 20px 24px; margin-bottom: 32px; }
+  .tldr-label { font-family: var(--mono); font-size: 11px; color: var(--gold); letter-spacing: 2px; font-weight: 700; margin-bottom: 10px; }
+  .tldr ul { padding-left: 20px; }
+  .tldr li { margin-bottom: 5px; font-size: 14px; }
+
+  .section { margin-bottom: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .section-header { display: flex; align-items: center; gap: 14px; padding: 18px 24px; cursor: pointer; user-select: none; list-style: none; }
+  .section-header::-webkit-details-marker { display: none; }
+  details[open] > .section-header { border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 1px; font-weight: 700; background: rgba(124,106,247,0.1); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .section-title { font-size: 16px; font-weight: 700; color: var(--text-bright); flex: 1; }
+  .toggle-icon { font-size: 12px; color: var(--text-dim); transition: transform 0.2s; }
+  details[open] .toggle-icon { transform: rotate(90deg); }
+  .section-body { padding: 24px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+
+  .callout { border-radius: 6px; padding: 14px 16px; margin: 10px 0; border-left: 3px solid; }
+  .callout-purple { background: rgba(124,106,247,0.08); border-color: var(--accent); }
+  .callout-green  { background: rgba(46,204,113,0.08);  border-color: var(--green); }
+  .callout-blue   { background: rgba(74,158,255,0.08);  border-color: var(--blue); }
+  .callout-gold   { background: rgba(245,200,66,0.08);  border-color: var(--gold); }
+  .callout-orange { background: rgba(255,107,53,0.08);  border-color: var(--orange); }
+  .callout-red    { background: rgba(232,65,42,0.08);   border-color: var(--red); }
+  .callout-label { font-size: 11px; font-weight: 700; font-family: var(--mono); letter-spacing: 1px; margin-bottom: 8px; }
+  .callout-purple .callout-label { color: var(--accent2); }
+  .callout-green  .callout-label { color: var(--green); }
+  .callout-blue   .callout-label { color: var(--blue); }
+  .callout-gold   .callout-label { color: var(--gold); }
+  .callout-orange .callout-label { color: var(--orange); }
+  .callout-red    .callout-label { color: var(--red); }
+  .callout p, .callout li { font-size: 13px; }
+  .callout ul { padding-left: 16px; }
+  .callout li { margin-bottom: 4px; }
+
+  .sub-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px 18px; margin-bottom: 12px; }
+  .sub-card:last-child { margin-bottom: 0; }
+  .sub-title { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 8px; }
+  .sub-body  { font-size: 13px; color: var(--text); margin-bottom: 8px; }
+
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .flow-item { background: var(--bg3); border: 1px solid var(--accent); color: var(--accent2); font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 4px; white-space: nowrap; }
+  .flow-item.green { border-color: var(--green); color: var(--green); }
+  .flow-item.blue  { border-color: var(--blue);  color: var(--blue); }
+  .flow-item.gold  { border-color: var(--gold);  color: var(--gold); }
+  .flow-arrow { color: var(--text-dim); font-size: 16px; flex-shrink: 0; }
+
+  .priority-card { border-radius: 6px; padding: 18px 20px; border: 1px solid var(--border); }
+  .priority-num { font-size: 28px; font-weight: 900; font-family: var(--mono); margin-bottom: 6px; }
+  .priority-title { font-size: 14px; font-weight: 700; color: var(--text-bright); margin-bottom: 8px; }
+  .priority-body { font-size: 12px; color: var(--text); line-height: 1.7; }
+
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; font-family: var(--mono); margin: 2px; }
+  .tag-purple { background: rgba(124,106,247,0.2); color: var(--accent2); border: 1px solid var(--accent); }
+  .tag-green  { background: rgba(46,204,113,0.2);  color: var(--green);   border: 1px solid var(--green); }
+  .tag-orange { background: rgba(255,107,53,0.2);  color: var(--orange);  border: 1px solid var(--orange); }
+  .tag-gold   { background: rgba(245,200,66,0.2);  color: var(--gold);    border: 1px solid var(--gold); }
+
+  ul.plain { padding-left: 18px; }
+  ul.plain li { font-size: 13px; margin-bottom: 5px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg3); border: 1px solid var(--border); padding: 9px 12px; text-align: left; color: var(--text-dim); font-size: 11px; font-family: var(--mono); font-weight: 700; }
+  td { border: 1px solid var(--border); padding: 9px 12px; color: var(--text); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td strong { color: var(--text-bright); }
+
+  .doc-footer { text-align: center; padding: 40px; font-size: 11px; color: var(--text-dim); font-family: var(--mono); border-top: 1px solid var(--border); margin-top: 60px; }
+  .doc-footer a { color: var(--blue); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 16px 0; }
+    .doc-header { padding: 20px 16px; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="breadcrumb"><a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> / 구글 툴 분석</div>
+  <div>
+    <span class="badge">📊 플랫폼 분석</span>
+    <span style="font-size:12px;color:var(--text-dim);font-family:var(--mono);">2026-07-13</span>
+  </div>
+  <h1>구글 자체 툴 3종 세트 — <span>SEO 데이터 분석 플랫폼 심층 분석</span></h1>
+  <div class="meta">GOOGLE-TOOLS-REPORT · 2026-07-13 · Google Search Console · Google Analytics 4 · Google Keyword Planner · Looker Studio · 도입 순서 & 우선순위</div>
+</div>
+
+<div class="container">
+
+  <div class="tldr">
+    <div class="tldr-label">TL;DR</div>
+    <ul>
+      <li>구글이 직접 수집한 실제 데이터 — 우리 사이트 데이터에 한해서는 가장 정확 (경쟁사 분석은 불가)</li>
+      <li>GSC + GA4 <strong>완전 무료</strong>. 키워드 플래너는 구글 광고 계정 생성 후 사용 가능 (광고비 불필요)</li>
+      <li>세 도구가 구글 계정 하나로 연동 — "검색 노출 → 클릭 → 사이트 내 행동 → 전환"까지 전 과정 추적 가능</li>
+      <li>Looker Studio(무료)로 3중 데이터를 하나의 대시보드에서 통합 시각화 가능</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 01 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 01</span>
+      <span class="section-title">왜 써야 하는가</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <ul class="plain">
+          <li>구글이 직접 수집한 <strong>실제 데이터</strong> — 우리 사이트 데이터에 한해서는 가장 정확 (경쟁사 분석은 불가)</li>
+          <li>구글 검색 시장 점유율 <strong>90.39%</strong> — 구글 데이터가 곧 시장 데이터 <span style="font-size:11px;color:var(--text-dim);">(StatCounter 2026)</span></li>
+          <li>GSC + GA4 <strong>완전 무료</strong>. 키워드 플래너는 구글 광고 계정 생성 후 사용 가능 (광고비 불필요)</li>
+          <li>자사 사이트 분석에 특화 — 구글 직접 데이터라 신뢰도 높음. <strong>단 경쟁사 분석 기능은 없음</strong></li>
+        </ul>
+        <ul class="plain">
+          <li>세 도구가 구글 계정 하나로 연동 — "검색 노출 → 클릭 → 사이트 내 행동 → 전환"까지 전 과정 추적 가능</li>
+          <li>새 블로그 글 발행 즉시 색인 요청 → 검색 노출 시간 단축</li>
+          <li>Looker Studio(무료)로 3중 데이터를 하나의 대시보드에서 통합 시각화 가능</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 02 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 02</span>
+      <span class="section-title">구글 서치 콘솔 (GSC) — 완전 무료</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <!-- 1 -->
+          <div class="sub-card">
+            <div class="sub-title">1. 실적 보고서</div>
+            <div class="sub-body">우리 사이트가 어떤 키워드로 구글에 노출됐는지, 클릭수·노출수·CTR·평균 순위 구글 직접 데이터 제공.</div>
+            <div class="callout callout-green" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              노출 있는데 클릭 적은 키워드 발견 → 제목/메타디스크립션 개선 → 광고비 없이 트래픽 증가
+            </div>
+          </div>
+          <!-- 2 -->
+          <div class="sub-card">
+            <div class="sub-title">2. URL 검사 도구</div>
+            <div class="sub-body">특정 페이지 색인 여부 확인. "색인 생성 요청" 클릭 시 구글봇이 더 빠르게 크롤링.</div>
+            <div class="callout callout-green" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              새 블로그 글 발행 즉시 색인 요청 → 검색 노출 시간 단축
+            </div>
+          </div>
+          <!-- 3 -->
+          <div class="sub-card">
+            <div class="sub-title">3. 페이지 색인 보고서</div>
+            <div class="sub-body">색인된/안 된 페이지 목록, 미색인 이유(404·robots.txt 차단 등)까지 표시.</div>
+            <div class="callout callout-green" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              색인 안 된 중요 페이지 즉시 발견 → 수정 → 검색 노출 복구
+            </div>
+          </div>
+        </div>
+        <div>
+          <!-- 4 -->
+          <div class="sub-card">
+            <div class="sub-title">4. Core Web Vitals</div>
+            <div class="sub-body">페이지 로딩 속도·시각적 안정성·응답시간 측정. 구글 순위 반영 공식 지표.</div>
+            <div class="callout callout-green" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              점수 낮은 페이지 개선 → 순위 상승 효과
+            </div>
+          </div>
+          <!-- 5 -->
+          <div class="sub-card">
+            <div class="sub-title">5. AI 기반 리포트 구성 (2026 신기능)</div>
+            <div class="sub-body">자연어로 원하는 분석 조건 입력하면 AI가 리포트 자동 구성.</div>
+            <div class="callout callout-green" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              "지난 3개월 모바일 순위 변동 큰 키워드" 입력 → 즉시 리포트 생성
+            </div>
+          </div>
+          <!-- 6 -->
+          <div class="sub-card">
+            <div class="sub-title">6. 브랜드 쿼리 분리 필터 (2026 신기능)</div>
+            <div class="sub-body">브랜드 검색과 일반 검색 분리 측정 가능.</div>
+            <div class="callout callout-green" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              광고·PR 효과와 콘텐츠 SEO 경쟁력을 분리해서 정확한 성과 측정
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 03 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 03</span>
+      <span class="section-title">GA4 (Google Analytics 4) — 완전 무료</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <!-- 1 -->
+          <div class="sub-card">
+            <div class="sub-title">1. 유입 경로 분석</div>
+            <div class="sub-body">방문자가 구글 검색·유튜브·SNS·직접 방문 등 어디서 왔는지 채널별 분류.</div>
+            <div class="callout callout-blue" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              실제 전환으로 이어지는 채널 파악 → 효율 높은 채널에 집중
+            </div>
+          </div>
+          <!-- 2 -->
+          <div class="sub-card">
+            <div class="sub-title">2. 사용자 행동 분석</div>
+            <div class="sub-body">방문자가 랜딩페이지에서 어디 클릭했는지, 어느 페이지에서 나갔는지, 얼마나 머물렀는지 추적.</div>
+            <div class="callout callout-blue" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              이탈률 높은 페이지 발견 → UX/콘텐츠 개선 → 전환율 상승
+            </div>
+          </div>
+          <!-- 3 -->
+          <div class="sub-card">
+            <div class="sub-title">3. 전환 추적</div>
+            <div class="sub-body">회원가입·인의 제출·구매 등 목표 행동 발생 시 데이터 수집. 어떤 경로로 온 사람이 전환하는지 파악.</div>
+            <div class="callout callout-blue" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              전환율 높은 유입 경로 발견 → 해당 채널 집중 투자
+            </div>
+          </div>
+        </div>
+        <div>
+          <!-- 4 -->
+          <div class="sub-card">
+            <div class="sub-title">4. AI 예측 기능</div>
+            <div class="sub-body">구매 가능성 높은 사용자·이탈 가능성 높은 사용자 자동 예측. 머신러닝 기반.</div>
+            <div class="callout callout-blue" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              구매 가능성 높은 유저 집중 마케팅 → 광고 효율 상승<br>넥스트: GSC AI 예측으로 신규 고객 효과적 획득 (Think with Google)
+            </div>
+          </div>
+          <!-- 5 -->
+          <div class="sub-card">
+            <div class="sub-title">5. GSC 연동</div>
+            <div class="sub-body">GA4 + GSC 연결 시 "어떤 키워드 검색 → 클릭 → 사이트에서 어떻게 행동했는지" 전 과정 추적 가능.</div>
+            <div class="callout callout-blue" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              검색 유입 키워드별 전환율 비교 → 성과 높은 키워드에 콘텐츠 집중
+            </div>
+          </div>
+          <!-- 실제 성과 사례 -->
+          <div class="callout callout-gold" style="margin-top:8px;">
+            <div class="callout-label">실제 성과 사례</div>
+            McDonald's Hong Kong: GA4 전환 추적 + AI 예측 활용 → 전환율 <strong>550% 증가</strong> <span style="font-size:11px;">(에이털 마케팅 기업트, 2025)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 04 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 04</span>
+      <span class="section-title">구글 키워드 플래너 — 구글 광고 계정 필요 (광고비 불필요, 단 정확한 수치는 광고 집행 시)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <div class="sub-card">
+            <div class="sub-title">1. 키워드 아이디어 발굴</div>
+            <div class="sub-body">단어나 URL 입력하면 관련 키워드 수백 개 자동 제안. 검색량·경쟁도·CPC 표시.</div>
+            <div class="callout callout-orange" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              랜딩페이지 URL 입력 → 관련 키워드 목록 추출 → 블로그 주제 기획
+            </div>
+          </div>
+          <div class="sub-card" style="margin-top:12px;">
+            <div class="sub-title">2. 검색량 트렌드</div>
+            <div class="sub-body">키워드별 검색량 추이 확인. 시즌심 파악 가능.</div>
+            <div class="callout callout-orange" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              시즌 중 어느 달에 검색량 높은지 파악 → 그 시기에 맞춰 콘텐츠 집중 발행
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-card">
+            <div class="sub-title">3. CPC (클릭당 비용) 데이터</div>
+            <div class="sub-body">구매자들이 그 키워드에 얼마나 입찰하는지 표시. CPC 높은 키워드 = 상업적 가치가 높은 키워드.</div>
+            <div class="callout callout-orange" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              CPC 높은데 경쟁 약한 키워드 발견 → 블로그로 공략 → 광고비 없이 상업적 트래픽 확보
+            </div>
+          </div>
+          <div class="sub-card" style="margin-top:12px;">
+            <div class="sub-title">4. 지역별 검색량</div>
+            <div class="sub-body">국가·지역별 검색량 차이 확인 가능.</div>
+            <div class="callout callout-orange" style="margin:0;">
+              <div class="callout-label">활용 전략</div>
+              한국 vs 미국 검색량 비교 → 타깃 시장 결정에 활용
+            </div>
+          </div>
+          <div class="callout callout-red" style="margin-top:8px;">
+            <div class="callout-label">⚠ 한계</div>
+            광고 미집행 시 검색량은 범위로만 표시 (예: "1K~10K"). 경쟁사 분석 불가. 키워드 난이도 점수 없음.
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 05 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 05</span>
+      <span class="section-title">Looker Studio — 구글 무료 통합 대시보드</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <p style="font-size:13px;margin-bottom:16px;">구글이 무료로 제공하는 데이터 시각화 도구. GSC·GA4·구글 광고 데이터를 연결해 하나의 대시보드에서 통합 시각화. 코딩 없이 자동 업데이트되는 보고서 제작 가능. 단 3종 툴을 각각 별도 접속해야 하는 불편함을 해소할 수 있음.</p>
+      <div class="two-col">
+        <div class="callout callout-green">
+          <div class="callout-label">✅ 무료 연결 가능 (구글 공식)</div>
+          <ul>
+            <li>Google Analytics 4 (GA4)</li>
+            <li>Google Search Console</li>
+            <li>Google Ads (키워드 플래너 데이터 포함)</li>
+            <li>Google Sheets</li>
+            <li>YouTube Analytics</li>
+            <li>BigQuery</li>
+          </ul>
+        </div>
+        <div class="callout callout-purple">
+          <div class="callout-label">🔌 서드파티 커넥터로 연결 가능 (1,200개 이상)</div>
+          <ul>
+            <li>Facebook / Instagram Ads</li>
+            <li>네이버 광고</li>
+            <li>HubSpot CRM</li>
+            <li>Shopify</li>
+            <li>Salesforce</li>
+            <li>※ 서드파티 커넥터는 별도 유료일 수 있음</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 06 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 06</span>
+      <span class="section-title">구글 생태계 연동 흐름</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="flow">
+        <div class="flow-item">키워드 플래너<br><span style="font-size:10px;font-weight:400;">키워드 방향 결정</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Hermes<br><span style="font-size:10px;font-weight:400;">콘텐츠 자동 생성·발행</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item green">구글 서치 콘솔<br><span style="font-size:10px;font-weight:400;">순위·노출 추적</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item blue">GA4<br><span style="font-size:10px;font-weight:400;">행동·전환 추적</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item gold">Looker Studio<br><span style="font-size:10px;font-weight:400;">통합 대시보드 시각화</span></div>
+      </div>
+      <div class="callout callout-purple" style="margin-top:8px;">
+        <p>※ 구글 계정 하나로 전체 연동. GSC + GA4 연결 시 검색 키워드별 사이트 내 행동까지 한 화면에서 추적 가능.</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 07 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 07</span>
+      <span class="section-title">구글 툴 3종 도입 순서 & 우선순위</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="three-col">
+        <div class="priority-card" style="background:rgba(46,204,113,0.06);border-color:var(--green);">
+          <div class="priority-num" style="color:var(--green);">① 구글 서치 콘솔</div>
+          <div class="priority-title">가장 먼저 설치해야 합니다</div>
+          <div class="priority-body">
+            연결 안 한 기간의 데이터는 영구적으로 소급 불가. 구글이 우리 사이트를 어떻게 보는지 기준점이 되는 도구.<br><br>
+            소유권 인증 후 즉시 데이터 수집 시작.
+          </div>
+        </div>
+        <div class="priority-card" style="background:rgba(74,158,255,0.06);border-color:var(--blue);">
+          <div class="priority-num" style="color:var(--blue);">② GA4</div>
+          <div class="priority-title">서치 콘솔 바로 연결</div>
+          <div class="priority-body">
+            서치 콘솔 설치 후 소급 불가. <strong>사이트 오픈 전에 반드시 설치.</strong><br><br>
+            추적 코드를 사이트에 심는 작업 필요. 서치 콘솔과 연동하면 검색 → 클릭 → 행동 전 과정 추적 가능.
+          </div>
+        </div>
+        <div class="priority-card" style="background:rgba(255,107,53,0.06);border-color:var(--orange);">
+          <div class="priority-num" style="color:var(--orange);">③ 구글 키워드 플래너</div>
+          <div class="priority-title">블로그 콘텐츠 기획, 랜딩페이지 키워드 방향 잡을 때 사용</div>
+          <div class="priority-body">
+            구글 광고 계정 생성 후 접근 가능. <strong>광고비는 안 써도 됨.</strong><br><br>
+            키워드 검색량·경쟁도·CPC 확인 → 어떤 키워드로 콘텐츠 만들지 결정.
+            <div class="callout callout-red" style="margin-top:10px;padding:8px 12px;">
+              <span style="font-size:11px;color:var(--red);font-weight:700;">⚠ 광고 미집행 시 검색량은 범위로만 표시</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<div class="doc-footer">
+  <a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> &nbsp;·&nbsp;
+  GOOGLE-TOOLS-REPORT · 2026-07-13 &nbsp;·&nbsp; CONFIDENTIAL &nbsp;·&nbsp;
+  출처: Google 공식 · StatCounter 2026 · Think with Google · 에이털 마케팅
+</div>
+
+</body>
+</html>
