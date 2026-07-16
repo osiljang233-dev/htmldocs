@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hermes Agent — MLB 콘텐츠 완전 자동화 시스템</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #22263a;
+    --border: #2e3350;
+    --accent: #f5c842;
+    --accent2: #ffd966;
+    --purple: #7c6af7;
+    --green: #2ecc71;
+    --blue: #4a9eff;
+    --red: #e8412a;
+    --orange: #ff6b35;
+    --text: #d4d8e8;
+    --text-dim: #8890b0;
+    --text-bright: #f0f2ff;
+    --mono: 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size: 15px; line-height: 1.75; padding: 0 0 80px; }
+
+  .doc-header { background: var(--bg2); border-bottom: 2px solid var(--accent); padding: 32px 40px 28px; position: sticky; top: 0; z-index: 100; }
+  .doc-header .breadcrumb { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-family: var(--mono); }
+  .doc-header .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .doc-header .badge { display: inline-block; background: var(--accent); color: #1a1200; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 1px; margin-right: 8px; vertical-align: middle; }
+  .doc-header h1 { font-size: 22px; font-weight: 800; color: var(--text-bright); margin-top: 6px; }
+  .doc-header h1 span { color: var(--accent); }
+  .doc-header .meta { font-size: 12px; color: var(--text-dim); margin-top: 6px; font-family: var(--mono); }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 40px 40px 0; }
+
+  .tldr { background: var(--bg2); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 6px; padding: 20px 24px; margin-bottom: 40px; }
+  .tldr-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; font-weight: 700; margin-bottom: 10px; }
+  .tldr ul { padding-left: 20px; }
+  .tldr li { margin-bottom: 5px; font-size: 14px; }
+
+  .section { margin-bottom: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .section-header { display: flex; align-items: center; gap: 14px; padding: 18px 24px; cursor: pointer; user-select: none; list-style: none; }
+  .section-header::-webkit-details-marker { display: none; }
+  details[open] > .section-header { border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 1px; font-weight: 700; background: rgba(245,200,66,0.1); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .section-title { font-size: 16px; font-weight: 700; color: var(--text-bright); flex: 1; }
+  .toggle-icon { font-size: 12px; color: var(--text-dim); transition: transform 0.2s; }
+  details[open] .toggle-icon { transform: rotate(90deg); }
+  .section-body { padding: 24px; }
+
+  .page-divider { display: flex; align-items: center; gap: 16px; margin: 40px 0 28px; }
+  .page-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .page-divider-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; font-weight: 700; white-space: nowrap; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .five-col { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 14px 0; }
+
+  .callout { border-radius: 6px; padding: 16px 18px; margin: 12px 0; border-left: 3px solid; }
+  .callout-gold { background: rgba(245,200,66,0.08); border-color: var(--accent); }
+  .callout-green { background: rgba(46,204,113,0.08); border-color: var(--green); }
+  .callout-blue { background: rgba(74,158,255,0.08); border-color: var(--blue); }
+  .callout-purple { background: rgba(124,106,247,0.08); border-color: var(--purple); }
+  .callout-red { background: rgba(232,65,42,0.08); border-color: var(--red); }
+  .callout-orange { background: rgba(255,107,53,0.08); border-color: var(--orange); }
+  .callout-label { font-size: 11px; font-weight: 700; font-family: var(--mono); letter-spacing: 1px; margin-bottom: 8px; }
+  .callout-gold .callout-label { color: var(--accent); }
+  .callout-green .callout-label { color: var(--green); }
+  .callout-blue .callout-label { color: var(--blue); }
+  .callout-purple .callout-label { color: var(--purple); }
+  .callout-red .callout-label { color: var(--red); }
+  .callout-orange .callout-label { color: var(--orange); }
+  .callout p, .callout li { font-size: 13px; }
+  .callout ul { padding-left: 16px; }
+  .callout li { margin-bottom: 4px; }
+
+  .card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 6px; }
+  .card-sub { font-size: 11px; color: var(--text-dim); font-family: var(--mono); margin-bottom: 8px; }
+  .card-body { font-size: 12px; color: var(--text); line-height: 1.7; }
+
+  .worker-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px 12px; text-align: center; }
+  .worker-icon { font-size: 28px; margin-bottom: 8px; }
+  .worker-name { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 2px; }
+  .worker-model { font-size: 10px; font-family: var(--mono); color: var(--accent); margin-bottom: 10px; }
+  .worker-desc { font-size: 11px; color: var(--text); text-align: left; }
+  .worker-desc li { margin-bottom: 3px; }
+
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .flow-item { background: var(--bg3); border: 1px solid var(--accent); color: var(--accent2); font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 4px; white-space: nowrap; }
+  .flow-item.purple { border-color: var(--purple); color: #a89bf8; }
+  .flow-item.green { border-color: var(--green); color: var(--green); }
+  .flow-item.blue { border-color: var(--blue); color: var(--blue); }
+  .flow-arrow { color: var(--text-dim); font-size: 16px; }
+
+  .pass-badge { display: inline-block; background: rgba(46,204,113,0.15); border: 1px solid var(--green); color: var(--green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; font-family: var(--mono); }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+  th { background: var(--bg3); border: 1px solid var(--border); padding: 9px 12px; text-align: left; color: var(--text-dim); font-size: 11px; font-family: var(--mono); font-weight: 700; }
+  td { border: 1px solid var(--border); padding: 9px 12px; color: var(--text); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td strong { color: var(--text-bright); }
+
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 14px 0; }
+  .before { background: rgba(232,65,42,0.06); padding: 20px; border-right: 1px solid var(--border); }
+  .after { background: rgba(46,204,113,0.06); padding: 20px; }
+  .ba-label { font-size: 11px; font-weight: 700; font-family: var(--mono); letter-spacing: 1px; margin-bottom: 12px; }
+  .before .ba-label { color: var(--red); }
+  .after .ba-label { color: var(--green); }
+  .ba-item { font-size: 13px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+  .ba-time { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+  .ba-time.red { color: var(--red); }
+  .ba-time.green { color: var(--green); }
+
+  .output-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 10px; }
+  .output-icon { font-size: 24px; flex-shrink: 0; }
+  .output-info { flex: 1; }
+  .output-title { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 4px; }
+  .output-desc { font-size: 12px; color: var(--text); }
+
+  ul.plain { padding-left: 18px; }
+  ul.plain li { font-size: 13px; margin-bottom: 4px; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+  .stat-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; text-align: center; }
+  .stat-value { font-size: 32px; font-weight: 900; color: var(--accent); font-family: var(--mono); line-height: 1.2; }
+  .stat-label { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+  .doc-footer { text-align: center; padding: 40px; font-size: 11px; color: var(--text-dim); font-family: var(--mono); border-top: 1px solid var(--border); margin-top: 60px; }
+  .doc-footer a { color: var(--blue); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 16px 0; }
+    .doc-header { padding: 20px 16px; }
+    .two-col, .three-col, .five-col, .stat-row { grid-template-columns: 1fr; }
+    .before-after { grid-template-columns: 1fr; }
+    .before { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="breadcrumb"><a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> / Hermes Agent</div>
+  <div>
+    <span class="badge">🤖 시스템 보고서</span>
+    <span style="font-size:12px;color:var(--text-dim);font-family:var(--mono);">2026-07-13</span>
+  </div>
+  <h1>Hermes Agent — <span>MLB 콘텐츠 완전 자동화 시스템</span></h1>
+  <div class="meta">HERMES-AGENT-MLB · 2026-07-13 · CONFIDENTIAL</div>
+</div>
+
+<div class="container">
+
+  <div class="tldr">
+    <div class="tldr-label">TL;DR</div>
+    <ul>
+      <li>AI 직원 5명이 24시간 자동 운영하는 콘텐츠 생산 시스템</li>
+      <li>텔레그램 명령 하나로 <strong>15분 안에 완성본 생성</strong></li>
+      <li>하루 최대 3개 경기 영상 동시 생산 가능</li>
+      <li>BEFORE 총 7~11시간 → AFTER <strong>15분</strong>, 사람이 할 일은 검토 5분 + 확인 5분 + 썸네일 제작 + 유튜브 업로드뿐</li>
+    </ul>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-value">15분</div>
+      <div class="stat-label">명령 후 완성본 생성까지</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">5명</div>
+      <div class="stat-label">24시간 자동 운영 AI 직원</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">3경기</div>
+      <div class="stat-label">하루 최대 동시 생산 가능</div>
+    </div>
+  </div>
+
+  <!-- SECTION 01 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 01</span>
+      <span class="section-title">시스템 개요</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+        <div>
+          <ul class="plain">
+            <li>AI 직원 5명이 24시간 자동 운영하는 콘텐츠 생산 시스템</li>
+            <li>매일 지정 시간 자동 실행 (크론 스케줄링)</li>
+            <li>텔레그램 명령 하나로 즉시 실행 가능</li>
+            <li>명령 후 15분 안에 완성본 생성</li>
+          </ul>
+        </div>
+        <div class="callout callout-gold">
+          <div class="callout-label">사람이 할 일 (전부)</div>
+          <ul>
+            <li>스크립트 검토 (5분)</li>
+            <li>다빈치 최종 확인 (5분)</li>
+            <li>썸네일 제작</li>
+            <li>유튜브 업로드</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 02 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 02</span>
+      <span class="section-title">AI 직원 구성 (모델 각각 최적화)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="five-col">
+        <div class="worker-card">
+          <div class="worker-icon">🧑‍💼</div>
+          <div class="worker-name">Manager</div>
+          <div class="worker-model">Claude Haiku</div>
+          <ul class="worker-desc">
+            <li>전체 워크플로우 지휘</li>
+            <li>QA 판정</li>
+            <li>직원 지시</li>
+          </ul>
+        </div>
+        <div class="worker-card">
+          <div class="worker-icon">🔍</div>
+          <div class="worker-name">Research Worker</div>
+          <div class="worker-model">Claude Haiku</div>
+          <ul class="worker-desc">
+            <li>데이터 수집</li>
+            <li>자동화</li>
+          </ul>
+        </div>
+        <div class="worker-card">
+          <div class="worker-icon">📊</div>
+          <div class="worker-name">Analysis Worker</div>
+          <div class="worker-model">Claude Sonnet</div>
+          <ul class="worker-desc">
+            <li>고급 분석</li>
+            <li>픽 결정</li>
+          </ul>
+        </div>
+        <div class="worker-card">
+          <div class="worker-icon">✍️</div>
+          <div class="worker-name">Content Worker</div>
+          <div class="worker-model">Claude Sonnet</div>
+          <ul class="worker-desc">
+            <li>창의적 스크립트 작성</li>
+          </ul>
+        </div>
+        <div class="worker-card">
+          <div class="worker-icon">🎬</div>
+          <div class="worker-name">Video Worker</div>
+          <div class="worker-model">Claude Haiku</div>
+          <ul class="worker-desc">
+            <li>영상 편집</li>
+            <li>자동화</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout callout-purple" style="margin-top:8px;">
+        <p>→ 작업 성격에 따라 AI 모델을 다르게 배정해 <strong>비용 최적화 + 품질 극대화</strong></p>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 03 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 03</span>
+      <span class="section-title">워크플로우 (전체 파이프라인)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <p style="font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:12px;">📝 콘텐츠 파이프라인</p>
+      <div class="flow">
+        <div class="flow-item">텔레그램 명령 / 크론 자동 실행</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Research Worker<br><span style="font-size:10px;font-weight:400;">경기/선발/부상·팀/선수 스탯·뉴스/소스 수집</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item purple">Manager QA <span class="pass-badge">PASS</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Analysis Worker<br><span style="font-size:10px;font-weight:400;">경기 선정(3개)·데이터 분석·픽 & 근거 제시</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item purple">Manager QA <span class="pass-badge">PASS</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Content Worker<br><span style="font-size:10px;font-weight:400;">6씬 스크립트·TTS 나레이션·자막 싱크</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item green">사람 검토 (5분)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item green">스크립트 최종 확인</div>
+      </div>
+
+      <p style="font-size:13px;font-weight:700;color:var(--text-bright);margin:20px 0 12px;">🎬 영상 파이프라인</p>
+      <div class="flow">
+        <div class="flow-item">Research Worker<br><span style="font-size:10px;font-weight:400;">씬별 영상 검색·이미지 자동 수집·BGM 소스 확보</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item purple">Manager QA <span class="pass-badge">PASS</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">Video Worker<br><span style="font-size:10px;font-weight:400;">영상 자동 편집·자막/효과/BGM·최종 렌더링</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item green">final.mp4 완성<br>+ 텔레그램 전송</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item blue">CEO에게 자동 전달</div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 04 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 04</span>
+      <span class="section-title">데이터 수집 범위 (Research Worker)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <table>
+        <thead><tr><th>소스</th><th>수집 데이터</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ESPN API</strong></td><td>내일 경기 일정, 선발투수, 부상자 명단, 라인업</td></tr>
+          <tr><td><strong>MLB Stats API</strong></td><td>팀별 분류 가능성, 최근 10경기 스탯</td></tr>
+          <tr><td><strong>Baseball Savant</strong></td><td>xERA, Whiff%, HardHit%, Barrel% 고급 스탯</td></tr>
+          <tr><td><strong>TeamRankings</strong></td><td>파워랭킹, 모멘텀 스코어, 홈/원정 승률</td></tr>
+          <tr><td><strong>ESPN 헤드라인 뉴스</strong></td><td>당일 핫 이슈 자동 검지</td></tr>
+          <tr><td><strong>YouTube API v3</strong></td><td>씬별 영상 자동 검색 (키 3개 자동 로테이션)</td></tr>
+          <tr><td><strong>SearXNG</strong></td><td>이미지 자동 수집 (로컬 설치, 무료 무제한)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- SECTION 05 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 05</span>
+      <span class="section-title">AI 분석 엔진 (Analysis Worker)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="three-col">
+        <div class="card">
+          <div class="card-title">기준 1: 경기 자동 선정</div>
+          <div class="card-body">당일 8개 경기 중 3경기 자동 선정<br><br>다저스, 양키스, 파드레스 등 인기 팀 경기 우선</div>
+        </div>
+        <div class="card">
+          <div class="card-title">기준 2: 베스트 스토리</div>
+          <div class="card-body">xERA vs ERA 갭, 모멘텀 격차, 부상 변수 등 스토리텔링 요소 분석</div>
+        </div>
+        <div class="card">
+          <div class="card-title">기준 3: 핫뉴스 반영</div>
+          <div class="card-body">당일 핫뉴스 반영 (로컬 이슈)</div>
+        </div>
+      </div>
+      <div class="callout callout-gold" style="margin-top:8px;">
+        <div class="callout-label">분석 출력</div>
+        <ul>
+          <li>배당 시장 내재 확률 계산 + 데이터 추정 승률 비교</li>
+          <li>Confidence 5단계 픽 제시 (매우높음 / 높음 / 중간 / 낮음 / 매우낮음)</li>
+          <li>면책 문구 자동 포함</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 06 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 06</span>
+      <span class="section-title">콘텐츠 자동 생성 (Content Worker)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="callout callout-purple">
+        <div class="callout-label">6씬 스크립트 자동 구성</div>
+        <div class="flow" style="margin-top:8px;">
+          <div class="flow-item">훅</div><div class="flow-arrow">→</div>
+          <div class="flow-item">이유</div><div class="flow-arrow">→</div>
+          <div class="flow-item">선발투수</div><div class="flow-arrow">→</div>
+          <div class="flow-item">반전</div><div class="flow-arrow">→</div>
+          <div class="flow-item">결정적 근거</div><div class="flow-arrow">→</div>
+          <div class="flow-item">픽 공개</div>
+        </div>
+      </div>
+      <div class="three-col" style="margin-top:14px;">
+        <div class="card">
+          <div class="card-title">✍️ 한국어 자막</div>
+          <div class="card-body">2줄 고정, 한 줄 10자 이내 자동 준수</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎙️ Typecast TTS</div>
+          <div class="card-body">병혼 목소리 나레이션 자동 생성</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎵 SoundCloud BGM</div>
+          <div class="card-body">BGM 자동 검색 + 링크 삽입</div>
+        </div>
+      </div>
+      <div class="callout callout-blue" style="margin-top:8px;">
+        <div class="callout-label">Whisper AI</div>
+        <p>자막 싱크 자동 맞춤</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 07 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 07</span>
+      <span class="section-title">영상 자동 제작 (Video Worker)</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <ul class="plain">
+        <li>YouTube API로 씬별 클립 자동 검색 + yt-dlp 다운로드</li>
+        <li>이미지 씬: SearXNG 자동 수집 + Ken Burns 효과 적용</li>
+        <li>BGM: SoundCloud 링크 → yt-dlp 자동 다운로드 + 믹싱</li>
+        <li>FFmpeg: 9:16 세로 크롭 → 자막 burn-in → BGM 믹싱 → 페이드아웃</li>
+        <li>FCPXML 타임라인 자동 생성 (다빈치 리졸브 바로 임포트)</li>
+        <li>used_clips.zip 자동 생성 → 다운로드 후 다빈치 작업</li>
+      </ul>
+      <div class="callout callout-gold" style="margin-top:14px;">
+        <div class="callout-label">사용 도구</div>
+        <div class="flow">
+          <div class="flow-item">YouTube</div>
+          <div class="flow-item">SearXNG</div>
+          <div class="flow-item">SoundCloud</div>
+          <div class="flow-item">yt-dlp</div>
+          <div class="flow-item">FFmpeg</div>
+          <div class="flow-item">DaVinci Resolve</div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 08 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 08</span>
+      <span class="section-title">Before / After</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="before-after">
+        <div class="before">
+          <div class="ba-label">BEFORE (수작업)</div>
+          <div class="ba-item">경기 리서치<span class="ba-time red">2~3시간</span></div>
+          <div class="ba-item">분석 + 픽 결정<span class="ba-time red">1~2시간</span></div>
+          <div class="ba-item">스크립트 작성<span class="ba-time red">1시간</span></div>
+          <div class="ba-item">영상 소스 수집<span class="ba-time red">1~2시간</span></div>
+          <div class="ba-item">영상 편집<span class="ba-time red">2~3시간</span></div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+            <div class="ba-item"><strong>총</strong><span class="ba-time red">7~11시간</span></div>
+            <div class="ba-item"><strong>경기 3개</strong><span class="ba-time red">사실상 불가능 😞</span></div>
+          </div>
+        </div>
+        <div class="after">
+          <div class="ba-label">AFTER (Hermes)</div>
+          <div class="ba-item">텔레그램 명령 또는 매일 자동 실행<span class="ba-time green">—</span></div>
+          <div class="ba-item"><strong>15분 안에 완성본</strong><span class="ba-time green">✅</span></div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(46,204,113,0.2);">
+            <p style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px;">사람이 할 일</p>
+            <div class="ba-item">스크립트 검토<span class="ba-time green">5분</span></div>
+            <div class="ba-item">다빈치 최종 확인<span class="ba-time green">5분</span></div>
+            <div class="ba-item">썸네일 제작<span class="ba-time green">—</span></div>
+            <div class="ba-item">유튜브 업로드<span class="ba-time green">—</span></div>
+          </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(46,204,113,0.2);">
+            <div class="ba-item"><strong>하루 3개 경기 동시 생산 가능</strong><span class="ba-time green">😊</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 09 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 09</span>
+      <span class="section-title">최종 산출물</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="output-card">
+        <div class="output-icon">▶️</div>
+        <div class="output-info">
+          <div class="output-title">final.mp4</div>
+          <div class="output-desc">30초 유튜브 쇼츠 완성본</div>
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">🗜️</div>
+        <div class="output-info">
+          <div class="output-title">used_clips.zip</div>
+          <div class="output-desc">다빈치 리졸브 편집용 전체 파일</div>
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">🎞️</div>
+        <div class="output-info">
+          <div class="output-title">timeline.fcpxml</div>
+          <div class="output-desc">다빈치 타임라인 자동 생성</div>
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">✈️</div>
+        <div class="output-info">
+          <div class="output-title">텔레그램 자동 전송</div>
+          <div class="output-desc">완성 즉시 CEO에게 전달</div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 10 -->
+  <details class="section">
+    <summary class="section-header">
+      <span class="section-num">SECTION 10</span>
+      <span class="section-title">시스템 특징 요약</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="three-col">
+        <div class="callout callout-gold" style="margin:0;">
+          <div class="callout-label">완전 자동화</div>
+          <p>사람 개입 최소화</p>
+        </div>
+        <div class="callout callout-purple" style="margin:0;">
+          <div class="callout-label">AI 모델 최적화</div>
+          <p>작업별 최적 모델 배정</p>
+        </div>
+        <div class="callout callout-blue" style="margin:0;">
+          <div class="callout-label">다양한 데이터 소스</div>
+          <p>API + 자동 수집</p>
+        </div>
+        <div class="callout callout-green" style="margin:0;">
+          <div class="callout-label">고품질 콘텐츠</div>
+          <p>분석 → 스크립트 → 영상 일관된 품질 유지</p>
+        </div>
+        <div class="callout callout-orange" style="margin:0;">
+          <div class="callout-label">확장성</div>
+          <p>여러 경기 동시 처리 스케일 확장 가능</p>
+        </div>
+        <div class="callout callout-red" style="margin:0;">
+          <div class="callout-label">비용 효율성</div>
+          <p>모델 최적화로 운영 비용 절감</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<div class="doc-footer">
+  <a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> &nbsp;·&nbsp;
+  HERMES-AGENT-MLB · 2026-07-13 &nbsp;·&nbsp; CONFIDENTIAL &nbsp;·&nbsp;
+  Hermes AI Company
+</div>
+
+</body>
+</html>
