@@ -39,75 +39,47 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
   <h1>문서 목록</h1>
   <p class="sub">업무 진행 내용 및 회의 결과 · 최신순</p>
   <div class="section-title">기획 문서</div>
-  <ul class="doc-list" id="doc-list">
-    <li style="font-size:13px;color:var(--text3);padding:12px 0;">문서 목록 불러오는 중...</li>
-  </ul>
+  <ul class="doc-list" id="doc-list"></ul>
   <div class="footer">HTML Docs · 2026 · CONFIDENTIAL</div>
 </div>
 
 <script>
-const meta = {
-  'naming-report-20260715.html':        { title: '슬롯 커뮤니티 브랜드 네이밍 분석 보고서', icon: '🏷️', tag: 'report',  desc: '붐슬롯 · 핫슬롯 · 슬롯크루 · 슬롯그램 · 히트슬롯 TOP5 분석' },
-  'slot-planning-20260715.html':         { title: '슬롯 커뮤니티 기획서',                    icon: '🎰', tag: 'plan',    desc: 'SEO 전략 · 차별화 기능 · 이벤트 · 유저 경험' },
-  'seo-alert-report-20260713.html':      { title: '구글이 잡아내는 것들 — 2026 최신 경보',    icon: '⚠️', tag: 'report',  desc: '알고리즘 타임라인 · E-E-A-T · 블랙햇 비교표 · 실전 체크리스트' },
-  'ahrefs-seo-report-20260713.html':     { title: 'Ahrefs — SEO 데이터 인텔리전스 플랫폼 심층 분석', icon: '🔍', tag: 'report', desc: '핵심 기능 8가지 · 실전 워크플로우 · 성과 사례' },
-  'google-tools-report-20260713.html':   { title: '구글 자체 툴 3종 세트 — SEO 플랫폼 심층 분석', icon: '📊', tag: 'report', desc: 'GSC · GA4 · 키워드 플래너 · Looker Studio · 도입 순서' },
-  'seo-tools-comparison-20260713.html':  { title: 'Ahrefs vs 구글 자체 툴 종합 비교',          icon: '⚖️', tag: 'compare', desc: '핵심 차이 · 기능별 비교 · 결정적 차이 3가지 · 전략 유형 선택' },
-  'ai-operation-strategy-20260713.html': { title: 'AI 자동화 운영 전략 보고서 1장',              icon: '📋', tag: 'report',  desc: 'AI 에이전트 역할 분리 · 협업 구조 설계 · 칸반보드 활용 방안' },
-  'hermes-agent-mlb-20260713.html':      { title: 'Hermes Agent — MLB 콘텐츠 완전 자동화 시스템', icon: '🤖', tag: 'report', desc: 'AI 직원 5명 · 15분 완성 · 데이터 수집~영상 제작 풀 자동화' },
-  'n8n-mlb-automation-20260713.html':    { title: 'n8n으로 구현한 MLB Betting Intelligence 자동화 시스템', icon: '⚙️', tag: 'report', desc: '전체 8개 Workflow · 24시간 자동 실행 · API 연동 · 장애 처리' },
-  'lineage-adena-report-20260713.html':  { title: '리니지 클래식 이해 & 아데나 거래 시장 분석', icon: '⚔️', tag: 'report', desc: '아데나 경제 구조 · 거래 플랫폼 · 시세 · 이용자 특성' },
-};
+// 새 파일 추가할 때 여기 맨 위에 한 줄 추가 (최신순)
+const docs = [
+  { file: 'naming-report-20260715.html',        title: '슬롯 커뮤니티 브랜드 네이밍 분석 보고서',                    icon: '🏷️', tag: 'report',  desc: '붐슬롯 · 핫슬롯 · 슬롯크루 · 슬롯그램 · 히트슬롯 TOP5 분석' },
+  { file: 'slot-planning-20260715.html',         title: '슬롯 커뮤니티 기획서',                                       icon: '🎰', tag: 'plan',    desc: 'SEO 전략 · 차별화 기능 · 이벤트 · 유저 경험' },
+  { file: 'seo-alert-report-20260713.html',      title: '구글이 잡아내는 것들 — 2026 최신 경보',                      icon: '⚠️', tag: 'report',  desc: '알고리즘 타임라인 · E-E-A-T · 블랙햇 비교표 · 실전 체크리스트' },
+  { file: 'ahrefs-seo-report-20260713.html',     title: 'Ahrefs — SEO 데이터 인텔리전스 플랫폼 심층 분석',            icon: '🔍', tag: 'report',  desc: '핵심 기능 8가지 · 실전 워크플로우 · 성과 사례' },
+  { file: 'google-tools-report-20260713.html',   title: '구글 자체 툴 3종 세트 — SEO 플랫폼 심층 분석',              icon: '📊', tag: 'report',  desc: 'GSC · GA4 · 키워드 플래너 · Looker Studio · 도입 순서' },
+  { file: 'seo-tools-comparison-20260713.html',  title: 'Ahrefs vs 구글 자체 툴 종합 비교',                          icon: '⚖️', tag: 'compare', desc: '핵심 차이 · 기능별 비교 · 결정적 차이 3가지 · 전략 유형 선택' },
+  { file: 'ai-operation-strategy-20260713.html', title: 'AI 자동화 운영 전략 보고서 1장',                             icon: '📋', tag: 'report',  desc: 'AI 에이전트 역할 분리 · 협업 구조 설계 · 칸반보드 활용 방안' },
+  { file: 'hermes-agent-mlb-20260713.html',      title: 'Hermes Agent — MLB 콘텐츠 완전 자동화 시스템',               icon: '🤖', tag: 'report',  desc: 'AI 직원 5명 · 15분 완성 · 데이터 수집~영상 제작 풀 자동화' },
+  { file: 'n8n-mlb-automation-20260713.html',    title: 'n8n으로 구현한 MLB Betting Intelligence 자동화 시스템',      icon: '⚙️', tag: 'report',  desc: '전체 8개 Workflow · 24시간 자동 실행 · API 연동 · 장애 처리' },
+  { file: 'lineage-adena-report-20260713.html',  title: '리니지 클래식 이해 & 아데나 거래 시장 분석',                 icon: '⚔️', tag: 'report',  desc: '아데나 경제 구조 · 거래 플랫폼 · 시세 · 이용자 특성' },
+];
 
-const tagLabel = { plan: '기획', report: '보고서', compare: '비교', unknown: '문서' };
+const tagLabel = { plan: '기획', report: '보고서', compare: '비교' };
 
 function parseDate(filename) {
   const m = filename.match(/(\d{4})(\d{2})(\d{2})/);
   return m ? `${m[1]}.${m[2]}.${m[3]}` : '';
 }
-function parseSortKey(filename) {
-  const m = filename.match(/(\d{8})/);
-  return m ? m[1] : '0';
-}
 
-async function loadDocs() {
-  const list = document.getElementById('doc-list');
-  try {
-    const res = await fetch('https://api.github.com/repos/osiljang233-dev/htmldocs/contents/');
-    const files = await res.json();
-    let htmlFiles = files
-      .filter(f => f.name.endsWith('.html') && f.name !== 'index.html')
-      .sort((a, b) => {
-        const da = parseSortKey(a.name);
-        const db = parseSortKey(b.name);
-        if (da !== db) return db > da ? -1 : 1;
-        // 같은 날짜면 meta 순서 기준
-        const ia = Object.keys(meta).indexOf(a.name);
-        const ib = Object.keys(meta).indexOf(b.name);
-        return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
-      });
-
-    list.innerHTML = '';
-    htmlFiles.forEach(f => {
-      const m = meta[f.name] || { title: f.name.replace('.html',''), icon: '📄', tag: 'unknown', desc: '' };
-      const date = parseDate(f.name);
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <a class="doc-item" href="./${f.name}">
-          <div class="doc-icon">${m.icon}</div>
-          <div class="doc-info">
-            <div class="doc-title">${m.title} <span class="tag tag-${m.tag}">${tagLabel[m.tag] || '문서'}</span></div>
-            <div class="doc-meta">${date}${m.desc ? ' · ' + m.desc : ''}</div>
-          </div>
-          <div class="doc-arrow">→</div>
-        </a>`;
-      list.appendChild(li);
-    });
-  } catch(e) {
-    list.innerHTML = '<li style="font-size:13px;color:#5c6080;padding:12px 0;">목록을 불러오지 못했습니다.</li>';
-  }
-}
-loadDocs();
+const list = document.getElementById('doc-list');
+docs.forEach(doc => {
+  const date = parseDate(doc.file);
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <a class="doc-item" href="./${doc.file}">
+      <div class="doc-icon">${doc.icon}</div>
+      <div class="doc-info">
+        <div class="doc-title">${doc.title} <span class="tag tag-${doc.tag}">${tagLabel[doc.tag]}</span></div>
+        <div class="doc-meta">${date}${doc.desc ? ' · ' + doc.desc : ''}</div>
+      </div>
+      <div class="doc-arrow">→</div>
+    </a>`;
+  list.appendChild(li);
+});
 </script>
 </body>
 </html>
