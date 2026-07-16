@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 자동화 운영 전략 보고서 1장</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #22263a;
+    --border: #2e3350;
+    --accent: #4a9eff;
+    --accent2: #7dc4ff;
+    --purple: #7c6af7;
+    --green: #2ecc71;
+    --red: #e8412a;
+    --gold: #f5c842;
+    --orange: #ff6b35;
+    --text: #d4d8e8;
+    --text-dim: #8890b0;
+    --text-bright: #f0f2ff;
+    --mono: 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size: 15px; line-height: 1.75; padding: 0 0 80px; }
+
+  .doc-header { background: var(--bg2); border-bottom: 2px solid var(--accent); padding: 32px 40px 28px; position: sticky; top: 0; z-index: 100; }
+  .doc-header .breadcrumb { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-family: var(--mono); }
+  .doc-header .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .doc-header .badge { display: inline-block; background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 1px; margin-right: 8px; vertical-align: middle; }
+  .doc-header h1 { font-size: 22px; font-weight: 800; color: var(--text-bright); margin-top: 6px; }
+  .doc-header h1 span { color: var(--accent); }
+  .doc-header .meta { font-size: 12px; color: var(--text-dim); margin-top: 6px; font-family: var(--mono); }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 40px 40px 0; }
+
+  .tldr { background: var(--bg2); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 6px; padding: 20px 24px; margin-bottom: 32px; }
+  .tldr-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; font-weight: 700; margin-bottom: 10px; }
+  .tldr ul { padding-left: 20px; }
+  .tldr li { margin-bottom: 5px; font-size: 14px; }
+
+  .section { margin-bottom: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .section-header { display: flex; align-items: center; gap: 14px; padding: 18px 24px; cursor: pointer; user-select: none; list-style: none; }
+  .section-header::-webkit-details-marker { display: none; }
+  details[open] > .section-header { border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 1px; font-weight: 700; background: rgba(74,158,255,0.1); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .section-title { font-size: 16px; font-weight: 700; color: var(--text-bright); flex: 1; }
+  .toggle-icon { font-size: 12px; color: var(--text-dim); transition: transform 0.2s; }
+  details[open] .toggle-icon { transform: rotate(90deg); }
+  .section-body { padding: 24px; }
+
+  .sub-section { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px; margin-bottom: 14px; }
+  .sub-section:last-child { margin-bottom: 0; }
+  .sub-title { font-size: 14px; font-weight: 700; color: var(--text-bright); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .sub-num { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 700; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+
+  .callout { border-radius: 6px; padding: 14px 16px; margin: 10px 0; border-left: 3px solid; }
+  .callout-blue { background: rgba(74,158,255,0.08); border-color: var(--accent); }
+  .callout-green { background: rgba(46,204,113,0.08); border-color: var(--green); }
+  .callout-gold { background: rgba(245,200,66,0.08); border-color: var(--gold); }
+  .callout-purple { background: rgba(124,106,247,0.08); border-color: var(--purple); }
+  .callout-red { background: rgba(232,65,42,0.08); border-color: var(--red); }
+  .callout-label { font-size: 11px; font-weight: 700; font-family: var(--mono); letter-spacing: 1px; margin-bottom: 8px; }
+  .callout-blue .callout-label { color: var(--accent2); }
+  .callout-green .callout-label { color: var(--green); }
+  .callout-gold .callout-label { color: var(--gold); }
+  .callout-purple .callout-label { color: var(--purple); }
+  .callout-red .callout-label { color: var(--red); }
+  .callout p, .callout li { font-size: 13px; }
+  .callout ul { padding-left: 16px; }
+  .callout li { margin-bottom: 4px; }
+
+  ul.plain { padding-left: 18px; }
+  ul.plain li { font-size: 13px; margin-bottom: 5px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: var(--bg2); border: 1px solid var(--border); padding: 9px 12px; text-align: left; color: var(--text-dim); font-size: 11px; font-family: var(--mono); font-weight: 700; }
+  td { border: 1px solid var(--border); padding: 9px 12px; color: var(--text); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  td strong { color: var(--text-bright); }
+
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 3px; font-family: var(--mono); }
+  .tag-red { background: rgba(232,65,42,0.2); color: var(--red); border: 1px solid var(--red); }
+  .tag-blue { background: rgba(74,158,255,0.2); color: var(--accent); border: 1px solid var(--accent); }
+  .tag-green { background: rgba(46,204,113,0.2); color: var(--green); border: 1px solid var(--green); }
+  .tag-gold { background: rgba(245,200,66,0.2); color: var(--gold); border: 1px solid var(--gold); }
+
+  .card { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text-bright); margin-bottom: 8px; }
+  .card-body { font-size: 12px; color: var(--text); line-height: 1.7; }
+
+  .quote { background: rgba(245,200,66,0.06); border: 1px solid rgba(245,200,66,0.2); border-radius: 4px; padding: 10px 14px; margin: 8px 0; font-size: 12px; color: var(--text); font-style: italic; }
+
+  .kanban-table table td:first-child { font-weight: 700; color: var(--text-bright); white-space: nowrap; }
+
+  .doc-footer { text-align: center; padding: 40px; font-size: 11px; color: var(--text-dim); font-family: var(--mono); border-top: 1px solid var(--border); margin-top: 60px; }
+  .doc-footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .container { padding: 20px 16px 0; }
+    .doc-header { padding: 20px 16px; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="breadcrumb"><a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> / AI 운영 전략</div>
+  <div>
+    <span class="badge">📋 전략 보고서</span>
+    <span style="font-size:12px;color:var(--text-dim);font-family:var(--mono);">1장 · 2026-07-13</span>
+  </div>
+  <h1>AI 자동화 운영 전략 보고서 <span>1장</span></h1>
+  <div class="meta">AI-OPERATION-STRATEGY · 2026-07-13 · AI 에이전트 역할 분리 · 협업 구조 설계 · 칸반보드 활용 방안</div>
+</div>
+
+<div class="container">
+
+  <div class="tldr">
+    <div class="tldr-label">TL;DR</div>
+    <ul>
+      <li>AI가 완전 자동으로 할 것 / AI 도움받아 사람이 처리할 것 / 사람이 직접 해야 할 것 — 3단계로 역할 분리</li>
+      <li>협업 시스템이 필요한 작업 vs 단독 에이전트로 충분한 작업 명확히 구분</li>
+      <li>칸반보드는 시스템이 잘 돌아갈 때는 텔레그램 결과물만 확인하면 충분 — 필요할 때만 여는 도구</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 01 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 01</span>
+      <span class="section-title">AI 에이전트 역할 분리 설계</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+
+      <!-- ① AI가 완전 자동으로 -->
+      <div class="sub-section">
+        <div class="sub-title">
+          <span class="sub-num">①</span> AI가 완전 자동으로 하는 것
+        </div>
+        <ul class="plain">
+          <li>매일 지정 시간 경기 데이터 수집 — ESPN, MLB Stats, Baseball Savant, 파워랭킹, 헤드라인 뉴스</li>
+          <li>경기 분석 + 픽 결정 + Confidence 5단계 산출</li>
+          <li>나레이션 생성, 자막 싱크, BGM 믹싱 → 영상 편집 → final.mp4 완성</li>
+          <li>텔레그램으로 완성본 자동 전송 / 매일 지정 시간 크론 자동 실행</li>
+        </ul>
+      </div>
+
+      <!-- ② AI 도움받아 사람이 처리 -->
+      <div class="sub-section">
+        <div class="sub-title">
+          <span class="sub-num">②</span> AI 도움을 받아 사람이 빠르게 처리하는 것
+        </div>
+        <ul class="plain">
+          <li><strong>스크립트 검토/확정</strong> — AI 초안 작성, 사람이 5분 검토. 직접 쓰면 1시간 → 5분으로 단축</li>
+          <li><strong>블로그 포스팅 검수</strong> — AI 초안, 사람이 사실 확인 + 톤 조정 + SEO 키워드 반영 여부 체크</li>
+          <li><strong>유튜브 제목/설명/태그</strong> — AI 자동 생성, 사람이 30초 확인 후 업로드</li>
+        </ul>
+      </div>
+
+      <!-- ③ 사람이 직접 해야 하는 것 -->
+      <div class="sub-section">
+        <div class="sub-title">
+          <span class="sub-num">③</span> 사람이 직접 해야 하는 것
+        </div>
+        <div class="callout callout-red" style="margin-bottom:14px;">
+          <div class="callout-label">✅ 필수 — AI 대체 불가</div>
+          <table>
+            <thead><tr><th>작업</th><th>이유</th><th>구분</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>영상 최종 확인</strong></td>
+                <td>저작권 이슈, 싱크 오류, 부적절한 장면 — AI가 판단 불가한 영역</td>
+                <td><span class="tag tag-red">필수</span></td>
+              </tr>
+              <tr>
+                <td><strong>픽 최종 동의</strong></td>
+                <td>AI 픽이 틀렸을 때 채널 신뢰도 직결. 최종 책임은 사람이 짐</td>
+                <td><span class="tag tag-red">필수</span></td>
+              </tr>
+              <tr>
+                <td><strong>유튜브 업로드</strong></td>
+                <td>채널 계정 접근 권한, 최종 발행 책임</td>
+                <td><span class="tag tag-red">필수</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-gold">
+          <div class="callout-label">⚡ 선택 — 속도 vs 품질 저울질</div>
+          <table>
+            <thead><tr><th>작업</th><th>AI로 할 때</th><th>사람이 직접 할 때</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>영상 소스 선정</strong></td>
+                <td>빠르지만 자막 싱크 안 맞는 영상 나올 수 있음</td>
+                <td>느리지만 영상 품질 확실히 올라감</td>
+                <td><span class="tag tag-blue">속도↑</span> <span class="tag tag-green">품질↑</span></td>
+              </tr>
+              <tr>
+                <td><strong>썸네일 제작</strong></td>
+                <td>무난한 수준, 자동화 가능</td>
+                <td>클릭률 차이 날 수 있음</td>
+                <td><span class="tag tag-gold">선택</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- SECTION 02 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 02</span>
+      <span class="section-title">협업 시스템 vs 단독 에이전트</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="two-col">
+
+        <!-- 협업 시스템 -->
+        <div class="card">
+          <div class="card-title">🤝 협업 시스템이 필요한 작업</div>
+          <div class="card-body">
+            <p style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:6px;">MLB 분석 + 영상 제작</p>
+            <p style="font-size:12px;margin-bottom:10px;">리서치 → 분석 → 콘텐츠 → 영상 단계별 QA 필수. 한 단계 오류가 전체에 영향. 픽이 틀렸을 때 채널 신뢰도 직결</p>
+            <p style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:6px;">SEO 블로그 운영</p>
+            <p style="font-size:12px;">키워드 선정 → 작성 → 검수 → 발행 → 성과 모니터링. 단독으로 시키면 퀄리티 들쭉날쭉</p>
+          </div>
+        </div>
+
+        <!-- 단독 에이전트 -->
+        <div class="card">
+          <div class="card-title">🤖 단독 에이전트로 충분한 작업</div>
+          <div class="card-body">
+            <p style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;">경쟁사 콘텐츠 모니터링</p>
+            <p style="font-size:12px;margin-bottom:10px;">유튜브 채널, 네이버/구글 상위 노출 변화 매일 체크 + 요약 리포트. 유료 구독 콘텐츠도 계정 정보 제공 시 자동 수집 가능</p>
+            <p style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;">키워드 순위 추적</p>
+            <p style="font-size:12px;margin-bottom:10px;">목표 키워드("MLB 픽", "야구 베팅 분석" 등)가 구글/네이버에서 몇 위인지 매일 자동 체크. 순위 5위 이상 급락 시 이상 징후 알림</p>
+            <div class="quote">예) "다음엔 다저스 해줘요" → 콘텐츠 방향 참고<br>"픽 틀렸잖아요 ㅋㅋ" → 픽 정확도 피드백<br>"나레이션이 너무 빨라요" → 영상 품질 개선 힌트</div>
+            <p style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;">신규 키워드 발굴</p>
+            <p style="font-size:12px;">구글 트렌드·네이버 실시간·유튜브 급상승 영상을 매주 자동 스캔. 우리 주제와 연관된 키워드만 필터링 후 검색량·경쟁 강도 붙여서 우선순위 리스트로 텔레그램 전송.</p>
+            <div class="quote">예) MLB·야구 베팅·스포츠 분석 등 설정한 주제에 맞게 필터 조건 변경 가능</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:8px;">
+        <div class="callout-label">핵심 판단 기준</div>
+        <p>결과물이 틀렸을 때 큰 영향이 있는가? → <strong>협업+QA 필수 / 참고용이라 QA가 불필요한가? → 단독 에이전트</strong></p>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 03 -->
+  <details class="section" open>
+    <summary class="section-header">
+      <span class="section-num">SECTION 03</span>
+      <span class="section-title">칸반보드 활용 방안</span>
+      <span class="toggle-icon">▶</span>
+    </summary>
+    <div class="section-body">
+      <div class="callout callout-purple" style="margin-bottom:16px;">
+        <p>헤르메스 내 태스크 관리 시스템. 각 작업이 어느 단계에 있는지 실시간으로 확인할 수 있는 대시보드.<br>
+        시스템이 잘 돌아갈 때는 텔레그램 결과물만 확인하면 충분 — 칸반보드는 필요할 때만 여는 도구.</p>
+      </div>
+
+      <div class="kanban-table">
+        <table>
+          <thead>
+            <tr>
+              <th>상황</th>
+              <th>칸반보드 있을 때</th>
+              <th>없을 때 대안</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>오류 발생</strong></td>
+              <td>대시보드에서 어느 단계인지 즉시 파악</td>
+              <td>텔레그램에서 매니저한테 "어디서 멈췄어?" 물어보기</td>
+            </tr>
+            <tr>
+              <td><strong>진행 상황</strong></td>
+              <td>실시간 단계별 확인</td>
+              <td>텔레그램에서 매니저한테 "지금 몇 단계야?" 물어보기</td>
+            </tr>
+            <tr>
+              <td><strong>병목 구간</strong></td>
+              <td>단계별 소요시간 데이터로 정확히 파악</td>
+              <td>매니저한테 물어봐도 되지만 누적 데이터 없어 부정확</td>
+            </tr>
+            <tr>
+              <td><strong>동시 작업</strong></td>
+              <td>3개 경기 진행상황 한눈에 정리</td>
+              <td>매니저한테 A, B, C 각각 따로 물어보기</td>
+            </tr>
+            <tr>
+              <td><strong>직원 성능</strong></td>
+              <td>진행 중 실시간 모니터링·즉시 개선 가능</td>
+              <td>결과물 나온 후 매니저한테 사후 확인만 가능</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:8px;">
+        <p>작업 규모가 커질수록 — 하루 3개 이상 영상, 블로그+쇼츠 동시 운영 — <strong>칸반보드 없이는 관리가 점점 어려워진다.</strong></p>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<div class="doc-footer">
+  <a href="https://osiljang233-dev.github.io/htmldocs/">← HTML Docs</a> &nbsp;·&nbsp;
+  AI-OPERATION-STRATEGY-1 · 2026-07-13 &nbsp;·&nbsp; CONFIDENTIAL
+</div>
+
+</body>
+</html>
