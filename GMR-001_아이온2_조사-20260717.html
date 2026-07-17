@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>아이온2 홍보 플랫폼 조사 보고서</title>
+<style>
+:root{
+  --bg:#091426;
+  --panel:#101f3a;
+  --panel-2:#0d1a31;
+  --line:#2f4e7d;
+  --text:#f5f7fb;
+  --muted:#8fb1e8;
+  --accent:#ffb51f;
+  --green:#2fd07d;
+  --blue:#4da3ff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  line-height:1.75;
+}
+.wrap{
+  width:min(980px,calc(100% - 40px));
+  margin:0 auto;
+  padding:22px 0 60px;
+}
+.kicker{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+h1{
+  margin:4px 0 8px;
+  font-size:clamp(29px,5vw,48px);
+  line-height:1.15;
+  letter-spacing:-.04em;
+}
+.lead{
+  margin:0;
+  color:var(--muted);
+  font-size:15px;
+  max-width:840px;
+}
+.tldr{
+  margin-top:24px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:0 10px 10px 0;
+  padding:18px 20px;
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+}
+.tldr-title{
+  color:var(--accent);
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:8px;
+}
+.tldr ul{margin:0;padding-left:20px}
+.tldr li{margin:6px 0}
+hr{
+  border:0;
+  border-top:1px solid var(--line);
+  margin:30px 0 18px;
+}
+.section-title{
+  margin:0 0 12px;
+  font-size:20px;
+  letter-spacing:-.02em;
+}
+.section-title .num{
+  color:var(--accent);
+  margin-right:6px;
+  font-size:13px;
+  font-weight:900;
+}
+.badge{
+  display:inline-block;
+  vertical-align:middle;
+  margin-left:8px;
+  padding:2px 7px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:800;
+}
+.badge.green{background:#0f5235;color:#5ef3aa}
+.badge.orange{background:#593c08;color:#ffc54d}
+.badge.red{background:#5c2222;color:#ff8e8e}
+.note{color:var(--muted);font-size:13px}
+details{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+  margin:10px 0;
+  overflow:hidden;
+}
+summary{
+  cursor:pointer;
+  list-style:none;
+  padding:13px 16px;
+  font-weight:800;
+  font-size:14px;
+}
+summary::-webkit-details-marker{display:none}
+summary:before{
+  content:"▼";
+  color:var(--accent);
+  margin-right:8px;
+  font-size:10px;
+}
+details:not([open]) summary:before{content:"▶"}
+.details-body{
+  border-top:1px solid var(--line);
+  padding:15px 18px;
+  color:var(--muted);
+  background:var(--panel-2);
+}
+.codebox,.tablebox{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+  overflow:hidden;
+}
+.code-tabs{
+  display:flex;
+  gap:22px;
+  padding:10px 16px;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  color:var(--muted);
+}
+.code-tabs b{color:var(--accent)}
+pre{
+  margin:0;
+  padding:16px;
+  overflow:auto;
+  color:#d8e6ff;
+  font-size:13px;
+  line-height:1.65;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th,td{
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:10px 12px;
+  text-align:left;
+  vertical-align:top;
+}
+th{
+  background:#132746;
+  color:#fff;
+  font-weight:800;
+}
+tr:last-child td{border-bottom:0}
+th:last-child,td:last-child{border-right:0}
+.decision{
+  border-left:3px solid var(--accent);
+  padding-left:14px;
+  color:#fff;
+  font-weight:800;
+}
+footer{
+  margin-top:34px;
+  color:#6485b6;
+  font-size:11px;
+}
+@media(max-width:640px){
+  .wrap{width:min(100% - 24px,980px)}
+  .tldr{padding:15px 16px}
+  th,td{padding:8px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="kicker">GMR-001 · 2026-07-17</div>
+  <h1>아이온2 홍보 플랫폼 조사 보고서</h1>
+  <p class="lead">서버 환경, 생성 제한, 종족별 인구와 운영정책을 조사하고 실계정 채팅 테스트의 진행 여부를 결정한 문서입니다.</p>
+  <div class="tldr">
+    <div class="tldr-title">TL;DR</div>
+    <ul>
+      <li>주요 서버, 생성 제한 서버, 종족별 인구 및 운영정책 조사를 완료했다.</li><li>서버 채팅 이용 조건이 메이플플래닛보다 높아 초기 운영 효율이 낮다.</li><li>실제 계정 채팅 제한 테스트는 보류 상태로 전환했다.</li>
+    </ul>
+  </div>
+<hr><section><h2 class='section-title'><span class='num'>01</span>업무 개요</h2>
+<p>아이온2를 신규 게임 내 홍보 플랫폼으로 활용할 수 있는지 검토하기 위해 서버 환경, 생성 제한 서버, 종족별 인구 분포 및 운영정책을 조사했다.</p>
+<p class="note">※ 본 문서는 조사 완료 항목과 향후 테스트 보류 결정의 근거를 함께 기록한다.</p></section><hr><section><h2 class='section-title'><span class='num'>02</span>조사 완료 항목<span class='badge green'>완료</span></h2>
+<details open><summary>서버 및 생성 제한 조사</summary><div class="details-body">주요 활성 서버와 신규 캐릭터 생성 제한 서버를 확인했다. 인구가 많은 일부 서버는 신규 진입 선택지가 제한될 수 있다.</div></details>
+<details><summary>종족별 인구 조사</summary><div class="details-body">천족과 마족의 주요 활성 서버를 구분하고, 종족별 홍보 대상 후보를 비교했다.</div></details>
+<details><summary>운영정책 조사</summary><div class="details-body">광고성 메시지, 반복 채팅 및 상업적 홍보에 대한 제재 가능성을 확인했다.</div></details></section><hr><section><h2 class='section-title'><span class='num'>03</span>조사 결과 요약</h2>
+<div class="tablebox"><table>
+<thead><tr><th>항목</th><th>결과</th><th>평가</th></tr></thead>
+<tbody>
+<tr><td>서버 환경</td><td>활성 서버 및 생성 제한 서버 확인</td><td>조사 완료</td></tr>
+<tr><td>종족 분포</td><td>천족/마족 활성 서버 확인</td><td>조사 완료</td></tr>
+<tr><td>운영정책</td><td>광고 및 반복 채팅 제재 가능성 존재</td><td>주의 필요</td></tr>
+<tr><td>채팅 접근성</td><td>메이플플래닛보다 높은 조건</td><td>효율 낮음</td></tr>
+</tbody></table></div></section><hr><section><h2 class='section-title'><span class='num'>04</span>의사결정<span class='badge orange'>보류</span></h2>
+<p class="decision">실제 계정으로 진행하려던 채팅 제한 테스트는 현 단계에서 보류한다.</p>
+<details open><summary>보류 사유</summary><div class="details-body">
+<ul>
+<li>서버 채팅 이용 조건이 메이플플래닛보다 높다.</li>
+<li>계정 준비에 필요한 시간과 비용이 상대적으로 크다.</li>
+<li>현 시점에서 실계정 테스트를 진행해도 기대 효율이 낮다.</li>
+<li>다른 게임 플랫폼 조사에 우선순위를 두는 것이 효율적이다.</li>
+</ul>
+</div></details></section><hr><section><h2 class='section-title'><span class='num'>05</span>다음 액션</h2>
+<div class="codebox">
+<div class="code-tabs"><span>STATUS</span><b>action-items</b></div>
+<pre>state: on-hold
+owner: 이무빈
+next:
+  - 다른 MMORPG 홍보 플랫폼 우선 조사
+  - 아이온2 채팅 조건 완화 시 재검토
+  - 생성 제한 해제 또는 계정 수급 비용 감소 시 재검토</pre>
+</div></section><hr><section><h2 class='section-title'><span class='num'>06</span>최종 결론</h2>
+<p>아이온2는 이용자 규모와 장기 노출 가능성은 있으나, 신규 계정의 채팅 접근 조건과 운영 부담을 고려하면 메이플플래닛보다 우선순위가 낮다. 따라서 현재는 추가 테스트를 진행하지 않고 보류 상태로 유지한다.</p></section><footer>GMR-001 · 담당자 이무빈 · 2026</footer></main></body></html>

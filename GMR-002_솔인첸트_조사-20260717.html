@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOL: Enchant 홍보 플랫폼 현장 조사 보고서</title>
+<style>
+:root{
+  --bg:#091426;
+  --panel:#101f3a;
+  --panel-2:#0d1a31;
+  --line:#2f4e7d;
+  --text:#f5f7fb;
+  --muted:#8fb1e8;
+  --accent:#ffb51f;
+  --green:#2fd07d;
+  --blue:#4da3ff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  line-height:1.75;
+}
+.wrap{
+  width:min(980px,calc(100% - 40px));
+  margin:0 auto;
+  padding:22px 0 60px;
+}
+.kicker{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+h1{
+  margin:4px 0 8px;
+  font-size:clamp(29px,5vw,48px);
+  line-height:1.15;
+  letter-spacing:-.04em;
+}
+.lead{
+  margin:0;
+  color:var(--muted);
+  font-size:15px;
+  max-width:840px;
+}
+.tldr{
+  margin-top:24px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:0 10px 10px 0;
+  padding:18px 20px;
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+}
+.tldr-title{
+  color:var(--accent);
+  font-weight:900;
+  font-size:14px;
+  margin-bottom:8px;
+}
+.tldr ul{margin:0;padding-left:20px}
+.tldr li{margin:6px 0}
+hr{
+  border:0;
+  border-top:1px solid var(--line);
+  margin:30px 0 18px;
+}
+.section-title{
+  margin:0 0 12px;
+  font-size:20px;
+  letter-spacing:-.02em;
+}
+.section-title .num{
+  color:var(--accent);
+  margin-right:6px;
+  font-size:13px;
+  font-weight:900;
+}
+.badge{
+  display:inline-block;
+  vertical-align:middle;
+  margin-left:8px;
+  padding:2px 7px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:800;
+}
+.badge.green{background:#0f5235;color:#5ef3aa}
+.badge.orange{background:#593c08;color:#ffc54d}
+.badge.red{background:#5c2222;color:#ff8e8e}
+.note{color:var(--muted);font-size:13px}
+details{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+  margin:10px 0;
+  overflow:hidden;
+}
+summary{
+  cursor:pointer;
+  list-style:none;
+  padding:13px 16px;
+  font-weight:800;
+  font-size:14px;
+}
+summary::-webkit-details-marker{display:none}
+summary:before{
+  content:"▼";
+  color:var(--accent);
+  margin-right:8px;
+  font-size:10px;
+}
+details:not([open]) summary:before{content:"▶"}
+.details-body{
+  border-top:1px solid var(--line);
+  padding:15px 18px;
+  color:var(--muted);
+  background:var(--panel-2);
+}
+.codebox,.tablebox{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+  overflow:hidden;
+}
+.code-tabs{
+  display:flex;
+  gap:22px;
+  padding:10px 16px;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  color:var(--muted);
+}
+.code-tabs b{color:var(--accent)}
+pre{
+  margin:0;
+  padding:16px;
+  overflow:auto;
+  color:#d8e6ff;
+  font-size:13px;
+  line-height:1.65;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th,td{
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:10px 12px;
+  text-align:left;
+  vertical-align:top;
+}
+th{
+  background:#132746;
+  color:#fff;
+  font-weight:800;
+}
+tr:last-child td{border-bottom:0}
+th:last-child,td:last-child{border-right:0}
+.decision{
+  border-left:3px solid var(--accent);
+  padding-left:14px;
+  color:#fff;
+  font-weight:800;
+}
+footer{
+  margin-top:34px;
+  color:#6485b6;
+  font-size:11px;
+}
+@media(max-width:640px){
+  .wrap{width:min(100% - 24px,980px)}
+  .tldr{padding:15px 16px}
+  th,td{padding:8px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="kicker">GMR-002 · 2026-07-17</div>
+  <h1>SOL: Enchant 홍보 플랫폼 현장 조사 보고서</h1>
+  <p class="lead">사전 리서치와 실제 게임 접속을 통해 서버 채팅 조건과 현장 활성도를 검증하고 홍보 가능성을 판단한 문서입니다.</p>
+  <div class="tldr">
+    <div class="tldr-title">TL;DR</div>
+    <ul>
+      <li>서버 채팅은 레벨 20부터 이용 가능해 진입 조건은 어렵지 않았다.</li><li>실제 채팅 참여자는 아이디를 기억할 정도로 소수에 불과했다.</li><li>자동 사냥 중심 환경으로 홍보는 현실적으로 어렵다고 판단했다.</li>
+    </ul>
+  </div>
+<hr><section><h2 class='section-title'><span class='num'>01</span>업무 개요</h2>
+<p>SOL: Enchant를 신규 게임 내 홍보 플랫폼으로 활용할 수 있는지 검토하기 위해 사전 리서치와 실제 게임 접속을 통한 현장 확인을 진행했다.</p>
+<p class="note">※ 온라인 조사와 현장 검증을 구분해 기록하며, 최종 판단은 실제 서버 채팅 관찰 결과를 기준으로 한다.</p></section><hr><section><h2 class='section-title'><span class='num'>02</span>리서치 및 현장 확인<span class='badge green'>완료</span></h2>
+<details open><summary>서버 채팅 레벨 조건</summary><div class="details-body">서버 채팅은 레벨 20부터 이용 가능했다. 계정 준비 난이도 자체는 높지 않았다.</div></details>
+<details><summary>실제 채팅 활성도</summary><div class="details-body">실제 게임에 접속해 관찰한 결과, 채팅 참여 인원이 매우 적었고 같은 이용자 아이디가 반복적으로 보일 정도로 참여자가 한정적이었다.</div></details>
+<details><summary>게임 이용 패턴</summary><div class="details-body">모바일 게임 특성상 자동 사냥 비중이 높아 다수 이용자가 채팅을 적극적으로 확인하거나 참여하지 않는 환경이었다.</div></details></section><hr><section><h2 class='section-title'><span class='num'>03</span>현장 검증 결과</h2>
+<div class="tablebox"><table>
+<thead><tr><th>항목</th><th>확인 내용</th><th>평가</th></tr></thead>
+<tbody>
+<tr><td>레벨 제한</td><td>레벨 20부터 서버 채팅 이용 가능</td><td>낮음</td></tr>
+<tr><td>계정 준비</td><td>초기 접근 난이도는 높지 않음</td><td>양호</td></tr>
+<tr><td>채팅 이용자</td><td>동일한 소수 인원이 반복 참여</td><td>매우 낮음</td></tr>
+<tr><td>이용 패턴</td><td>자동 사냥 중심</td><td>홍보에 불리</td></tr>
+<tr><td>메시지 도달</td><td>실제 노출 대상이 제한적</td><td>현실성 부족</td></tr>
+</tbody></table></div></section><hr><section><h2 class='section-title'><span class='num'>04</span>의사결정<span class='badge red'>종료</span></h2>
+<p class="decision">SOL: Enchant에서는 게임 내 홍보를 진행하지 않는다.</p>
+<details open><summary>결정 근거</summary><div class="details-body">
+<ul>
+<li>채팅 진입 조건은 어렵지 않았지만 실제 이용자 수가 너무 적었다.</li>
+<li>자동 사냥 중심 구조로 채팅 확인 빈도가 낮았다.</li>
+<li>홍보 문구를 노출해도 도달 가능한 신규 이용자가 매우 제한적이다.</li>
+<li>운영 시간과 비용 대비 기대 효과가 부족하다.</li>
+</ul>
+</div></details></section><hr><section><h2 class='section-title'><span class='num'>05</span>후속 조치</h2>
+<div class="codebox">
+<div class="code-tabs"><span>STATUS</span><b>action-items</b></div>
+<pre>state: closed
+owner: 이무빈
+completed:
+  - 사전 리서치
+  - 실제 게임 접속
+  - 서버 채팅 활성도 확인
+next:
+  - 추가 계정 투입 중단
+  - 채팅 참여자와 신규 유입이 활발한 다른 MMORPG 조사</pre>
+</div></section><hr><section><h2 class='section-title'><span class='num'>06</span>최종 결론</h2>
+<p>사전 리서치만 보면 서버 채팅 접근 조건이 낮아 긍정적인 후보로 보였지만, 현장 확인 결과 채팅 참여자 수가 너무 적었다. 따라서 SOL: Enchant는 현실적인 홍보 플랫폼으로 활용하기 어렵다고 판단하며, 추가 테스트 없이 검토를 종료한다.</p></section><footer>GMR-002 · 담당자 이무빈 · 2026</footer></main></body></html>
