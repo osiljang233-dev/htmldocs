@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>슬롯 커뮤니티 AI 자동화 전략</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #08080e;
+    --surface: #0f0f1a;
+    --card: #141420;
+    --border: #1e1e30;
+    --gold: #f0b429;
+    --gold-dim: #8a6a1a;
+    --green: #00e676;
+    --red: #ff5252;
+    --blue: #4fc3f7;
+    --purple: #b39ddb;
+    --orange: #ff9100;
+    --text: #dde0f0;
+    --muted: #606080;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-size: 14px; line-height: 1.7; }
+  .page { max-width: 860px; margin: 0 auto; padding: 52px 36px; }
+
+  .header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
+  h1 { font-size: 30px; font-weight: 900; line-height: 1.3; color: #fff; margin-bottom: 8px; }
+  h1 em { color: var(--gold); font-style: normal; }
+  .subtitle { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  /* ACCORDION */
+  .accordion { margin-bottom: 10px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .acc-btn { width: 100%; background: var(--surface); border: none; padding: 18px 22px; display: flex; align-items: center; gap: 14px; cursor: pointer; text-align: left; transition: background 0.2s; }
+  .acc-btn:hover { background: var(--card); }
+  .acc-arrow { color: var(--gold); font-size: 11px; transition: transform 0.25s; flex-shrink: 0; }
+  .accordion.open .acc-arrow { transform: rotate(90deg); }
+  .acc-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gold-dim); letter-spacing: 2px; flex-shrink: 0; }
+  .acc-title { font-weight: 700; font-size: 15px; color: #fff; flex: 1; }
+  .acc-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); background: var(--card); border: 1px solid var(--border); padding: 3px 10px; border-radius: 3px; flex-shrink: 0; }
+  .acc-badge.warn { border-color: var(--orange); color: var(--orange); }
+  .acc-body { display: none; padding: 24px 22px; border-top: 1px solid var(--border); background: var(--bg); }
+  .accordion.open .acc-body { display: block; }
+
+  /* INNER */
+  .box { background: var(--surface); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; padding: 16px 20px; font-size: 13px; line-height: 1.9; margin-bottom: 16px; }
+  .box strong { color: var(--gold); }
+  .box.warn { border-left-color: var(--orange); }
+  .box.warn strong { color: var(--orange); }
+
+  .body-text { font-size: 13px; color: var(--text); line-height: 1.8; margin-bottom: 14px; }
+  .body-text strong { color: var(--gold); }
+  .sec-label { font-weight: 700; font-size: 13px; color: var(--gold); margin-bottom: 10px; margin-top: 4px; }
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag { background: var(--card); border: 1px solid var(--border); border-radius: 3px; padding: 5px 12px; font-size: 12px; color: var(--text); }
+  .tag.gold { border-color: var(--gold-dim); color: var(--gold); }
+  .tag.green { border-color: #1a5c3a; color: var(--green); }
+  .tag.blue { border-color: #1a3a5c; color: var(--blue); }
+  .tag.orange { border-color: #5c3a1a; color: var(--orange); }
+
+  /* COMPARE */
+  .compare { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+  .c-row { display: grid; grid-template-columns: 120px 1fr 1fr; border-bottom: 1px solid var(--border); }
+  .c-row:last-child { border-bottom: none; }
+  .c-cell { padding: 12px 16px; font-size: 12px; border-right: 1px solid var(--border); }
+  .c-cell:last-child { border-right: none; }
+  .c-head { background: var(--surface); font-weight: 700; font-size: 11px; letter-spacing: 1px; }
+  .c-label { background: var(--surface); color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; display: flex; align-items: center; }
+  .h-col { background: rgba(179,157,219,0.04); }
+  .cl-col { background: rgba(240,180,41,0.04); }
+  .h-head { color: var(--purple); }
+  .cl-head { color: var(--gold); }
+  .good { color: var(--green); }
+  .bad { color: var(--red); }
+
+  /* PIPELINE */
+  .pipeline { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .pipe { flex: 1; padding: 14px 10px; border-right: 1px solid var(--border); }
+  .pipe:last-child { border-right: none; }
+  .pipe-num { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--gold-dim); margin-bottom: 5px; }
+  .pipe-name { font-weight: 700; font-size: 11px; color: #fff; margin-bottom: 3px; }
+  .pipe-desc { font-size: 10px; color: var(--muted); line-height: 1.5; }
+  .pipe.new { background: rgba(240,180,41,0.06); border-top: 2px solid var(--gold); }
+
+  /* AGENTS */
+  .agents { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .agent { background: var(--card); border: 1px solid var(--border); border-top: 2px solid var(--gold); border-radius: 4px; padding: 14px; }
+  .agent-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .agent-name { font-weight: 700; font-size: 12px; color: #fff; }
+  .agent-model { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--gold-dim); background: rgba(240,180,41,0.08); padding: 2px 6px; border-radius: 2px; }
+  .agent-desc { font-size: 11px; color: var(--muted); line-height: 1.6; margin-bottom: 6px; }
+  .agent-out { font-size: 10px; color: var(--blue); font-family: 'JetBrains Mono', monospace; }
+  .agent-md { font-size: 10px; color: var(--orange); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+
+  /* CONTENT TABLE */
+  .ct { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .ct-row { display: grid; grid-template-columns: 150px 1fr 90px; border-bottom: 1px solid var(--border); align-items: center; }
+  .ct-row:last-child { border-bottom: none; }
+  .ct-cell { padding: 11px 14px; font-size: 12px; border-right: 1px solid var(--border); }
+  .ct-cell:last-child { border-right: none; }
+  .ct-head { background: var(--surface); font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--gold); letter-spacing: 1px; }
+  .ct-cat { font-weight: 700; color: #fff; font-size: 12px; }
+  .ct-desc { color: var(--muted); font-size: 12px; }
+  .ct-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); }
+
+  /* ROUTINE */
+  .routine { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .r-card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 14px; text-align: center; }
+  .r-icon { font-size: 22px; margin-bottom: 6px; }
+  .r-title { font-weight: 700; font-size: 12px; color: #fff; margin-bottom: 3px; }
+  .r-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* VIDEO ITEMS */
+  .v-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+  .v-ts { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gold-dim); flex-shrink: 0; width: 45px; margin-top: 3px; }
+  .v-text { font-size: 12px; color: var(--text); line-height: 1.6; }
+  .v-text strong { color: #fff; }
+
+  /* WARN BOX */
+  .warn-box { background: rgba(255,145,0,0.06); border: 1px solid rgba(255,145,0,0.3); border-radius: 4px; padding: 18px 20px; margin-bottom: 16px; }
+  .warn-title { font-weight: 700; font-size: 13px; color: var(--orange); margin-bottom: 8px; }
+  .warn-text { font-size: 12px; color: var(--text); line-height: 1.8; }
+  .warn-text li { margin-left: 16px; margin-bottom: 4px; }
+
+  /* CONCL */
+  .concl { background: var(--surface); border: 1px solid var(--gold-dim); border-radius: 4px; padding: 20px 24px; margin-top: 4px; }
+  .concl-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gold); letter-spacing: 3px; margin-bottom: 10px; }
+  .concl p { font-size: 13px; line-height: 1.9; color: var(--text); }
+  .concl strong { color: var(--gold); }
+
+  .footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  .footer-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="eyebrow">AI Automation Strategy · 2026.07.17</div>
+    <h1>슬롯 커뮤니티 사이트<br><em>AI 자동화 운영 전략</em></h1>
+    <div class="subtitle">영상 요약 · 헤르메스 비교 · 실전 적용 방안 · 내부 검토용</div>
+  </div>
+
+  <!-- 01. 영상 요약 -->
+  <div class="accordion open">
+    <button class="acc-btn" onclick="this.closest('.accordion').classList.toggle('open')">
+      <span class="acc-arrow">▶</span>
+      <span class="acc-num">01</span>
+      <span class="acc-title">유튜브 영상 요약 — 엉클잡스 · 클로드코드 AI 마케팅 본부</span>
+      <span class="acc-badge">33분</span>
+    </button>
+    <div class="acc-body">
+      <div class="box">
+        <strong>핵심 개념:</strong> 다이나믹 워크플로우란 클로드코드 안에서 AI 에이전트들을 동시에 팀처럼 굴리는 기능. 기존엔 에이전트 하나한테 지시→결과→또 지시, 사람이 계속 붙어있어야 했음. 이제는 <strong>명령 한 줄</strong>로 에이전트 수십 개가 동시에 각자 역할 수행. 끝나면 결과물 받고 승인만 하면 됨.
+      </div>
+      <div class="sec-label">📋 섹션별 내용</div>
+      <div class="v-item"><span class="v-ts">0:57</span><span class="v-text"><strong>결과물 먼저 공개</strong> — AI 직원 11명이 만든 산출물 17종. 콘텐츠 기획부터 리스크 검수까지 자동 처리. 대표는 승인만.</span></div>
+      <div class="v-item"><span class="v-ts">3:26</span><span class="v-text"><strong>다이나믹 워크플로우 개념</strong> — 오케스트레이터 하나가 서브 에이전트(쫄병)들을 떼로 출동시키는 구조. 에이전트끼리 서로 통신 X. 스타크래프트 저그 저글링처럼 동시 다발적으로 움직임.</span></div>
+      <div class="v-item"><span class="v-ts">6:33</span><span class="v-text"><strong>모델 비용 설계</strong> — 단순 업무는 하이쿠(저렴), 고성능 판단은 오퍼스. 역할별로 나눠 쓰면 비용 절감 + 토큰 한도 확대.</span></div>
+      <div class="v-item"><span class="v-ts">11:29</span><span class="v-text"><strong>울트라코드 활성화</strong> — 클로드코드 설정에서 X하이플러스 워크플로우 선택하면 다이나믹 워크플로우 켜짐.</span></div>
+      <div class="v-item"><span class="v-ts">16:37</span><span class="v-text"><strong>claude.md 오케스트레이션 규칙</strong> — 핵심 설정 파일. 서브 에이전트가 다른 서브 에이전트 호출 금지로 설정. 안 하면 토큰 폭탄.</span></div>
+      <div class="v-item"><span class="v-ts">25:12</span><span class="v-text"><strong>노션 자동 발행</strong> — 승인하면 노션 MCP 통해 자동 게시.</span></div>
+      <div class="v-item"><span class="v-ts">26:00</span><span class="v-text"><strong>피드백으로 다듬기</strong> — 완전 자동화가 아닌 반자동화. 인풋이 구체적일수록 결과물 품질 올라감. 각 에이전트의 <strong>md 지침서</strong>가 핵심.</span></div>
+      <div class="concl">
+        <div class="concl-label">영상 핵심 한 줄</div>
+        <p>클로드코드 + 다이나믹 워크플로우로 콘텐츠 기획~발행을 AI팀이 처리하고, 사람은 인풋(md 지침서) 주고 승인만 하는 <strong>반자동화 시스템</strong> 구축법.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02. 헤르메스 vs 클로드코드 -->
+  <div class="accordion">
+    <button class="acc-btn" onclick="this.closest('.accordion').classList.toggle('open')">
+      <span class="acc-arrow">▶</span>
+      <span class="acc-num">02</span>
+      <span class="acc-title">헤르메스 vs 클로드코드 — 뭐가 다른가</span>
+      <span class="acc-badge">비교</span>
+    </button>
+    <div class="acc-body">
+      <div class="body-text">헤르메스로 스포츠 분석 쇼츠 자동화 운영 중. 개념은 동일하나 <strong>오류 잡기가 점점 어려워지는 상황</strong>. 어차피 둘 다 오류나면 클로드한테 붙여넣기해서 해결하는 방식은 동일.</div>
+      <div class="compare">
+        <div class="c-row">
+          <div class="c-cell c-label c-head">항목</div>
+          <div class="c-cell c-head h-col h-head">🟣 헤르메스 (현재)</div>
+          <div class="c-cell c-head cl-col cl-head">🟡 클로드코드 (검토)</div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">인터페이스</div>
+          <div class="c-cell h-col"><span class="good">✓ 대시보드</span> — 클릭으로 관리</div>
+          <div class="c-cell cl-col"><span class="bad">✗ 터미널만</span> — 검은 화면</div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">코드 작성</div>
+          <div class="c-cell h-col"><span class="good">✓ UI 설정</span> — 거의 불필요</div>
+          <div class="c-cell cl-col">클로드가 짜줌 → <span class="good">복붙만</span></div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">에이전트 실행</div>
+          <div class="c-cell h-col">프로필별 따로 — 사람이 조율</div>
+          <div class="c-cell cl-col"><span class="good">✓ 명령 한 줄</span> — 동시 병렬</div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">오류 처리</div>
+          <div class="c-cell h-col"><span class="bad">✗ 어디서 났는지 찾기 힘듦</span></div>
+          <div class="c-cell cl-col"><span class="good">✓ 터미널에 바로 표시</span></div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">반복 실행</div>
+          <div class="c-cell h-col">매번 수동</div>
+          <div class="c-cell cl-col"><span class="good">✓ 스킬 저장</span> — 재실행 쉬움</div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">나의 역할</div>
+          <div class="c-cell h-col">오류 → 클로드에 붙여넣기</div>
+          <div class="c-cell cl-col">오류 → 클로드에 붙여넣기 (동일)</div>
+        </div>
+        <div class="c-row">
+          <div class="c-cell c-label">현재 상태</div>
+          <div class="c-cell h-col"><span class="bad">오류 잡기 점점 힘들어짐</span></div>
+          <div class="c-cell cl-col"><span class="good">공식 지원 · 계속 업데이트</span></div>
+        </div>
+      </div>
+      <div class="concl">
+        <div class="concl-label">결론</div>
+        <p>대시보드 없는 건 단점이지만 코드는 클로드가 짜주니까 <strong>전달자 역할은 동일</strong>. 오류가 터미널에 바로 뜨니까 찾기 훨씬 쉬움. 헤르메스 쇼츠 자동화는 그대로 두고, <strong>슬롯 사이트 콘텐츠 자동화는 클로드코드로 새로 구축</strong>하는 방향 검토.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03. 슬롯 커뮤니티 적용 -->
+  <div class="accordion">
+    <button class="acc-btn" onclick="this.closest('.accordion').classList.toggle('open')">
+      <span class="acc-arrow">▶</span>
+      <span class="acc-num">03</span>
+      <span class="acc-title">슬롯 커뮤니티 사이트에 어떻게 쓰나</span>
+      <span class="acc-badge">실전 적용</span>
+    </button>
+    <div class="acc-body">
+
+      <div class="tag-row">
+        <span class="tag gold">제휴 광고 수익</span>
+        <span class="tag gold">니케 스타일 UI</span>
+        <span class="tag gold">게시판 + 카테고리 구조</span>
+        <span class="tag blue">Ahrefs SEO 연동</span>
+        <span class="tag green">개발자 있음</span>
+        <span class="tag orange">슬롯 + 어그로 커뮤니티</span>
+      </div>
+
+      <div class="box">
+        <strong>콘텐츠 방향:</strong> 슬롯/카지노 정보 콘텐츠가 기본이지만, 커뮤니티 활성화를 위해 <strong>어그로성 글, 자극적 제목, 유머/밈, 디씨 꼴탭류 콘텐츠</strong> 등 다양한 소재를 적극 활용. 오히려 이런 콘텐츠가 재방문율과 체류시간을 높이는 핵심. 슬롯 관련 내용만 있으면 커뮤니티가 아니라 정보 사이트가 됨.
+      </div>
+
+      <div class="sec-label">🔄 AI 에이전트 파이프라인</div>
+      <div class="pipeline">
+        <div class="pipe">
+          <div class="pipe-num">STEP 01</div>
+          <div class="pipe-name">🔍 수집</div>
+          <div class="pipe-desc">디씨, 펨코, 네이버카페, 트위터에서 슬롯 + 어그로/유머/밈 소재 수집</div>
+        </div>
+        <div class="pipe new">
+          <div class="pipe-num">STEP 02</div>
+          <div class="pipe-name">📊 분석</div>
+          <div class="pipe-desc">Ahrefs CSV + 수집 데이터로 이번 주 주제 및 키워드 우선순위 선정</div>
+        </div>
+        <div class="pipe new">
+          <div class="pipe-num">STEP 03</div>
+          <div class="pipe-name">⚖️ 1차 검수</div>
+          <div class="pipe-desc">분석된 주제 중 법적 문제, 리스크 소지 사전 필터링</div>
+        </div>
+        <div class="pipe">
+          <div class="pipe-num">STEP 04</div>
+          <div class="pipe-name">✍️ 작성</div>
+          <div class="pipe-desc">카테고리별 글 초안 자동 작성. md 지침서 기반</div>
+        </div>
+        <div class="pipe">
+          <div class="pipe-num">STEP 05</div>
+          <div class="pipe-name">🔍 2차 검수</div>
+          <div class="pipe-desc">완성된 글 최종 표현 검수 및 수정</div>
+        </div>
+        <div class="pipe">
+          <div class="pipe-num">STEP 06</div>
+          <div class="pipe-name">✅ 승인</div>
+          <div class="pipe-desc">보고서 받고 확인 후 발행만</div>
+        </div>
+      </div>
+
+      <div class="sec-label">🤖 AI 에이전트 구성</div>
+      <div class="agents">
+        <div class="agent">
+          <div class="agent-top">
+            <div class="agent-name">🔍 커뮤니티 헌터</div>
+            <div class="agent-model">opus 4.7</div>
+          </div>
+          <div class="agent-desc">디씨 꼴탭, 펨코 핫게, 네이버카페, 트위터에서 슬롯 + 어그로/유머/밈 소재 자동 수집. 정찰병 역할.</div>
+          <div class="agent-out">→ 소재 목록 20~30개</div>
+          <div class="agent-md">📄 지침서: 수집 기준 md — 🔴 회의 필요</div>
+        </div>
+        <div class="agent">
+          <div class="agent-top">
+            <div class="agent-name">📊 SEO 분석가</div>
+            <div class="agent-model">opus 4.7</div>
+          </div>
+          <div class="agent-desc">Ahrefs CSV 던져주면 검색량 높고 경쟁 낮은 키워드 선정. 수집된 어그로 소재와 SEO 키워드 매칭.</div>
+          <div class="agent-out">→ 이번 주 타겟 주제 확정</div>
+          <div class="agent-md">📄 지침서: 키워드 선정 기준 md — 🔴 회의 필요</div>
+        </div>
+        <div class="agent">
+          <div class="agent-top">
+            <div class="agent-name">⚖️ 1차 검수</div>
+            <div class="agent-model">opus 4.8</div>
+          </div>
+          <div class="agent-desc">분석된 주제 중 법적 리스크, 과도한 표현 사전 필터. 작성 전 단계에서 문제 소지 제거.</div>
+          <div class="agent-out">→ 검수 완료 주제 목록</div>
+          <div class="agent-md">📄 지침서: 금지 표현 기준 md — 🔴 회의 필요</div>
+        </div>
+        <div class="agent">
+          <div class="agent-top">
+            <div class="agent-name">✍️ 콘텐츠 작가</div>
+            <div class="agent-model">opus 4.8</div>
+          </div>
+          <div class="agent-desc">리뷰글, SEO 정보글, 어그로 커뮤니티 글, 유머/밈글, 랭킹글 초안 작성. 제휴 링크 삽입 위치 포함.</div>
+          <div class="agent-out">→ 글 초안 10~20개</div>
+          <div class="agent-md">📄 지침서: 글 톤/형식 md — 🔴 회의 필요</div>
+        </div>
+        <div class="agent">
+          <div class="agent-top">
+            <div class="agent-name">🔍 2차 검수</div>
+            <div class="agent-model">opus 4.8</div>
+          </div>
+          <div class="agent-desc">완성된 글 최종 검토. "100% 당첨" 등 허위/과장 표현, 법적 문제 소지 최종 감지 및 수정.</div>
+          <div class="agent-out">→ 발행 가능 글</div>
+          <div class="agent-md">📄 지침서: 금지 표현 기준 md (공유)</div>
+        </div>
+        <div class="agent">
+          <div class="agent-top">
+            <div class="agent-name">📋 매니저</div>
+            <div class="agent-model">opus 4.8</div>
+          </div>
+          <div class="agent-desc">전체 결과물 취합 후 최종 보고서 생성. 카테고리 배치, 발행 우선순위, 승인 요청 총괄.</div>
+          <div class="agent-out">→ 최종 보고서 1건</div>
+          <div class="agent-md">📄 지침서: 운영 원칙 md — 🔴 회의 필요</div>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        <div class="warn-title">🔴 회의 필요 — md 지침서 작성</div>
+        <div class="warn-text">
+          각 에이전트가 제대로 일하려면 <strong>역할별 md 지침서</strong>가 있어야 함. 지침서 퀄리티가 곧 결과물 퀄리티. 현재 아래 항목들에 대한 기준 정립이 필요한 상태:
+          <br><br>
+          <ul>
+            <li>어떤 소재가 우리 커뮤니티에서 먹히는가 (어그로/유머/슬롯/밈 비율)</li>
+            <li>글 톤과 문체 기준 (디씨체? 일반 블로그체? 혼합?)</li>
+            <li>카테고리별 금지 표현 및 허용 범위</li>
+            <li>제휴 링크 자연스럽게 삽입하는 기준</li>
+            <li>SEO 키워드와 어그로 제목을 어떻게 조합할 것인가</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sec-label">📂 카테고리별 초기 콘텐츠 목표</div>
+      <div class="ct">
+        <div class="ct-row">
+          <div class="ct-cell ct-head">카테고리</div>
+          <div class="ct-cell ct-head">역할</div>
+          <div class="ct-cell ct-head">초기 목표</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">게임 추천/순위</div>
+          <div class="ct-cell ct-desc">슬롯 게임 비교, TOP 랭킹, 추천 — 수익 핵심</div>
+          <div class="ct-cell ct-count">10개</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">슬롯 게임 리뷰</div>
+          <div class="ct-cell ct-desc">게임별 후기, RTP, 특징 분석 — SEO 유입 핵심</div>
+          <div class="ct-cell ct-count">20개</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">유머/어그로</div>
+          <div class="ct-cell ct-desc">디씨 꼴탭류, 밈, 자극적 제목, 커뮤니티 활성화 핵심</div>
+          <div class="ct-cell ct-count">20개</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">이벤트/보너스</div>
+          <div class="ct-cell ct-desc">각종 이벤트 정보, 보너스 조건 정리 — 재방문 유도</div>
+          <div class="ct-cell ct-count">10개</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">공략/전략</div>
+          <div class="ct-cell ct-desc">슬롯 입문 가이드, 용어 설명 — 초보 유입용</div>
+          <div class="ct-cell ct-count">10개</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">먹튀 검증</div>
+          <div class="ct-cell ct-desc">슈어맨 파싱 요청</div>
+          <div class="ct-cell ct-count">-</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-cat">자유게시판</div>
+          <div class="ct-cell ct-desc">어드민 계정으로 시드 콘텐츠 — 커뮤니티 분위기 조성</div>
+          <div class="ct-cell ct-count">20개</div>
+        </div>
+      </div>
+
+      <div class="sec-label">🔁 매주 자동화 루틴</div>
+      <div class="routine">
+        <div class="r-card">
+          <div class="r-icon">⚡</div>
+          <div class="r-title">명령 한 줄</div>
+          <div class="r-desc">매주 1회 실행. 나머지는 AI가 알아서</div>
+        </div>
+        <div class="r-card">
+          <div class="r-icon">🤖</div>
+          <div class="r-title">AI팀 자동 작업</div>
+          <div class="r-desc">수집→분석→검수→작성→검수 동시 진행</div>
+        </div>
+        <div class="r-card">
+          <div class="r-icon">📄</div>
+          <div class="r-title">보고서 수령</div>
+          <div class="r-desc">글 초안 + 쇼츠 기획 + 발행 순서</div>
+        </div>
+        <div class="r-card">
+          <div class="r-icon">✅</div>
+          <div class="r-title">승인 후 발행</div>
+          <div class="r-desc">확인하고 사이트에 올리기만. 끝.</div>
+        </div>
+      </div>
+
+      <div class="concl">
+        <div class="concl-label">총정리</div>
+        <p>
+          슬롯 정보 + 어그로/유머/밈 콘텐츠 혼합 구성. 오픈 전 시드 콘텐츠 100개 이상 AI가 자동 생성. 이후 <strong>매주 명령 한 줄</strong>로 AI팀이 수집→분석→1차검수→작성→2차검수 자동 처리. 각 에이전트 md 지침서 퀄리티가 전체 결과물을 좌우하므로 <strong>지침서 작성 회의가 선행</strong>되어야 함.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">CONFIDENTIAL · 내부 검토용</div>
+    <div class="footer-text">참고: 엉클잡스 · 클로드코드 AI 마케팅 본부 · 2026.07</div>
+  </div>
+
+</div>
+</body>
+</html>
