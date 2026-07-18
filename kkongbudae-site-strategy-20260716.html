@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>꽁부대 사이트 개선 전략 보고서 — HTML Docs</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22253a;
+  --border: #2e3150;
+  --accent: #f5a623;
+  --accent2: #e8583a;
+  --text: #e8eaf0;
+  --text2: #9aa0c0;
+  --text3: #5c6080;
+  --green: #68d391;
+  --blue: #7c6af7;
+  --red: #f56565;
+  --radius: 8px;
+}
+body {
+  font-family: 'Noto Sans KR', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.8;
+  min-height: 100vh;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 60px 32px 100px; }
+
+/* 브레드크럼 */
+.breadcrumb { font-size: 12px; color: var(--text3); margin-bottom: 32px; }
+.breadcrumb a { color: var(--text3); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+
+/* 헤더 */
+.doc-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-size: 32px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 16px; }
+.doc-desc { font-size: 15px; color: var(--text2); margin-bottom: 40px; line-height: 1.7; }
+
+/* TL;DR */
+.tldr {
+  background: rgba(245,166,35,0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px 24px;
+  margin-bottom: 48px;
+}
+.tldr-title { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.tldr ul { list-style: none; }
+.tldr ul li { color: var(--text2); font-size: 14px; padding: 4px 0; padding-left: 16px; position: relative; }
+.tldr ul li::before { content: '•'; color: var(--accent); position: absolute; left: 0; }
+.tldr ul li strong { color: var(--text); }
+
+/* 섹션 */
+.section { margin-bottom: 56px; }
+.section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.section-num { font-size: 13px; font-weight: 700; color: var(--accent); min-width: 24px; }
+.section-title { font-size: 22px; font-weight: 800; color: var(--text); }
+.section-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: rgba(124,106,247,0.15); color: var(--blue); border: 1px solid rgba(124,106,247,0.3); }
+
+/* 서브섹션 */
+.subsection { margin-bottom: 28px; }
+.subsection-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.subsection-title::before { content: ''; display: inline-block; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
+p { color: var(--text2); margin-bottom: 12px; }
+p strong { color: var(--text); }
+
+/* details/summary */
+details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; }
+details[open] { border-color: rgba(245,166,35,0.3); }
+summary {
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before {
+  content: '▶';
+  font-size: 9px;
+  color: var(--accent);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+details[open] summary::before { transform: rotate(90deg); }
+.details-body { padding: 0 20px 20px; border-top: 1px solid var(--border); margin-top: 0; }
+.details-body p { margin-top: 16px; font-size: 14px; }
+
+/* 테이블 */
+.table-wrap { overflow-x: auto; margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--surface2); color: var(--text); font-weight: 700; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+td strong { color: var(--text); }
+.tag-good { color: var(--green); font-weight: 700; font-size: 11px; }
+.tag-bad { color: var(--red); font-weight: 700; font-size: 11px; }
+.tag-mid { color: var(--accent); font-weight: 700; font-size: 11px; }
+.tag-rec { background: rgba(104,211,145,0.1); color: var(--green); border: 1px solid rgba(104,211,145,0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+
+/* 노트 */
+.note { font-size: 13px; color: var(--text3); font-style: italic; margin-top: 8px; }
+
+/* 코드블록 */
+.code-block { background: #0a0c14; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 13px; color: #a8b1d4; margin-bottom: 16px; overflow-x: auto; }
+.code-block .c1 { color: var(--accent); }
+.code-block .c2 { color: var(--green); }
+
+/* 하이라이트 카드 */
+.highlight-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 12px; }
+.highlight-card:hover { border-color: rgba(245,166,35,0.3); }
+.card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* 인사이트 박스 */
+.insight { background: rgba(124,106,247,0.06); border: 1px solid rgba(124,106,247,0.2); border-radius: var(--radius); padding: 16px 20px; margin: 16px 0; }
+.insight-label { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.insight p { font-size: 14px; color: var(--text2); margin: 0; }
+
+/* 경고 박스 */
+.warn { background: rgba(245,101,101,0.06); border: 1px solid rgba(245,101,101,0.2); border-radius: var(--radius); padding: 16px 20px; margin: 16px 0; }
+.warn p { font-size: 14px; color: var(--text2); margin: 0; }
+
+/* 단계 */
+.phase { display: flex; gap: 16px; margin-bottom: 12px; }
+.phase-num { min-width: 32px; height: 32px; background: rgba(245,166,35,0.15); border: 1px solid rgba(245,166,35,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.phase-content .phase-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.phase-content p { font-size: 13px; color: var(--text2); margin: 0; }
+
+/* 키워드 태그들 */
+.kw-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.kw { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--text2); }
+.kw.hot { border-color: rgba(245,166,35,0.4); color: var(--accent); background: rgba(245,166,35,0.06); }
+.kw.blue { border-color: rgba(124,106,247,0.4); color: var(--blue); background: rgba(124,106,247,0.06); }
+
+/* 구분선 */
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+/* 푸터 */
+.footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); }
+
+/* 리스트 */
+ul.body-list { list-style: none; margin: 12px 0; }
+ul.body-list li { color: var(--text2); font-size: 14px; padding: 4px 0 4px 16px; position: relative; }
+ul.body-list li::before { content: '—'; color: var(--accent); position: absolute; left: 0; font-size: 12px; }
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .wrap { padding: 40px 20px 80px; }
+  h1 { font-size: 24px; }
+  .section-title { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb"><a href="../index.html">← HTML Docs</a> / 꽁부대 개선 전략 보고서</div>
+
+  <div class="doc-eyebrow">REPORT · 2026-07-16</div>
+  <h1>꽁부대 사이트 개선 전략 보고서</h1>
+  <p class="doc-desc">
+    본 보고서는 외부 분석 도구(ahrefs) 및 크롤링 결과에 근거하여 작성되었으며,
+    내부 구조에 대한 이해 없이 지표상으로 파악된 내용을 기재함.
+    SEO 현황 진단부터 콘텐츠 전략, UI 개선, 차별화 기능 제안까지 종합적으로 다룸.
+  </p>
+
+  <div class="tldr">
+    <div class="tldr-title">TL;DR</div>
+    <ul>
+      <li>현재 <strong>DR 0, 자연 트래픽 0</strong> — SPA 구조가 근본 원인. 구조 전환이 모든 개선의 선행 조건.</li>
+      <li>업계 키워드 300개+ 조회 결과 대다수 KD N/A — <strong>테더/플린코 키워드 선점 기회</strong> 존재.</li>
+      <li>경쟁사(토토핫) 분석 결과 <strong>업체명 키워드</strong>가 트래픽 핵심 — 업체별 독립 페이지 전략 유효.</li>
+      <li><strong>폴리마켓 스타일 예측 베팅 + 업체 주가 시스템</strong> — 업계 전례 없는 차별화 기능 제안.</li>
+    </ul>
+  </div>
+
+  <!-- 01 현황 진단 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">현황 진단</span>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">사이트 기본 정보</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>사이트명</td><td>꽁부대</td></tr>
+          <tr><td>URL</td><td>tocca-1.com</td></tr>
+          <tr><td>포지션</td><td>보증업체 ↔ 테더회원 매칭 커뮤니티</td></tr>
+          <tr><td>운영 방식</td><td>텔레그램 아이디 기반 가입, 관리자 승인제</td></tr>
+          <tr><td>ahrefs 첫 발견일</td><td>2026년 7월 11일 (신생 사이트)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">SEO 수치 현황</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>항목</th><th>수치</th><th>평가</th></tr>
+          <tr><td>DR (도메인 신뢰도)</td><td>0</td><td><span class="tag-bad">구글 신뢰 없음</span></td></tr>
+          <tr><td>UR (페이지 신뢰도)</td><td>0</td><td><span class="tag-bad">신뢰 없음</span></td></tr>
+          <tr><td>자연 키워드</td><td>0</td><td><span class="tag-bad">검색 노출 없음</span></td></tr>
+          <tr><td>자연 트래픽</td><td>0</td><td><span class="tag-bad">검색 유입 없음</span></td></tr>
+          <tr><td>백링크</td><td>94개</td><td><span class="tag-bad">전부 nofollow, SEO 효과 0</span></td></tr>
+          <tr><td>참조 도메인</td><td>92개</td><td><span class="tag-bad">전부 저품질</span></td></tr>
+          <tr><td>크롤링된 페이지</td><td>1개</td><td><span class="tag-bad">SPA 구조 문제</span></td></tr>
+        </table>
+      </div>
+      <p class="note">※ 백링크 94개가 있음에도 SEO 효과가 전혀 없는 상태. 구조적 문제가 원인.</p>
+    </div>
+
+
+
+    <details>
+      <summary>기술 구조 문제 — SPA 구조의 SEO 영향</summary>
+      <div class="details-body">
+        <p>현재 앵커(#) 방식으로 구성된 SPA 구조로 인해 구글 크롤러 입장에서는 전체 사이트가 URL 1개로만 인식됨. ahrefs 기준 크롤링된 페이지가 1개인 이유.</p>
+        <div class="table-wrap" style="margin-top:16px">
+          <table>
+            <tr><th>구분</th><th>페이지 수</th><th>구글 노출 기회</th></tr>
+            <tr><td>토토핫 (일반 구조)</td><td>수천 개</td><td>수천 개 키워드 노출 가능</td></tr>
+            <tr><td>꽁부대 (현재 구조)</td><td>1개</td><td>키워드 노출 기회 1개</td></tr>
+          </table>
+        </div>
+        <p>게시글이 아무리 쌓여도 구글이 인식하는 페이지는 여전히 1개. 커뮤니티를 운영할수록 콘텐츠 자산이 쌓여야 하는데, 현재 구조에서는 SEO 자산이 전혀 축적되지 않음.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>콘텐츠 현황 — 사람 눈에는 보이지만 구글한테는 안 보인다</summary>
+      <div class="details-body">
+        <p>비로그인 상태에서도 미션 참여 현황, 오늘 방문자, 포인트 랭킹, 실시간 배당, 채팅, 게시판 글까지 전부 접근 가능. 콘텐츠 자체는 열려 있는 구조.</p>
+        <p>문제는 구글 크롤러. 크롤러는 JS(자바스크립트)가 실행되기 전 상태의 HTML만 읽는데, 꽁부대의 콘텐츠는 전부 JS로 동적 로딩됨. 즉 사람 눈에는 콘텐츠가 보여도 구글 크롤러는 빈 페이지를 읽는 것과 같음.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>신규 유입 구조 문제</summary>
+      <div class="details-body">
+        <p>ahrefs 기준 자연 검색 트래픽 0, 유료 트래픽 0. 현재 꽁부대의 모든 트래픽은 텔레그램을 통한 직접 유입에 100% 의존하고 있음. 운영자가 직접 뛰어야만 트래픽이 생기는 구조라 장기적으로 사이트가 자생적으로 성장하는 구조가 아님.</p>
+        <p>또한 회원가입 버튼을 눌러도 텔레그램으로 연락해야 한다는 안내가 즉각적으로 보이지 않으며, "왜 이 사이트에 가입해야 하는가"에 대한 설득 콘텐츠도 부재한 상태.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>데이터 정합성 문제</summary>
+      <div class="details-body">
+        <p>"오늘의 미션이 아직 없어요"라는 문구와 "미션 참여 현황 643명"이 동시에 노출되는 등 화면 내 데이터가 서로 충돌하는 케이스가 존재함. 실시간 채팅창 역시 동일한 패턴의 멘트가 반복되고 있어 작업된 채팅임이 즉각적으로 파악됨.</p>
+        <p>현재는 구축 단계로 보이며, 데이터가 자연스럽게 맞아떨어질 수 있는 준비가 되기 전까지는 해당 영역을 노출하지 않는 것이 신뢰도 측면에서 유리함.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- 02 기술 구조 개선 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">기술 구조 개선</span>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">핵심 전제</div>
+      <p>사이트 구축 초기 개발 편의를 위해 SPA 구조를 임시 채택한 것으로 판단됨. 외부 분석 기준으로는 현재 SEO 지표 전무의 근본 원인이 해당 구조에 있는 것으로 파악되며, 이후 챕터의 SEO, 콘텐츠, UI 개선 작업은 구조 문제 해결이 선행되어야 효과를 낼 수 있을 것으로 보임.</p>
+    </div>
+
+    <details open>
+      <summary>URL 구조 전환</summary>
+      <div class="details-body">
+        <p>ahrefs 크롤링 결과 기준, 현재 사이트 전체가 당연하게도 URL 1개로만 인식되고 있고, 이는 개발 단계에서 임시로 앵커(#) 방식을 채택한 것으로 보이며, 정식 운영 전환 시점에 아래 방향으로의 구조 개선이 필요한 것으로 판단됨.</p>
+        <div class="code-block">
+<span class="c1"># 현재</span>
+tocca-1.com/#community
+tocca-1.com/#event
+tocca-1.com/#community/글번호
+
+<span class="c2"># 전환 방향</span>
+tocca-1.com/community
+tocca-1.com/event
+tocca-1.com/community/글번호</div>
+        <p>독립 URL 구조 전환 후 게시글이 쌓일수록 색인 페이지 수가 함께 증가하는 구조로 개선될 것으로 보임.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>SSR 도입 여부</summary>
+      <div class="details-body">
+        <p>현재 구조에서 SSR 적용 시 크롤러 인식 문제 해결이 가능한 것으로 파악됨. 다만 외부 분석 기준으로는 개발 공수 대비 URL 구조 자체를 전환하는 방향이 장기적으로 더 효율적인 것으로 판단됨. 내부 개발 환경 및 일정을 고려하여 최종 방향은 내부에서 결정하시는 것을 권장.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>콘텐츠 렌더링 구조</summary>
+      <div class="details-body">
+        <p>크롤링 결과 기준, 게시판 글을 포함한 핵심 콘텐츠가 JS 동적 로딩 방식으로 처리되어 있어 크롤러가 내용을 읽지 못하는 상태로 파악됨. 초기 개발 단계에서 흔히 채택되는 방식으로 보이며, URL 구조 전환과 병행하여 핵심 콘텐츠의 HTML 직접 렌더링 여부 검토가 필요한 것으로 보임.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>도메인 재검토</summary>
+      <div class="details-body">
+        <p>현재 사용 중인 tocca-1.com은 tocca.com이 해외 향수 브랜드(TOCCA)에 의해 선점되어 있어 차선책으로 채택된 것으로 보임. 본격 운영 전인 현 시점이 도메인 교체 비용이 가장 낮은 타이밍으로, 구조 전환과 함께 도메인 정리를 병행하는 것이 효율적일 것으로 판단됨.</p>
+        <div class="insight" style="margin-top:12px">
+          <div class="insight-label">타이밍</div>
+          <p>현재 DR 0, SEO 자산 전무 상태로 도메인 변경 시 손실이 사실상 없음. 지금이 바꾸기 가장 좋은 시점.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- 03 SEO 전략 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">SEO 전략</span>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">키워드 리서치 결과 요약</div>
+      <p>ahrefs Keywords Explorer를 통해 업계 관련 키워드 약 300개 이상을 조회한 결과, 유의미한 SV가 확인된 키워드는 극히 일부에 불과했으며 대다수가 KD N/A로 파악됨. 이는 국내 도박/베팅 관련 키워드군에 대해 구글이 색인을 제한적으로 처리하거나, 해당 키워드로 SEO를 시도한 사이트 자체가 거의 없다는 두 가지 원인 중 하나로 해석됨.</p>
+    </div>
+
+    <details open>
+      <summary>① 볼륨 있으나 경쟁 높은 키워드 — 중장기 타겟</summary>
+      <div class="details-body">
+        <div class="table-wrap">
+          <table>
+            <tr><th>키워드</th><th>SV</th><th>KD</th><th>판단</th></tr>
+            <tr><td>토토커뮤니티</td><td>4,500</td><td>70</td><td><span class="tag-bad">단기 진입 불가</span></td></tr>
+            <tr><td>카지노커뮤니티</td><td>1,600</td><td>58</td><td><span class="tag-bad">단기 진입 불가</span></td></tr>
+            <tr><td>카지노 보증</td><td>900</td><td>67</td><td><span class="tag-bad">단기 진입 불가</span></td></tr>
+            <tr><td>카지노솔루션</td><td>600</td><td>43</td><td><span class="tag-mid">DR 쌓인 후 공략</span></td></tr>
+            <tr><td>토토솔루션</td><td>500</td><td>43</td><td><span class="tag-mid">DR 쌓인 후 공략</span></td></tr>
+            <tr><td>코인카지노</td><td>600</td><td>75</td><td><span class="tag-bad">단기 진입 불가</span></td></tr>
+            <tr><td>꽁머니커뮤니티</td><td>100</td><td>64</td><td><span class="tag-bad">단기 진입 불가</span></td></tr>
+          </table>
+        </div>
+        <p>KD 59~75 구간으로, DR 0인 현 시점에서 단기 진입은 현실적으로 불가능한 영역. DR이 일정 수준 이상 축적된 이후 중장기 타겟으로 전환 가능.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary>② KD N/A 키워드 — 단기 선점 가능 구간</summary>
+      <div class="details-body">
+        <p>리서치 결과에서 가장 주목할 부분. 테더/코인/게임 관련 키워드 대다수가 SV는 존재하나 KD가 전부 N/A로 확인됨. KD N/A는 해당 키워드로 상위 노출된 사이트의 데이터가 충분하지 않다는 의미로, 실질적인 경쟁이 거의 없는 상태임을 뜻함.</p>
+
+        <p style="margin-top:16px"><strong>테더/코인 관련</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>키워드</th><th>SV</th><th>KD</th></tr>
+            <tr><td>테더카지노</td><td>150</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>테더 카지노</td><td>150</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>테더입금</td><td>100</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>테더 입금 방법</td><td>60</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>토토 테더 입금 방법</td><td>50</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>USDT 카지노</td><td>50</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>스테이블코인 카지노</td><td>30</td><td><span class="tag-good">N/A</span></td></tr>
+          </table>
+        </div>
+
+        <p style="margin-top:16px"><strong>게임 관련</strong></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>키워드</th><th>SV</th><th>KD</th></tr>
+            <tr><td>플린코</td><td>150</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>플린코 후기</td><td>150</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>플린코 도박</td><td>60</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>플린코 확률</td><td>20</td><td><span class="tag-good">N/A</span></td></tr>
+            <tr><td>그래프게임</td><td>70</td><td><span class="tag-good">25</span></td></tr>
+          </table>
+        </div>
+
+        <div class="insight" style="margin-top:16px">
+          <div class="insight-label">핵심 인사이트</div>
+          <p>테더/코인 관련 키워드는 신규 생성 중. 테더카지노 사이트(2026년 6월 발견) 등 최근 6개월 내 새로 생성된 키워드들이 다수 확인됨. 지금 콘텐츠를 선점해두면 수요가 커질 때 자연스럽게 수혜를 받는 구조.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>단계별 키워드 공략 전략</summary>
+      <div class="details-body">
+        <div class="phase" style="margin-top:16px">
+          <div class="phase-num">1</div>
+          <div class="phase-content">
+            <div class="phase-title">구조 전환 직후 (DR 0~10)</div>
+            <p>플린코/플린코 후기/플린코 확률 → 게임 페이지 + 후기 게시글 축적<br>
+            테더카지노/테더 입금 방법 → 테더 입금 가이드 페이지<br>
+            등록 보증업체명 + 보증 조합 키워드 → 업체별 독립 소개 페이지</p>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">2</div>
+          <div class="phase-content">
+            <div class="phase-title">DR 10~30 구간</div>
+            <p>온라인 카지노 솔루션(SV 100, N/A), 테더 입금 사이트(SV 40, N/A) 등 SV 상대적으로 높은 N/A 키워드군 본격 공략. 카지노솔루션(KD 43), 토토솔루션(KD 43) 진입 여부 타진.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">3</div>
+          <div class="phase-content">
+            <div class="phase-title">DR 30 이상</div>
+            <p>카지노커뮤니티(KD 58), 카지노보증(KD 67), 토토커뮤니티(KD 70) 등 볼륨 있는 메인 키워드 공략 시작. 장기 목표.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>페이지별 키워드 설계</summary>
+      <div class="details-body">
+        <div class="table-wrap">
+          <table>
+            <tr><th>페이지</th><th>1차 타겟 키워드</th><th>2차 타겟 키워드</th></tr>
+            <tr><td>홈</td><td>테더 보증업체 커뮤니티</td><td>카지노커뮤니티</td></tr>
+            <tr><td>보증업체 목록</td><td>카지노보증, 보증업체</td><td>카지노보증업체</td></tr>
+            <tr><td>업체별 소개 페이지</td><td>[업체명] 보증, [업체명] 후기</td><td>카지노보증업체</td></tr>
+            <tr><td>그래프X</td><td>그래프게임, 그래프 배당</td><td>고배당 그래프</td></tr>
+            <tr><td>플린코</td><td>플린코, 플린코 후기, 플린코 확률</td><td>플린코 도박, 플린코 게임</td></tr>
+            <tr><td>테더 입금 가이드</td><td>테더 입금 방법, 테더카지노</td><td>테더 입금 사이트</td></tr>
+            <tr><td>게시판</td><td>카지노커뮤니티, 토토커뮤니티</td><td>카지노 커뮤니티 추천</td></tr>
+            <tr><td>이벤트</td><td>카지노 이벤트, 카지노 미션</td><td>카지노 출석체크</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>백링크 전략</summary>
+      <div class="details-body">
+        <p>리서치 결과 및 업계 특성을 종합적으로 고려했을 때, 이 업계에서 인위적인 백링크 확보는 실익보다 리스크가 큰 것으로 판단됨. 구글 패널티 가능성, 유지 비용, 효과의 불확실성을 감안하면 백링크를 인위적으로 만들기보다 콘텐츠와 구조 개선을 통해 자연 유입되는 구조를 우선으로 하는 방향을 권장함.</p>
+        <ul class="body-list" style="margin-top:12px">
+          <li>등록 보증업체들의 자사 사이트에서 꽁부대로의 링크 유도</li>
+          <li>커뮤니티 활성화를 통한 외부 자연 언급 증가</li>
+          <li>구조 전환 후 콘텐츠가 쌓이면서 발생하는 자연 인용</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <!-- 04 콘텐츠 전략 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">콘텐츠 전략</span>
+    </div>
+
+    <details open>
+      <summary>SEO 기반 콘텐츠 — 초기 운영자 직접 세팅</summary>
+      <div class="details-body">
+        <p>구조 전환 후 초기 색인 자산으로 활용할 콘텐츠는 3번에서 설계한 페이지별 키워드 기준으로 세팅. 현재 등록된 보증업체 수가 상당한 만큼 업체별 독립 소개 페이지만 제대로 만들어도 초기 색인 페이지 수를 빠르게 확보 가능.</p>
+        <p>제안하는 방향은 단순 스펙 나열 형태의 업체 소개가 아닌 <strong>실제 경험 기반의 후기/리뷰 형태</strong>로 구성하는 것. 최근 구글 알고리즘이 E-E-A-T 기준을 강화하면서 정보성 글보다 실사용 경험이 담긴 콘텐츠를 상위에 노출시키는 경향이 뚜렷해지고 있으며, 이 업계에서 후기 형태의 콘텐츠를 SEO에 활용한 사이트는 현재 거의 없는 상태로 선점 가치가 있는 방향임.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>초반 유저 확보 전략</summary>
+      <div class="details-body">
+        <p><strong>운영 계정 다수화</strong></p>
+        <p>초반에는 성격이 다른 운영 계정 2~3개를 만들어 각각 다른 톤으로 운영하되, 정보 제공형 계정, 감성/후기형 계정, 유머/어그로형 계정으로 역할을 나눠 커뮤니티가 살아있는 분위기를 연출. 계정 간 댓글로 상호작용까지 만들어두면 자연스러운 대화 흐름이 형성됨.</p>
+        <p style="margin-top:12px"><strong>씨드 콘텐츠</strong></p>
+        <p>신규 유저가 처음 들어왔을 때 "여기 볼 게 있네"라는 인상을 주려면 카테고리별로 최소 5~10개 글이 미리 심어져 있어야 하니, 오픈 전 운영 계정이 게임 고배당 인증, 업체 이용 후기, 포인트 사용 후기 등 꽁부대 고유 콘텐츠 유형 위주로 채워두는 것이 필요.</p>
+        <p style="margin-top:12px"><strong>댓글 생태계 선행</strong></p>
+        <p>글보다 댓글이 먼저 살아있어야 커뮤니티처럼 보이니, 운영 계정들이 서로의 글에 짧은 반응 위주로 자연스러운 대화 흐름을 미리 만들어두는 것이 초반 분위기 형성에 효과적.</p>
+        <p style="margin-top:12px"><strong>실시간 채팅창 관리</strong></p>
+        <p>현재 실시간 채팅창에 동일한 패턴의 멘트가 반복되고 있어 자연스러운 대화처럼 보이지 않는 상태. 충분히 다양한 멘트 풀을 확보해 실제 대화처럼 보이는 수준이 되기 전까지는 노출하지 않는 것이 신뢰도 측면에서 유리함.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>게임 콘텐츠 활용 — 꽁부대만의 강점</summary>
+      <div class="details-body">
+        <p><strong>실시간 고배당 인증 문화</strong></p>
+        <p>그래프X, 플린코 고배당 결과를 운영 계정이 먼저 인증글로 올려 문화를 만들어두면 이후 실제 유저들이 자발적으로 올리는 구조로 이어지니, 초반에 운영 계정이 인증글을 꾸준히 심어두는 것이 핵심.</p>
+        <p style="margin-top:12px"><strong>배당 분석 콘텐츠</strong></p>
+        <p>"그래프X 오늘 패턴", "플린코 고배당 나오는 시간대" 같은 분석성 콘텐츠는 해당 게임을 즐기는 유저들의 재방문율을 높이는 콘텐츠로 자리잡을 수 있으니, 실제 배당 데이터를 기반으로 정기적으로 발행하는 것을 권장.</p>
+        <p style="margin-top:12px"><strong>게임 이벤트 연동</strong></p>
+        <p>특정 배당 이상 달성 시 인증글 올리면 보너스 포인트 지급 같은 이벤트를 콘텐츠와 연동하면 게임 참여와 게시판 활성화를 동시에 끌어올릴 수 있음.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>보증업체 콘텐츠 — 매칭 플랫폼의 핵심 자산</summary>
+      <div class="details-body">
+        <p><strong>업체별 상세 소개 페이지</strong></p>
+        <p>현재 홈에 업체 로고만 나열된 상태에서 각 업체별 독립 페이지로 전환하면 입출금 속도, 최소 충전금액, 이용 가능 게임, 테더 입금 가능 여부 등을 정리한 페이지가 SEO 키워드와 유저 편의를 동시에 잡는 핵심 자산이 되니, 구조 전환 시점에 함께 제작하는 것이 효율적.</p>
+        <p style="margin-top:12px"><strong>업체 비교 콘텐츠</strong></p>
+        <p>"테더 입금 빠른 업체 TOP 5", "신규 가입 혜택 좋은 업체 비교" 같은 비교형 콘텐츠는 검색 유입과 커뮤니티 체류 모두에 효과적이며, 꽁부대가 단순 목록 나열이 아닌 큐레이션 플랫폼으로 포지셔닝되는 효과도 있음.</p>
+        <p style="margin-top:12px"><strong>업체 후기 게시판 활성화</strong></p>
+        <p>초반에는 운영 계정이 씨드 후기를 심어두고 이후 실제 유저 후기로 채워지는 구조로 가되, 포인트 랭킹 상위 유저의 후기에 별도 인증 표시를 달아주면 후기 신뢰도를 높이는 데 효과적.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>콘텐츠 운영 원칙</summary>
+      <div class="details-body">
+        <p><strong>초반 발행 우선순위</strong></p>
+        <p>게임 고배당 인증 → 업체 이용 후기 → 업체 비교 콘텐츠 → 테더 관련 정보 → 잡담 순으로 우선순위를 두되, 꽁부대 고유의 게임 인증과 업체 후기가 신규 유저 유입의 핵심 동기가 되는 만큼 초반에 이 두 가지를 집중적으로 쌓는 것이 필요.</p>
+        <p style="margin-top:12px"><strong>발행 주기</strong></p>
+        <p>유저 확보 전까지는 운영 계정이 하루 3~5개 글을 꾸준히 올려 사이트가 활성화된 것처럼 보이는 환경을 만들되, 한꺼번에 몰아서 올리는 것보다 시간대를 분산해 올리는 것이 자연스러운 활성도를 연출하는 데 유리.</p>
+        <p style="margin-top:12px"><strong>초반 콘텐츠 큐레이션</strong></p>
+        <p>부정적 후기나 업체 불만 글이 초반에 노출되면 신규 유저의 첫인상에 치명적이니, 커뮤니티가 어느 정도 자리잡기 전까지는 불만 글을 DM이나 텔레그램으로 유도하는 방식으로 콘텐츠 큐레이션을 타이트하게 가져가는 것이 적합.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- 05 유저 경험 / UI 개선 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">유저 경험 / UI 개선</span>
+    </div>
+
+    <details open>
+      <summary>현황 진단</summary>
+      <div class="details-body">
+        <p>외부 분석 기준, 현재 꽁부대 UI는 크게 두 가지 문제로 압축됨.</p>
+        <p style="margin-top:12px"><strong>정보 위계 부재</strong> — 로그인 폼, 미션 현황, 라이브매치, 게임, 랭킹, 배너가 동일한 비중으로 나열되어 있어 처음 방문한 유저가 "여기서 뭘 해야 하는지" 즉각적으로 파악하기 어려운 구조.</p>
+        <p style="margin-top:8px"><strong>데이터 정합성 문제</strong> — "오늘의 미션이 아직 없어요"라는 문구와 "미션 참여 현황 643명"이 동시에 노출되는 등 화면 내 데이터가 서로 충돌하는 케이스 존재. 현재는 구축 단계로 보이며, 데이터가 자연스럽게 맞아떨어질 수 있는 준비가 되기 전까지는 해당 영역을 노출하지 않는 것이 신뢰도 측면에서 유리함.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>홈 레이아웃 개선 방향</summary>
+      <div class="details-body">
+        <p><strong>정보 위계 재정립</strong></p>
+        <div class="table-wrap" style="margin-top:12px">
+          <table>
+            <tr><th>순서</th><th>영역</th><th>목적</th></tr>
+            <tr><td>1</td><td>히어로</td><td>플랫폼 핵심 가치 + 가입 유도</td></tr>
+            <tr><td>2</td><td>보증업체 목록</td><td>매칭 플랫폼의 핵심 자산</td></tr>
+            <tr><td>3</td><td>실시간 게임</td><td>그래프X / 플린코</td></tr>
+            <tr><td>4</td><td>커뮤니티 최신글</td><td>활성도 어필</td></tr>
+            <tr><td>5</td><td>포인트 랭킹 / 이벤트</td><td>게임화 요소</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:12px"><strong>배너 구조 개선</strong></p>
+        <p>현재 홈에 직접 노출되는 광고 배너를 별도 제휴사이트 탭으로 분리하면 홈은 깔끔하게 유지하면서 수익 구조도 챙길 수 있음. 제휴사이트 탭에 직접 들어온 유저는 이미 관심이 있는 유저인 만큼 오히려 전환율이 높아지는 효과도 기대할 수 있음.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>신규 유저 전환율 개선</summary>
+      <div class="details-body">
+        <p><strong>가입 플로우 명확화</strong></p>
+        <p>현재 회원가입 버튼을 눌러도 텔레그램으로 연락해야 한다는 안내가 즉각적으로 보이지 않으니, 홈에서 가입 프로세스를 한눈에 볼 수 있는 온보딩 플로우가 필요함.</p>
+        <div class="code-block" style="margin-top:12px">
+텔레그램 문의 → 관리자 승인 → 로그인 → 혜택 시작</div>
+        <p><strong>혜택 미리보기</strong></p>
+        <p>비로그인 상태에서 "가입하면 뭘 할 수 있는지"를 직접적으로 설득하는 장치가 없으니, 미션 완료 시 받을 수 있는 혜택, 보증업체 매칭 시 받는 혜택 등을 홈에서 미리 보여주는 섹션 추가를 권장.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>디자인 방향 — 업계 최초 포지션</summary>
+      <div class="details-body">
+        <p>이 업계 사이트들은 어두운 배경에 빨간/금색 포인트, 복잡한 레이아웃으로 거의 동일한 외관을 갖고 있으니, 이 공식에서 완전히 벗어나는 것이 업계 최초 포지션을 만드는 가장 효과적인 방법으로 판단됨.</p>
+        <div class="insight" style="margin-top:12px">
+          <div class="insight-label">제안 방향</div>
+          <p>레퍼런스로 삼은 방향은 <strong>NIKKE BlablaLink</strong> 스타일. 상단 이벤트 배너 → 카테고리 탭(Inter 폰트, 심플 나열) → SVG 아이콘 퀵메뉴(가로 스크롤) → 피드 탭 3개 → SNS 피드형 게시글 구조로 구성. 아바타 + 역할 뱃지 + 팔로우 버튼 + 이미지 그리드 + 해시태그로 이어지는 포스트 카드가 핵심. 이 업계에서 SNS 피드 구조를 채택한 사례가 없으며, 커뮤니티인데 게임 팬덤 플랫폼처럼 생겼다는 것 자체가 신뢰감과 차별화를 동시에 만드는 포인트가 될 수 있음.</p>
+        </div>
+        <p class="note">※ 디자인 상세 방향 및 실제 목업은 별도 UI/UX 제안서에서 다룸.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>체류시간 및 재방문율</summary>
+      <div class="details-body">
+        <p><strong>게임과 커뮤니티 연결</strong></p>
+        <p>현재 실전투 게임과 게시판이 별개로 분리되어 있으니, 게임 결과를 게시판에 바로 공유하는 원클릭 인증 기능을 도입하면 게임 참여와 커뮤니티 활성화를 동시에 끌어올릴 수 있음.</p>
+        <p style="margin-top:12px"><strong>텔레그램 봇 알림 연동</strong></p>
+        <p>포인트 적립, 랭킹 변동, 새 이벤트 시작, 라이브매치 오픈 등의 알림을 텔레그램 봇과 연동하면 별도 앱 없이도 재방문율을 높이는 구조를 만들 수 있으니, 이미 텔레그램 기반으로 운영 중인 구조를 활용하는 방향이라 추가 개발 비용도 낮음.</p>
+        <p style="margin-top:12px"><strong>미션 구조 가시화</strong></p>
+        <p>현재 오늘의 미션이 좌측 사이드에 작게 배치되어 있으니, 미션 진행률을 메인 화면에서 눈에 띄게 보여주는 구조로 개선하면 유저의 목표 의식을 자극해 체류시간과 재방문율을 높이는 데 효과적.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- 06 경쟁사 비교 분석 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">경쟁사 비교 분석</span>
+    </div>
+
+    <p>업계 특성상 꽁부대와 완전히 동일한 포지션의 경쟁사를 찾기 어려운 상황으로, 국내 토토/카지노 커뮤니티 중 SEO 및 트래픽 측면에서 높은 포지션을 점하고 있는 사이트를 비교 대상으로 설정함. 완전한 경쟁사 분석보다는 업계 상위권 사이트의 트래픽 구조와 전략에서 배울 점을 찾는 것이 본 분석의 목적.</p>
+    <p class="note">※ 비교 대상: 토토핫 (totohot.net) — ahrefs 기준 국내 토토/카지노 커뮤니티 트래픽 상위권 사이트</p>
+
+    <details open>
+      <summary>주요 지표 비교</summary>
+      <div class="details-body">
+        <div class="table-wrap">
+          <table>
+            <tr><th>항목</th><th>토토핫</th><th>꽁부대</th><th>해석</th></tr>
+            <tr><td>DR</td><td>46</td><td>0</td><td>토토핫은 구글 신뢰도 46점. 꽁부대는 현재 구글에 존재하지 않는 수준</td></tr>
+            <tr><td>UR</td><td>5</td><td>0</td><td>페이지 단위 신뢰도 낮은 편</td></tr>
+            <tr><td>자연 키워드</td><td>4,400</td><td>0</td><td>토토핫은 4,400개 키워드로 구글 노출. 꽁부대는 0</td></tr>
+            <tr><td>자연 트래픽</td><td>164K</td><td>0</td><td>월 16만 명 검색 유입. 꽁부대는 검색 유입 전무</td></tr>
+            <tr><td>백링크</td><td>13.9M</td><td>94</td><td>절대적 수치 차이</td></tr>
+            <tr><td>참조 도메인</td><td>8,300</td><td>92</td><td>링크 받는 도메인 수 차이</td></tr>
+            <tr><td>크롤링 페이지</td><td>7,055</td><td>1</td><td>구글이 인식하는 페이지 수</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>지표별 해석</summary>
+      <div class="details-body">
+        <p><strong>자연 키워드 4,400개 / 자연 트래픽 164K</strong></p>
+        <p>이 업계에서 구글이 도박 관련 키워드 색인을 제한적으로 처리한다는 점을 감안하면 상당히 높은 수치. DR 46 대비 트래픽 164K는 DR 점수에 비해 트래픽이 높은 편으로, DR을 올리는 데 집중하기보다 콘텐츠 양과 브랜드 인지도를 통해 트래픽을 확보한 결과로 해석됨. DR이 낮아도 콘텐츠와 브랜드가 쌓이면 트래픽은 충분히 올라올 수 있다는 점에서 꽁부대 입장에서 긍정적인 시사점.</p>
+        <p style="margin-top:12px"><strong>백링크 13.9M / 참조 도메인 8,300 — 효율 낮음</strong></p>
+        <p>숫자만 보면 압도적이지만 실제 효율은 낮은 구조. 백링크 13.9M 중 99.2%가 dofollow이나, 참조 도메인 8,300개 중 UR 10 이상 도메인이 극히 일부에 불과해 링크 수 대비 DR 상승 효과가 제한적. 이 업계에서 고품질 백링크 확보가 구조적으로 어렵다는 점을 그대로 반영.</p>
+        <p style="margin-top:12px"><strong>크롤링 페이지 7,055개 중 98.4%가 오류</strong></p>
+        <p>7,055개 페이지 중 실제 정상 작동하는 페이지는 2개(200 OK)에 불과하며 나머지는 오류 페이지. 그럼에도 트래픽 164K를 유지하는 건 오랜 기간 쌓인 브랜드 인지도와 도메인 신뢰도 덕분. 초기에 콘텐츠를 대량으로 쌓아두는 것이 장기적으로 얼마나 중요한지를 보여주는 사례.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary>트래픽 구조 분석 — 꽁부대가 배울 점</summary>
+      <div class="details-body">
+        <p>토토핫 상위 키워드 분석 결과, 트래픽의 핵심은 일반 검색 키워드가 아닌 <strong>업체명/브랜드명 키워드</strong>에 있었음.</p>
+        <div class="table-wrap" style="margin-top:12px">
+          <table>
+            <tr><th>키워드</th><th>검색량</th><th>트래픽</th><th>유형</th></tr>
+            <tr><td>먹튀검증</td><td>18K</td><td>20,166</td><td>일반 키워드</td></tr>
+            <tr><td>토토사이트</td><td>72K</td><td>13,918</td><td>일반 키워드</td></tr>
+            <tr><td>돌직구벳</td><td>11K</td><td>11,193</td><td><strong>업체명</strong></td></tr>
+            <tr><td>꽁머니</td><td>15K</td><td>8,823</td><td>일반 키워드</td></tr>
+            <tr><td>미투벳</td><td>4.3K</td><td>4,517</td><td><strong>업체명</strong></td></tr>
+            <tr><td>이지벳</td><td>3.8K</td><td>3,950</td><td><strong>업체명</strong></td></tr>
+            <tr><td>아벤카지노</td><td>3.5K</td><td>3,586</td><td><strong>업체명</strong></td></tr>
+          </table>
+        </div>
+        <div class="insight" style="margin-top:16px">
+          <div class="insight-label">꽁부대 적용 방안</div>
+          <p>현재 꽁부대 홈에 등록된 보증업체가 30개 이상. 구조 전환 후 각 업체별 독립 소개 페이지를 제작하면 해당 업체명을 검색하는 유저들이 꽁부대로 유입되는 구조를 만들 수 있음. 토토핫이 이 방식으로 트래픽 상당 부분을 확보했다는 점에서 꽁부대도 동일하게 적용 가능한 검증된 전략.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>포지션 비교</summary>
+      <div class="details-body">
+        <div class="table-wrap">
+          <table>
+            <tr><th>항목</th><th>토토핫</th><th>꽁부대</th></tr>
+            <tr><td>핵심 포지션</td><td>먹튀검증 + 보증업체 추천</td><td>테더 회원 ↔ 보증업체 매칭</td></tr>
+            <tr><td>게임화 요소</td><td>없음 (추정)</td><td>포인트/랭킹/로또/미션</td></tr>
+            <tr><td>디자인 방향</td><td>전형적인 업계 스타일</td><td>개편 방향에 따라 차별화 가능</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:12px">토토핫을 비롯한 기존 커뮤니티들은 먹튀검증/보증업체 추천 구조에 집중되어 있으며, 게임화 요소나 테더 기반 직접 매칭 구조는 확인되지 않음(추정). 꽁부대가 이 두 가지를 갖추고 있다는 점 자체가 기존 커뮤니티와의 차별점으로 작용할 수 있음.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- 07 초반 트래픽 확보 전략 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">초반 트래픽 확보 전략</span>
+      <span class="section-badge">브레인스토밍</span>
+    </div>
+
+    <div class="tldr">
+      <div class="tldr-title">이 챕터에 대하여</div>
+      <ul>
+        <li>실현 가능성보다 <strong>아이디어의 양</strong>에 집중한 브레인스토밍 챕터.</li>
+        <li>바로 실행 가능한 것부터 다소 무리가 있어 보이는 것까지 최대한 다양하게 나열.</li>
+        <li>이 중에서 상황에 맞게 <strong>선별하여 적용</strong>하는 방식을 권장.</li>
+      </ul>
+    </div>
+
+    <details open>
+      <summary>커뮤니티 침투형</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">디씨인사이드 갤러리</div>
+          <div class="card-desc">스포츠토토 갤러리, 카지노 갤러리, 그래프게임 갤러리 등에서 운영 계정이 자연스럽게 활동하면서 존재감을 만드는 방식. 대놓고 홍보하면 즉시 차단되니 유용한 정보글, 배당 인증글 위주로 올리면서 자연스럽게 꽁부대를 노출시키는 방향. 디씨 특성상 바이럴이 빠르고 이 업계 핵심 유저층이 모여있는 채널.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">에펨코리아</div>
+          <div class="card-desc">스포츠토토 게시판, 자유게시판 등에서 동일한 방식으로 접근. 디씨보다 톤이 다르고 유저층도 약간 다르니 에펨 스타일에 맞는 콘텐츠로 접근 필요.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">네이트판</div>
+          <div class="card-desc">상대적으로 운영이 느슨한 편이라 홍보성 글이 살아남는 경우가 있음. 테더 입금 방법, 카지노 꿀팁 같은 정보성 글 위주로 접근.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">아카라이브</div>
+          <div class="card-desc">카지노/토토 관련 채널이 존재하며 익명성이 강해 자연스러운 바이럴이 가능한 채널. 운영 계정이 채널 내에서 활동하면서 꽁부대를 자연스럽게 노출.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">개드립 / 웃긴대학</div>
+          <div class="card-desc">병맛/황당 배당 인증 콘텐츠로 접근. 고배당 결과 캡처를 재미있게 포장해서 올리면 공유가 잘 되는 채널.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">보배드림</div>
+          <div class="card-desc">돈/재테크 관련 글이 많이 올라오는 채널. 테더 관련 정보글로 자연스럽게 접근 가능.</div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>텔레그램 생태계 활용</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">이 업계 텔레그램 채널 공략</div>
+          <div class="card-desc">국내 카지노/토토 관련 텔레그램 채널이 수백 개 이상 존재. 해당 채널 구독자들한테 꽁부대를 자연스럽게 노출시키는 방법. 채널 운영자와 협력하거나 채널 내에서 자연스럽게 언급되는 구조를 만드는 방향.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">텔레그램 봇 활용</div>
+          <div class="card-desc">특정 키워드가 올라오면 자동으로 꽁부대 링크를 뿌리는 봇 구조. 헤르메스 자동화와 연동 가능.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">텔레그램 그룹 내 씨드 유저 확보</div>
+          <div class="card-desc">기존에 운영자나 대표님이 속해있는 텔레그램 그룹에서 직접 꽁부대를 소개하고 초기 회원을 확보하는 가장 직접적인 방법.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">텔레그램 채널 직접 운영</div>
+          <div class="card-desc">꽁부대 공식 텔레그램 채널을 만들어 고배당 인증, 이벤트 정보, 보증업체 소식 등을 발행하고 채널 구독자를 사이트로 유입시키는 구조.</div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>X (트위터) 활용</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">관종 계정 운영</div>
+          <div class="card-desc">이 업계에서 X는 자극적인 배당 인증, 고배당 결과, 황당한 당첨 후기 같은 콘텐츠가 바이럴이 잘 되는 채널. 운영 계정이 꽁부대 인증글을 꾸준히 올리면서 팔로워를 모으고 자연스럽게 유입시키는 구조.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">해시태그 공략</div>
+          <div class="card-desc">#그래프게임 #플린코 #테더카지노 같은 해시태그로 노출을 늘리는 방법. 이 키워드들이 X에서 얼마나 활성화되어 있는지 확인 필요.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">타 계정 멘션/리트윗 유도</div>
+          <div class="card-desc">이 업계 팔로워 많은 계정들한테 자연스럽게 언급되거나 리트윗되는 구조를 만드는 방향.</div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>보증업체 연동</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">업체 유저 직접 유입</div>
+          <div class="card-desc">꽁부대에 등록된 보증업체들이 자기 유저들한테 "꽁부대 통해서 가입하면 추가 혜택" 구조를 만들어주는 방식. 업체 입장에서도 꽁부대를 통한 신규 유저 유입이 이득이 되는 구조라면 자발적으로 홍보할 동기가 생김.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">업체 사이트 내 꽁부대 배너 삽입</div>
+          <div class="card-desc">등록 업체들의 사이트에 꽁부대 링크/배너를 삽입하는 방식. dofollow 백링크 효과도 동시에 얻을 수 있음.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">업체 고객센터 통한 안내</div>
+          <div class="card-desc">업체 고객센터 상담 시 꽁부대를 자연스럽게 안내하는 구조. 업체와의 협력이 전제되어야 함.</div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>포인트 / 추천 시스템 활용</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">지인 추천 포인트 제도</div>
+          <div class="card-desc">기존 회원이 지인을 추천하면 양쪽 모두 포인트를 지급하는 구조. 이미 포인트 시스템이 있으니 추가 개발 비용이 낮고, 초반 바이럴 효과가 강한 방법. 실제로 이 업계에서 가장 검증된 초반 유저 확보 방법 중 하나.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">첫 가입 혜택 강화</div>
+          <div class="card-desc">첫 가입 시 대량 포인트 지급, 첫 미션 완료 시 추가 보너스 같은 온보딩 혜택을 강화해 가입 직후 이탈률을 낮추는 방향.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">포인트 로또 바이럴 유도</div>
+          <div class="card-desc">더 드림 로또 당첨 결과를 소셜에 공유하면 추가 포인트 지급하는 구조. 당첨 금액이 크면 자연스럽게 바이럴이 일어남.</div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>콘텐츠 바이럴형</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">황당/병맛 배당 인증 콘텐츠</div>
+          <div class="card-desc">그래프X 125배, 플린코 500배 같은 극단적인 고배당 결과를 캡처해서 커뮤니티에 뿌리는 방식. "이게 실화냐" 반응을 유도하는 콘텐츠. 자극적일수록 공유가 잘 됨.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">비교 콘텐츠 바이럴</div>
+          <div class="card-desc">"꽁부대 vs 타 커뮤니티" 비교글을 자연스럽게 올리는 방식. 중립적인 척 하면서 꽁부대의 강점을 부각시키는 콘텐츠.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">테더 입금 방법 가이드 콘텐츠</div>
+          <div class="card-desc">테더 입금이 처음인 유저들을 위한 쉬운 가이드를 커뮤니티에 뿌리는 방식. 정보성 콘텐츠라 차단될 가능성이 낮고 꽁부대로의 자연 유입을 유도.</div>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>기타 아이디어 (실현 가능성 미정)</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">레딧 공략</div>
+          <div class="card-desc">r/cryptocurrency, r/gambling 같은 서브레딧에 영문으로 테더 카지노 관련 글 올리기.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">카카오톡 오픈채팅 활용</div>
+          <div class="card-desc">토토/카지노 관련 오픈채팅방에서 자연스럽게 노출. 카카오 오픈채팅 봇으로 관련 채팅방에서 자동으로 꽁부대 링크 노출 시도.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">네이버 블로그 SEO</div>
+          <div class="card-desc">네이버 블로그로 테더 입금 방법, 플린코 후기 같은 콘텐츠 발행해서 네이버 검색 유입 시도.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">유튜브 쇼츠</div>
+          <div class="card-desc">고배당 인증 영상을 쇼츠로 올려서 노출. 계정 정지 리스크 있음.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">Discord 서버 활용</div>
+          <div class="card-desc">해외 카지노/크립토 디스코드 서버에서 꽁부대 노출 시도.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">유튜브 댓글 공략</div>
+          <div class="card-desc">그래프게임, 플린코 관련 유튜브 영상 댓글에서 자연스럽게 노출시키는 방법.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">꽁머니 헌터 타겟팅</div>
+          <div class="card-desc">꽁머니 받으러 다니는 유저들이 모이는 곳을 타겟으로 꽁부대 포인트 시스템 홍보.</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- 08 차별화 기능 제안 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">차별화 기능 제안</span>
+      <span class="section-badge">업계 최초</span>
+    </div>
+
+    <p>본 챕터는 꽁부대가 단순 커뮤니티를 넘어 업계에서 전례 없는 포지션을 만들 수 있는 기능 아이디어를 제안함. 현재 국내 토토/카지노 커뮤니티 어디에서도 구현된 사례가 없는 방향으로, 실현 가능성과 개발 방향은 내부에서 판단하여 선별하는 방식을 권장.</p>
+
+    <details open>
+      <summary>예측 베팅 시스템 — 폴리마켓 스타일</summary>
+      <div class="details-body">
+        <p>폴리마켓은 "모든 미래에 베팅한다"는 컨셉의 예측 시장 플랫폼. 유저들이 특정 사건의 결과를 예측하고 포인트를 베팅하면, 결과에 따라 포인트가 분배되는 구조. 꽁부대의 포인트 시스템, 게임화 요소, 커뮤니티 구조와 결합하면 엔터테인먼트 성격의 독창적인 기능이 될 수 있음.</p>
+        <p style="margin-top:8px">진짜 돈이 아닌 포인트 기반으로 운영하면 법적 리스크를 낮추면서도 베팅의 재미를 살릴 수 있음.</p>
+
+        <p style="margin-top:16px"><strong>예측 베팅 카테고리 예시</strong></p>
+        <div class="table-wrap" style="margin-top:8px">
+          <table>
+            <tr><th>카테고리</th><th>예시</th></tr>
+            <tr><td>게임 관련</td><td>"오늘 그래프X 최고 배당이 몇 배 이상 나올까?" / "이번 주 플린코에서 500배 당첨자가 나올까?"</td></tr>
+            <tr><td>라이브매치</td><td>"이번 라이브매치 승자는?" / "이번 매치 총 참여자 수가 몇 명 이상일까?"</td></tr>
+            <tr><td>커뮤니티</td><td>"이번 달 포인트 랭킹 1위는 누구?" / "이번 로또 당첨금 총액이 얼마 이상일까?"</td></tr>
+            <tr><td>보증업체</td><td>"이번 달 신규 보증업체가 몇 개 추가될까?" / "다음 달 가장 많이 이용될 업체는?"</td></tr>
+          </table>
+        </div>
+
+        <p style="margin-top:16px"><strong>운영 구조</strong></p>
+        <div class="code-block">
+운영자가 예측 항목 생성
+→ 유저들이 포인트 베팅 (마감 시간 설정)
+→ 결과 확정 후 포인트 분배
+→ 자동화 가능한 항목은 데이터 연동으로 자동 처리</div>
+
+        <div class="insight">
+          <div class="insight-label">기대 효과</div>
+          <p>결과 발표 시점에 유저들이 자연스럽게 재방문하는 구조가 만들어지니 재방문율을 높이는 가장 강력한 장치가 될 수 있음. 예측이 맞았을 때의 성취감과 포인트 획득이 결합되면 커뮤니티 체류시간도 함께 올라감. 이 업계에서 전례 없는 기능인 만큼 화제성 측면에서도 초반 바이럴 효과를 기대할 수 있음.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>기타 차별화 기능 아이디어</summary>
+      <div class="details-body">
+        <div class="highlight-card">
+          <div class="card-title">유저 1:1 배당 대결</div>
+          <div class="card-desc">같은 게임을 동시에 돌려서 누가 더 높은 배당을 받는지 겨루는 구조. 포인트를 걸고 대결하면 게임 참여와 커뮤니티 활성화를 동시에 끌어올릴 수 있음.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">명예의 전당</div>
+          <div class="card-desc">역대 최고 배당 인증을 아카이브로 보관하는 페이지. 500배, 1000배 같은 극단적 고배당 기록을 남겨두면 신규 유저 입장에서 "여기서 이런 배당이 나오는구나"라는 신뢰와 기대감을 동시에 심어줄 수 있음.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">업체 실시간 평점 시스템</div>
+          <div class="card-desc">유저들이 업체 이용 후 입출금 속도, 고객응대, 배당 등 항목별로 실시간 평점을 남기는 구조. 평점이 쌓일수록 업체 신뢰도 데이터가 되고 신규 유저 입장에서 업체 선택 기준이 생김.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="card-title">유저가 만드는 미니 이벤트</div>
+          <div class="card-desc">포인트 일정량 이상 보유한 유저가 직접 미니 이벤트를 만들고 포인트를 걸 수 있는 구조. 운영자가 모든 이벤트를 만들지 않아도 커뮤니티가 자체적으로 활성화되는 효과.</div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="footer">
+    <span>HTML Docs · 2026 · CONFIDENTIAL</span>
+    <span>꽁부대 개선 전략 보고서 v1.0</span>
+  </div>
+
+</div>
+</body>
+</html>
