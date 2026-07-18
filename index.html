@@ -53,7 +53,6 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
 <script>
 // 새 파일 추가할 때 여기 맨 위에 한 줄 추가 (최신순)
 const docs = [
-  { file: 'kkongbudae-site-strategy-20260716.html', title: '꽁부대 사이트 개선 전략 보고서', icon: '🏗️', tag: 'report', desc: '사이트 개선 전략 · 2026-07-16' },
   { file: 'GMR-001_아이온2_조사-20260717.html',   title: '아이온2 홍보 플랫폼 조사 보고서',  icon: '⚔️', tag: 'report', desc: '플랫폼 조사 · 의사결정 · 무빈', assignee: '무빈' },
   { file: 'GMR-002_솔인첸트_조사-20260717.html',  title: '솔 인첸트 조사 보고서',            icon: '🎮', tag: 'report', desc: '플랫폼 조사 · 의사결정 · 무빈', assignee: '무빈' },
   { file: 'claude-code-automation-strategy-20260717.html', title: '슬롯 커뮤니티 AI 자동화 운영 전략 — 클로드코드 다이나믹 워크플로우', icon: '⚡', tag: 'report', desc: '클로드코드 · 다이나믹 워크플로우 · 헤르메스 비교 · 실전 적용 방안' },
@@ -66,10 +65,18 @@ const docs = [
   { file: 'ai-operation-strategy-20260713.html', title: 'AI 자동화 운영 전략 보고서 1장',                             icon: '📋', tag: 'report',  desc: 'AI 에이전트 역할 분리 · 협업 구조 설계 · 칸반보드 활용 방안' },
   { file: 'hermes-agent-mlb-20260713.html',      title: 'Hermes Agent — MLB 콘텐츠 완전 자동화 시스템',               icon: '🤖', tag: 'report',  desc: 'AI 직원 5명 · 15분 완성 · 데이터 수집~영상 제작 풀 자동화' },
   { file: 'n8n-mlb-automation-20260713.html',    title: 'n8n으로 구현한 MLB Betting Intelligence 자동화 시스템',      icon: '⚙️', tag: 'report',  desc: '전체 8개 Workflow · 24시간 자동 실행 · API 연동 · 장애 처리' },
+  { file: 'kkongbudae-site-strategy-20260716.html', title: '꽁부대 사이트 개선 전략 보고서', icon: '🏗️', tag: 'report', desc: '사이트 개선 전략' },
   { file: 'lineage-adena-report-20260713.html',  title: '리니지 클래식 이해 & 아데나 거래 시장 분석',                 icon: '⚔️', tag: 'report',  desc: '아데나 경제 구조 · 거래 플랫폼 · 시세 · 이용자 특성' },
 ];
 
 const tagLabel = { plan: '기획', report: '보고서', compare: '비교' };
+
+// 날짜 기준 최신순 자동 정렬
+docs.sort((a, b) => {
+  const da = a.file.match(/(\d{8})/)?.[1] || '0';
+  const db = b.file.match(/(\d{8})/)?.[1] || '0';
+  return db.localeCompare(da);
+});
 
 function parseDate(filename) {
   const m = filename.match(/(\d{4})(\d{2})(\d{2})/);
