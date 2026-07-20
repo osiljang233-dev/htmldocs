@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GMR-003 | 메이플플래닛 홍보 운영 및 계정 현황 보고서</title>
+<style>
+:root{--bg:#091426;--panel:#101f3a;--panel2:#0d1a31;--line:#2f4e7d;--text:#f5f7fb;--muted:#8fb1e8;--accent:#ffb51f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,"Noto Sans KR",sans-serif;line-height:1.75}
+.wrap{width:min(980px,calc(100% - 40px));margin:0 auto;padding:22px 0 60px}.kicker{color:var(--accent);font-size:12px;font-weight:800}
+h1{margin:4px 0 8px;font-size:clamp(29px,5vw,48px);line-height:1.15}.lead{color:var(--muted)}
+.tldr{margin-top:24px;border:1px solid var(--line);border-left:4px solid var(--accent);padding:18px 20px;background:var(--panel);border-radius:0 10px 10px 0}
+.tldr-title,.num{color:var(--accent);font-weight:900}hr{border:0;border-top:1px solid var(--line);margin:30px 0 18px}
+h2{font-size:20px}.note{color:var(--muted);font-size:13px}
+details{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin:10px 0;overflow:hidden}
+summary{padding:13px 16px;font-weight:800}.details-body{border-top:1px solid var(--line);padding:15px 18px;color:var(--muted);background:var(--panel2)}
+.tablebox,.codebox{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:#132746}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:15px}.metric b{display:block;font-size:26px;color:var(--accent)}.metric span{font-size:12px;color:var(--muted)}
+.account-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.account-card{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:18px}.account-card b{display:block;font-size:30px;color:var(--accent)}.account-card span{font-size:12px;color:var(--muted)}
+pre{margin:0;padding:16px;color:#d8e6ff;white-space:pre-wrap}.decision{border-left:3px solid var(--accent);padding-left:14px;font-weight:800}
+@media(max-width:760px){.metric-grid,.account-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.metric-grid,.account-grid{grid-template-columns:1fr}}
+
+.record-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.record{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
+.record-head{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;background:#132746;border-bottom:1px solid var(--line)}
+.record-head strong{color:#fff}.record-head span{color:var(--accent);font-size:12px;font-weight:800}
+.record-body{padding:14px 16px;color:var(--muted)}
+.record.current{border-color:var(--accent);box-shadow:0 0 0 1px rgba(255,181,31,.12)}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="kicker">GMR-003 · 2026-07-19</div>
+<h1>메이플플래닛 홍보 운영 및 계정 현황 보고서</h1>
+<p class="lead">메이플플래닛 홍보에 사용되는 계정 운영 현황과 금일 실제 홍보 성과를 함께 정리한 보고서입니다.</p>
+
+<div class="tldr"><div class="tldr-title">TL;DR</div>
+<ul>
+<li>2026-07-19 금일 넥슨 계정 3개가 정지되어, 총 12개 중 현재 사용 가능 2개·누적 정지 10개다.</li>
+<li>2026-07-19 금일 홍보를 통해 회원 가입 승인 1명이 실제 완료되었다.</li>
+<li>지난날의 유효 대화·텔레그램 대화·신규 계정 추가 등 일일 기록은 별도 HISTORY로 분리한다.</li>
+</ul></div>
+
+<hr><section><h2><span class="num">01</span> 업무 개요</h2>
+<p>메이플플래닛 내 홍보를 실제 운영하면서 사용 계정 상태, 신규 계정 투입, 고객 대화 전환, 텔레그램 이동 및 가입 단계까지의 흐름을 점검했다.</p>
+<p class="note">※ 계정 수와 상태는 운영상 핵심 지표이므로 본 보고서에 포함한다. 다만 로그인 아이디·비밀번호 등 직접 인증정보는 별도 관리한다.</p></section>
+
+<hr><section><h2><span class="num">02</span> 전체 계정 현황</h2>
+<div class="account-grid">
+<div class="account-card"><b>12개</b><span>총 관리 계정수</span></div>
+<div class="account-card"><b>3개</b><span>현재 사용 가능 계정</span></div>
+<div class="account-card"><b>9개</b><span>누적 정지 계정</span></div>
+</div>
+<div class="tablebox" style="margin-top:12px"><table><thead><tr><th>구분</th><th>수량</th><th>설명</th></tr></thead><tbody>
+<tr><td>총 계정</td><td>12개</td><td>현재 관리 목록 기준 전체 계정수</td></tr>
+<tr><td>사용 가능</td><td>3개</td><td>정지 표기가 없는 현재 운영 가능 계정</td></tr>
+<tr><td>정지</td><td>9개</td><td>계정 정지 상태로 운영 불가</td></tr>
+</tbody></table></div>
+<details open><summary>계정 현황 판단</summary><div class="details-body">총 12개 계정 중 9개가 정지 상태로 확인되어 현재 사용 가능한 계정은 2개다. 계정 정지 비중이 높은 편이므로 신규 계정 확보와 대체 계정 준비가 지속적으로 필요하다.</div></details>
+</section>
+
+<hr><section><h2><span class="num">03</span> 금일 넥슨 계정 변동</h2>
+<div class="tablebox"><table><thead><tr><th>구분</th><th>금일 변동</th><th>비고</th></tr></thead><tbody>
+<tr><td>2026-07-19 금일 넥슨 계정 정지</td><td>3개</td><td>금일 새롭게 정지된 넥슨 계정</td></tr>
+<tr><td>2026-07-19 금일 넥슨 신규 계정 추가</td><td>0개</td><td>금일 신규 계정 추가 없음</td></tr>
+<tr><td>2026-07-19 금일 순증감</td><td>-3개</td><td>금일 신규 추가 0개 · 정지 3개 기준</td></tr>
+</tbody></table></div>
+</section>
+
+<hr><section><h2><span class="num">04</span> 계정 1개당 운영 비용</h2>
+<div class="account-grid">
+<div class="account-card"><b>약 25,000원</b><span>계정 1개당 초기 투입 비용</span></div>
+<div class="account-card"><b>레벨업</b><span>전체채팅 이용이 가능한 수준까지 육성</span></div>
+<div class="account-card"><b>캐시 아이템</b><span>전체채팅 사용을 위한 유료 아이템 구매</span></div>
+</div>
+<div class="tablebox" style="margin-top:12px"><table><thead><tr><th>비용 항목</th><th>내용</th><th>비용</th></tr></thead><tbody>
+<tr><td>레벨업</td><td>홍보 계정이 전체채팅을 사용할 수 있는 조건까지 육성하는 데 필요한 비용</td><td rowspan="2">합계 약 25,000원 / 계정</td></tr>
+<tr><td>전체채팅 캐시 아이템</td><td>전체채팅 기능 사용을 위해 필요한 캐시 아이템 구매 비용</td></tr>
+</tbody></table></div>
+<details open><summary>비용 관점의 계정 정지 리스크</summary><div class="details-body">홍보용 계정 1개가 정지될 경우 계정 자체뿐 아니라 레벨업과 전체채팅 캐시 아이템 구매에 투입된 약 25,000원의 비용도 함께 소모되는 구조다. 따라서 계정 정지율은 단순 계정 수 감소가 아니라 직접적인 운영 비용 증가로 이어진다.</div></details>
+</section>
+
+<hr><section><h2><span class="num">05</span> 운영 계정 관련 사항</h2>
+<details open><summary>메이플·넥슨 계정 관리</summary><div class="details-body">홍보용 게임 계정을 다수 운영하며 각 계정의 정상·정지 여부를 기록한다. 신규 계정은 게임 재화로 아이템을 구매·사용해 전체채팅이 가능한 레벨 30까지 육성하며, 소요 시간은 대략 30분이다. 일부 계정은 메소 보유, 일부는 낚시성 홍보 전용 등 역할이 구분되어 있다.</div></details>
+<details><summary>이메일 및 연동 계정</summary><div class="details-body">넥슨 계정별 연동 이메일을 관리하고 비밀번호 재설정 및 OTP 인증 가능 여부를 확인한다.</div></details>
+<details><summary>OTP 및 기기 관리</summary><div class="details-body">계정별 OTP 상태와 명의 인증 조건이 다계정 운영에 직접적인 영향을 주므로 신규 계정 추가 시 기존 OTP 연결 여부와 인증 가능성을 사전에 확인한다.</div></details>
+</section>
+
+<hr><section><h2><span class="num">06</span> 지난날 홍보 기록</h2>
+<details class="history-fold">
+<summary><strong>지난날 홍보 성과 보기</strong> <span class="badge">HISTORY</span></summary>
+<div class="details-body">
+<div class="metric-grid">
+<div class="metric"><b>32명</b><span>2026-07-18 메이플 채팅 2분 이상 대화</span></div>
+<div class="metric"><b>약 13명</b><span>2026-07-18 텔레그램 대화 전환</span></div>
+</div>
+P26-07-18 기록 기준, 메이플 채팅에서 2분 이상 대화를 나눈 상대는 32명이었으며 이 중 약 13명이 텔레그램 대화로 이어졌다. 해당 수치는 지난날의 일일 기록이며 금일 실적으로 합산하지 않는다.</div></details>
+</div>
+</details>
+</section>
+
+<hr><section><h2><span class="num">07</span> 홍보 운영 지표</h2>
+<div class="metric-grid">
+<div class="metric"><b>약 25,000원</b><span>계정 1개당 초기 투입 비용</span></div>
+<div class="metric"><b>레벨 30</b><span>전체채팅 이용 가능 조건</span></div>
+<div class="metric"><b>약 30분</b><span>레벨 30까지 예상 육성 시간</span></div>
+<div class="metric"><b>2개</b><span>현재 사용 가능한 넥슨 계정</span></div>
+</div>
+
+<div class="tablebox" style="margin-top:12px"><table>
+<thead><tr><th>운영 항목</th><th>기준</th><th>설명</th></tr></thead>
+<tbody>
+<tr><td>계정 1개당 투입 비용</td><td>약 25,000원</td><td>레벨업 및 전체채팅 캐시 아이템 구매 비용 포함</td></tr>
+<tr><td>전체채팅 이용 조건</td><td>레벨 30</td><td>홍보를 시작하기 위해 필요한 기본 레벨 조건</td></tr>
+<tr><td>계정 육성 시간</td><td>약 30분</td><td>게임 재화로 아이템을 구매·사용하는 방식 기준</td></tr>
+<tr><td>현재 사용 가능 계정</td><td>2개</td><td>총 12개 계정 중 현재 운영 가능한 계정</td></tr>
+<tr><td>누적 정지 계정</td><td>10개</td><td>현재까지 정지된 넥슨 계정 누적 수</td></tr>
+</tbody>
+</table></div>
+
+<p class="note">※ 회원 관련 누적 성과는 09 '누적 회원 성과'에서 별도로 관리하며, 본 섹션은 계정 운용과 홍보 준비에 필요한 운영 지표만 정리한다.</p>
+</section>
+
+<hr><section><h2><span class="num">08</span> 운영 리스크</h2>
+<div class="tablebox"><table><thead><tr><th>리스크</th><th>영향</th><th>대응</th></tr></thead><tbody>
+<tr><td>계정 정지</td><td>게임사 운영정책에 어긋나는 홍보·광고 특성상 계정 정지 가능성이 상존하며, 정지 시 계정당 약 25,000원의 투입 비용이 소모됨</td><td>별도의 회피 대응이 가능한 영역이 아니며 운영 비용으로 인식</td></tr>
+<tr><td>높은 누적 정지 비중</td><td>총 12개 중 10개 정지 상태로, 계정 소모에 따른 비용 부담이 지속적으로 발생</td><td>정지 자체에 대한 대응보다 계정 확보 및 투입 비용을 운영 비용으로 관리</td></tr>
+<tr><td>계정 준비 비용</td><td>신규 계정 확보 후 레벨업과 전체채팅 캐시 아이템 구매에 계정당 약 25,000원 필요</td><td>계정 추가 투입 시 예상 비용을 사전에 반영</td></tr>
+<tr><td>낮은 가입 전환</td><td>유효 대화 및 텔레그램 전환 대비 최종 가입으로 이어지는 인원이 적음</td><td>대화 단계별 전환 흐름과 이탈 구간을 지속적으로 집계</td></tr>
+</tbody></table></div>
+</section>
+
+<hr><section><h2><span class="num">09</span> 누적 회원 성과</h2>
+<div class="metric-grid">
+<div class="metric"><b>10명</b><span>현재까지 총 회원 가입</span></div>
+<div class="metric"><b>3명</b><span>승인 거절</span></div>
+<div class="metric"><b>3명</b><span>실제 배팅 인원</span></div>
+<div class="metric"><b>7명</b><span>승인 거절 제외 가입 인원</span></div>
+</div>
+<details open><summary>누적 성과 현황</summary><div class="details-body">현재까지 회원 가입은 총 10명이며, 이 중 승인 거절은 3명이다. 실제 배팅까지 진행한 인원은 3명으로 집계됐다. 향후에는 단순 가입자 수뿐 아니라 승인 완료 및 실제 이용 단계까지 구분해 성과를 집계할 필요가 있다.</div></details>
+</section>
+
+<hr><section><h2><span class="num">10</span> 게임머니 수급 방식 변경 및 대안 검토</h2>
+<details class="history-fold">
+<summary><strong>게임머니 수급 방식 및 대안 검토 내용 열기</strong> <span class="badge">REVIEW</span></summary>
+<div class="details-body">
+
+<h3>1. 기존 운영 방식</h3>
+<p>기존에는 별도의 <strong>게임머니 창고 계정</strong>을 운영하고, 창고 계정에서 각 홍보 계정으로 활동에 필요한 메소를 전달하는 방식으로 운영했다.</p>
+<p>그러나 게임머니를 보관하고 각 홍보 계정에 메소를 전달하던 창고 계정이 게임사 측에서 <strong>이상거래로 정지되는 사례를 확인</strong>했다.</p>
+<p>이에 따라 하나의 창고 계정을 두고 여러 홍보 계정에 지속적으로 메소를 공급하는 기존 방식은 더 이상 안정적으로 운영하기 어렵다고 판단된다.</p>
+
+<h3>2. 대안 1 — 각 홍보 계정에서 넥슨캐시 직접 충전</h3>
+<p>각 홍보 계정에서 직접 넥슨캐시를 충전한 뒤, 캐시 아이템을 구매·판매하여 활동에 필요한 메소를 확보하는 방식이다.</p>
+<p>실제 넥슨캐시 결제 화면에서 확인된 결제수단은 <strong>카카오페이, Npay, 신용/체크카드, 휴대폰, PAYCO, 컬쳐랜드상품권</strong>이며, 실제 확인한 결제 화면에서는 <strong>가상계좌 결제수단이 존재하지 않았다.</strong></p>
+<p>다수의 홍보 계정을 운영하는 상황에서 각 계정마다 해당 결제수단을 이용해 개별적으로 넥슨캐시를 충전하고 캐시 아이템을 구매·판매하는 과정을 반복해야 하므로, 현재 운영 환경에서는 현실적으로 적용하기 어려운 방식으로 판단된다.</p>
+
+<h3>3. 대안 2 — 아이템 거래 사이트를 통한 메소 개별 구매</h3>
+<p>각 홍보 계정에서 활동에 필요한 만큼의 메소를 아이템 거래 사이트의 판매자에게 직접 구매하는 방식이다.</p>
+<p>이 방법은 별도의 창고 계정을 거치지 않고 각 홍보 계정에 필요한 메소를 직접 공급할 수 있다는 장점이 있다.</p>
+<p>다만 지속적으로 메소를 구매할 경우 동일한 판매자와 반복적으로 거래하게 될 가능성이 있으며, 이후 해당 판매자의 게임 계정이 게임사로부터 제재될 경우 판매자가 구매자와의 거래로 인해 자신의 계정이 정지되었다고 판단하여 <strong>아이템 거래 사이트에서 구매자 계정을 신고하거나 별도의 분쟁을 제기할 가능성</strong>을 배제하기 어렵다.</p>
+<p>법적인 측면에서도 판매자가 경찰 신고나 민사상 손해배상 청구를 제기하는 것 자체는 가능하다. 실제 책임 인정 여부는 구매자의 고의·과실, 거래와 판매자 계정 정지 사이의 인과관계, 판매자가 게임머니 현금 거래에 따른 제재 위험을 인식하고 있었는지, 실제 손해를 입증할 수 있는지 등을 종합적으로 판단해야 한다.</p>
+<p>특히 현재는 거래 상대방의 게임 계정이 제재될 가능성을 사전에 인식하고 있는 상황이므로, 이러한 거래를 반복적으로 지속할 경우 향후 분쟁에서 불리한 사정으로 주장될 가능성도 완전히 배제하기 어렵다.</p>
+<p>따라서 아이템 거래 사이트를 통한 개별 메소 구매는 현실적으로 메소를 확보할 수 있는 방법이기는 하지만, <strong>거래 사이트 계정 제재 및 법적 분쟁 가능성에 대한 추가 확인이 필요한 방식</strong>으로 판단된다.</p>
+
+<h3>4. 현재 판단</h3>
+<p>기존에 사용하던 <strong>창고 계정 → 홍보 계정 메소 공급 방식</strong>은 창고 계정이 이상거래로 정지되는 사례가 실제로 확인되었기 때문에 지속적인 사용이 어렵다.</p>
+<p>첫 번째 대안인 <strong>각 홍보 계정의 넥슨캐시 직접 충전 방식</strong>은 현재 실제로 제공되는 결제수단과 다수 계정을 운영하는 환경을 고려했을 때 현실적으로 적용하기 어렵다.</p>
+<p>두 번째 대안인 <strong>아이템 거래 사이트를 통한 메소 개별 구매 방식</strong>은 현재 검토한 방법 중 현실적으로 메소를 공급할 수 있는 방법이지만, 판매자 계정이 제재될 경우 아이템 거래 사이트 내 신고 및 계정 제재, 판매자와의 분쟁, 민사상 손해배상 문제 등이 발생할 가능성을 완전히 배제하기 어렵다.</p>
+
+<div class="tablebox" style="margin-top:14px"><table>
+<thead><tr><th>방식</th><th>현재 판단</th><th>주요 문제</th></tr></thead>
+<tbody>
+<tr><td>창고 계정에서 메소 공급</td><td>사용 중단 필요</td><td>이상거래로 창고 계정 정지 사례 확인</td></tr>
+<tr><td>각 계정 넥슨캐시 직접 충전</td><td>현실적 적용 어려움</td><td>다수 계정에서 반복 결제·아이템 판매 필요</td></tr>
+<tr><td>아이템 거래 사이트 개별 구매</td><td>추가 검토 필요</td><td>판매자 계정 제재 시 신고·분쟁 및 법적 리스크 가능성</td></tr>
+</tbody></table></div>
+
+<h3>최종 결론</h3>
+<p>현재 확인된 방법 중에서는 <strong>안정적으로 지속 운영할 수 있다고 판단되는 메소 공급 방식이 없는 상태</strong>다.</p>
+<p>기존 창고 계정을 통한 메소 공급 방식은 중단하고, 아이템 거래 사이트를 통한 개별 구매 방식은 법적·분쟁 리스크를 확인한 이후 실제 사용 여부를 결정할 필요가 있다.</p>
+<p>따라서 현시점에서는 <strong>활동용 메소 수급 문제가 홍보 계정 운영을 지속하기 위해 해결해야 할 주요 운영 과제로 남아 있는 상황</strong>으로 정리한다.</p>
+
+</div>
+</details>
+</section>
+
+<hr><section><h2><span class="num">11</span> 넥슨 계정 탈퇴 및 재활용 검토</h2>
+<details open><summary>계정 재활용 방식 검토</summary><div class="details-body">
+기존에는 사용한 넥슨 계정을 탈퇴한 뒤, 기존 이메일 주소로 다시 가입하여 계정을 재활용하는 방식을 고려했다.<br><br>
+오래된 구형 계정이 아닌 경우, 넥슨은 가입 시 이메일 주소를 넥슨ID로 사용하는 이메일ID 방식으로 가입하게 된다.<br><br>
+하지만 넥슨 회원탈퇴 안내에는 탈퇴한 ID는 다시 사용할 수 없다는 내용이 명시되어 있다. 따라서 이메일 주소 자체를 넥슨ID로 사용하는 계정이라면, 탈퇴 후 동일한 이메일 주소를 넥슨ID로 다시 생성하는 방식의 계정 재활용은 어려운 것으로 판단된다.<br><br>
+결과적으로 기존에 고려했던 <strong>계정 사용 → 회원탈퇴 → 동일 이메일로 재가입</strong> 방식의 계정 재활용은 실행이 어려울 것으로 판단된다.
+</div></details>
+
+<details open><summary>현재 구글 계정 수급 상황</summary><div class="details-body">
+현재 일지에 등록된 다수의 구글 계정은 추가 본인 인증이 필요한 상태로 잠겨 있으며, 인증에 필요한 휴대폰 번호의 유심이 차단되어 추가 인증을 진행할 수 없는 상황이다.<br><br>
+따라서 추가로 사용 가능한 구글 계정을 수급할 수 있다면, 현재 발생하고 있는 계정 부족 문제는 어느 정도 해결할 수 있을 것으로 판단된다.
+</div></details>
+
+<div class="tablebox" style="margin-top:12px"><table><thead><tr><th>검토 항목</th><th>내용</th><th>판단</th></tr></thead><tbody>
+<tr><td>기존 재활용 계획</td><td>사용한 넥슨 계정을 탈퇴한 뒤 기존 이메일 주소로 재가입</td><td>실행 어려움</td></tr>
+<tr><td>넥슨 가입 방식</td><td>오래된 구형 계정이 아닌 경우 이메일 주소를 넥슨ID로 사용하는 이메일ID 방식</td><td>이메일 주소가 ID 역할</td></tr>
+<tr><td>탈퇴 ID 재사용</td><td>탈퇴한 ID는 다시 사용할 수 없다는 안내가 명시됨</td><td>동일 이메일ID 재사용 어려움</td></tr>
+<tr><td>탈퇴 처리 기간</td><td>탈퇴 요청 후 최종 처리까지 약 30일 소요</td><td>즉시 재활용 불가</td></tr>
+<tr><td>기존 구글 계정</td><td>다수 계정이 추가 본인 인증 필요 상태이며 인증용 유심 차단으로 인증 진행 불가</td><td>현재 활용 제한</td></tr>
+<tr><td>대안</td><td>추가로 사용 가능한 구글 계정을 수급</td><td>계정 부족 문제 일부 해소 가능</td></tr>
+</tbody></table></div>
+<p class="note">※ 탈퇴 요청 후 처리까지는 약 30일이 소요되는 것으로 정리했다.</p>
+</section>
+
+<hr><section><h2><span class="num">12</span> 일자별 운영 기록</h2>
+<div class="record-grid">
+  <div class="record current">
+    <div class="record-head"><strong>2026-07-19 오늘 기록</strong><span>MAIN</span></div>
+    <div class="record-body">
+      <ul>
+<li>금일 넥슨 계정 정지 3개</li>
+<li>금일 홍보를 통한 회원 가입 승인 완료 1명</li>
+</ul>
+    </div>
+  </div>
+  <details class="history-fold">
+<summary><strong>지난날 기록</strong> <span class="badge">HISTORY</span></summary>
+<div class="details-body"><ul>
+<li>메이플 계정 2개 정지</li>
+<li>신규 메이플 계정 3개 추가</li>
+<li>메이플 채팅 2분 이상 대화 32명</li>
+<li>텔레그램 대화 약 13명</li>
+</ul></div>
+</details>
+</div>
+<p class="note">※ 앞으로 누적 지표가 아닌 금일 변동·실적은 날짜별 기록으로 분리하고, 최신 날짜 기록을 메인으로 표시한다.</p>
+</section>
+
+<hr><section><h2><span class="num">13</span> 다음 액션</h2>
+<div class="codebox"><pre>state: active-operation
+owner: 이무빈
+next:
+  - 총 계정수 / 사용 가능 / 정지 계정수를 매일 업데이트
+  - 신규 계정 3개 상태 모니터링
+  - 신규 계정 확보 후 넥슨 OTP 설치 및 사용 준비
+  - 계정 1개당 약 25,000원의 투입 비용을 기준으로 계정 손실 비용 집계
+  - 메이플 대화 → 텔레그램 → 가입 단계 전환 추이 지속 집계
+  - 누적 가입 / 승인 거절 / 실제 배팅 인원 분리 집계</pre></div>
+</section>
+
+<hr><section><h2><span class="num">14</span> 최종 결론</h2>
+<p class="decision">현재 관리 계정은 총 12개이며, 이 중 사용 가능한 계정은 2개, 누적 정지 계정은 10개다. 또한 홍보용 계정 1개당 레벨업과 전체채팅 캐시 아이템 구매에 약 25,000원이 소모된다.</p>
+<p>금일 계정 2개가 정지되고 3개가 신규 추가되었다. 홍보 성과는 메이플 채팅 유효 대화 32명, 텔레그램 대화 약 13명, 가입 단계 1명이었으며 최종 가입은 블랙 조회로 인해 발생하지 않았다. 현재까지 누적 회원 가입은 총 10명, 승인 거절은 3명, 실제 배팅 인원은 3명이다. 향후에는 계정 운영 비용과 함께 가입·승인·실제 이용 단계별 성과를 지속적으로 관리해야 한다.</p>
+</section>
+</main>
+</body></html>
