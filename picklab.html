@@ -112,6 +112,50 @@ body{background:var(--paper);color:var(--ink);font-family:var(--hand);
      지우면 굽는 쪽 채우기가 깨진다.  숨기면 슬롯이 살아 있어 되살리기도 쉽다 */
 .kpis{display:flex;flex-wrap:wrap}
 
+/* ═══ 쓸데없이 고퀄 · 2차 ═══════════════════════════════════════════ */
+
+/* ① 추이 그래프가 «그어지며» 나타난다 — 연필로 긋는 결.
+   ★ pathLength 로 정규화한다.  경로 길이가 제각각이라 고정 dasharray 를 쓰면
+     선이 허공에서 끊긴다 (CLAUDE.md 에 적어 둔 그 사고다) */
+@media (prefers-reduced-motion:no-preference){
+  .ch .pl,.ch .axl,.ch .fifty{stroke-dasharray:100;stroke-dashoffset:100;
+    animation:draw 1.15s cubic-bezier(.3,.8,.4,1) forwards}
+  .ch .pl.s2{animation-delay:.09s}
+  .ch .fifty,.ch .fifty.f2{animation-duration:.8s}
+  .ch .dot,.ch .dotc{opacity:0;animation:dotin .3s ease-out forwards}
+  .ch .dot{animation-delay:calc(.42s + var(--i,0)*.075s)}
+  .ch .dotc{animation-delay:calc(.47s + var(--i,0)*.075s)}
+  .ch .vl,.ch .xl,.ch .xn{opacity:0;animation:dotin .3s ease-out forwards;
+    animation-delay:calc(.55s + var(--i,0)*.075s)}
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes dotin{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+
+/* ② 잉크 번짐 — 누르면 눌린 자리에서 잉크가 퍼진다 */
+.frow label,.lgtabs label,.dates label,.qzo button,.oxpick button,.morebtn,.toys button{
+  position:relative;overflow:hidden}
+.frow label::after,.lgtabs label::after,.dates label::after,.morebtn::after,.toys button::after{
+  content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;
+  border-radius:50%;background:#33302B;opacity:0;pointer-events:none;transform:scale(1)}
+.frow label:active::after,.lgtabs label:active::after,.dates label:active::after,
+.morebtn:active::after,.toys button:active::after{animation:ink .45s ease-out}
+@keyframes ink{0%{opacity:.16;transform:scale(1)}100%{opacity:0;transform:scale(22)}}
+
+/* ③ 표 머리가 «붙었을 때만» 그림자가 짙어진다 */
+@media (min-width:1000px){
+  thead th{transition:box-shadow .18s}
+  .tw.stuck thead th{box-shadow:0 1px 0 #00000022,0 10px 14px -9px #00000059}
+}
+
+/* ④ 종이 접힌 모서리 — 상자 오른쪽 아래가 살짝 들려 있다 */
+.box.pn>.in::after{content:"";position:absolute;right:0;bottom:0;width:0;height:0;
+  border:11px solid transparent;border-right-color:#00000009;border-bottom-color:#00000009;
+  pointer-events:none}
+
+/* ⑤ 성적표 숫자가 «세어 올라간다» */
+.oxbig{font-variant-numeric:tabular-nums}
+.oxbig i.n{font-style:normal}
+
 /* ── 표를 다 펼치지 않는다 ─────────────────────────────────────────
    ★ 370행이면 세로 16,000px 이다.  40행씩 연다 */
 tbody tr.capoff{display:none}
@@ -1042,7 +1086,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:54<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:55<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1819,6 +1863,66 @@ html,body,.page,.pane{overflow-anchor:none}
   [].forEach.call(elP.children,function(b){
     b.onclick=function(){ if(!elP.classList.contains("done")) answer(b.dataset.v) };
   });
+})();
+
+/* ═══ 쓸데없이 고퀄 · 2차 (JS 몫) ═══════════════════════════════════ */
+(function(){
+  var RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ① 그래프 선 그리기 — ★ pathLength 로 «정규화» 한다.
+       안 하면 dasharray:100 이 «100 user unit» 이라 경로가 길면 선이 허공에서 끊긴다.
+       (CLAUDE.md 「SVG 선이 허공에서 끊긴다」 가 이 사고다) */
+  if(!RM){
+    [].forEach.call(document.querySelectorAll(".ch .pl,.ch .axl,.ch .fifty"),function(p){
+      p.setAttribute("pathLength","100");
+    });
+    /* 점·글자에 순번을 준다 — 왼쪽부터 차례로 뜨게 */
+    [".dot",".dotc",".vl",".xl",".xn"].forEach(function(sel){
+      [].forEach.call(document.querySelectorAll(".ch"),function(svg){
+        [].forEach.call(svg.querySelectorAll(sel),function(el,i){
+          el.style.setProperty("--i", i);
+        });
+      });
+    });
+  }
+
+  /* ② 표 머리가 «붙었을 때만» 그림자.  안 붙었을 땐 평평하다 */
+  var tw=document.querySelector(".tw"), th=tw && tw.querySelector("thead");
+  if(tw && th && "IntersectionObserver" in window){
+    var sen=document.createElement("div");
+    sen.style.cssText="position:absolute;top:0;height:1px;width:1px";
+    tw.style.position=tw.style.position||"relative";
+    tw.insertBefore(sen, tw.firstChild);
+    new IntersectionObserver(function(e){
+      tw.classList.toggle("stuck", !e[0].isIntersecting);
+    },{threshold:0}).observe(sen);
+  }
+
+  /* ③ 성적표 숫자가 세어 올라간다.  ★ 끝 값은 «반드시» 정확히 찍는다 */
+  function countUp(el, to, ms){
+    if(RM || to<=0){ el.textContent=to; return }
+    var t0=null;
+    function step(t){
+      if(!t0) t0=t;
+      var k=Math.min(1,(t-t0)/ms);
+      el.textContent = Math.round(to * (1-Math.pow(1-k,3)));
+      if(k<1) requestAnimationFrame(step); else el.textContent=to;
+    }
+    requestAnimationFrame(step);
+  }
+  /* #oxend 가 채워지면 큰 숫자를 잡아서 굴린다 */
+  var end=document.getElementById("oxend");
+  if(end){
+    new MutationObserver(function(){
+      var b=end.querySelector(".oxbig");
+      if(!b || b.dataset.up) return;
+      var m=(b.textContent||"").match(/^(\d+)/); if(!m) return;
+      b.dataset.up="1";
+      var rest=b.innerHTML.replace(/^\d+/,"");
+      b.innerHTML='<i class="n"></i>'+rest;
+      countUp(b.querySelector(".n"), +m[1], 620);
+    }).observe(end,{childList:true,subtree:true});
+  }
 })();
 </script>
 </body>
