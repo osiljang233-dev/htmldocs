@@ -535,7 +535,985 @@ tbody tr:hover td.p::after{content:"";position:absolute;left:10px;bottom:4px;hei
 .kpis>.box.kpi{flex:1 1 220px;min-width:0}
 .kpis>div.box.kpi:first-of-type{display:none}
 /* ★ 「대기」 상자도 숨긴다 (2026-08-16) — 안 끝난 픽을 통째로 거르기로 해서 «항상 0» 이다.
-   마크업은 안 지운다.  <!--PICKLAB:pending-->0<!--/--></div>
+   마크업은 안 지운다.  PICKLAB:pending 슬롯이 이 안에 있어 지우면 굽는 쪽이 깨진다.
+   ★ 주석에도 «슬롯 표시를 그대로» 적으면 안 된다 — 굽는 쪽이 진짜 슬롯으로 보고
+     거기서부터 아래 닫는 표시까지를 통째로 갈아치운다.  실제로 그렇게 냈다 (2026-08-16).
+   되살리려면 이 한 줄만 지우면 된다 */
+.kpis>div.box.kpi:nth-of-type(3){display:none}   /* ★ :first-child 는 포스트잇(button)을 가리킨다.  div 중 첫째로 집어야 「픽」 상자가 잡힌다 */
+.kpi:nth-child(2){transform:rotate(.3deg)}
+.kpi:nth-child(3){transform:rotate(-.34deg)}
+.kpi>.in{padding:13px 17px 14px;min-height:104px}
+.kpi h3{font-family:var(--hand);font-size:17px;font-weight:700;color:var(--ink2);
+  letter-spacing:-.3px;line-height:1.9}
+.kpi .v{display:flex;align-items:flex-end;gap:8px;margin-top:5px}
+.kpi .v b{font-size:40px;font-weight:800;line-height:1.35;letter-spacing:-2px;
+  font-variant-numeric:tabular-nums}
+.kpi .v u{text-decoration:none;font-size:15px;font-weight:700;color:var(--ink2);padding-bottom:6px}
+.kpi .sb{font-family:var(--hand);font-size:15px;color:var(--ink3);margin-top:6px;line-height:1.75}
+
+/* 적중률 — ★ 큰 숫자 자리에 두지 않는다.  작게, 구간을 «붙박이» 로 옆에 둔다 */
+.rate{margin-bottom:24px}
+.rate>.in{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:13px 18px 14px;min-height:62px}
+.rate .lb{font-family:var(--hand);font-size:18px;color:var(--ink2);line-height:1.7}
+.rate .big{position:relative;font-size:27px;font-weight:800;letter-spacing:-1px;
+  font-variant-numeric:tabular-nums;padding:0 4px}
+.rate .big .hm{inset:auto -6px 2px -6px;width:auto;height:17px;z-index:0}
+.rate .big span{position:relative;z-index:1}
+.rate .frac{font-size:15px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
+.rate .ci{margin-left:auto;display:flex;align-items:baseline;gap:10px;
+  border:1.4px dashed #00000030;border-radius:9px;padding:4px 13px 5px;background:#FFFDF4aa}
+.rate .ci em{font-style:normal;font-family:var(--hand);font-size:15px;color:var(--ink3);line-height:1.7}
+.rate .ci strong{font-size:16px;font-weight:800;letter-spacing:-.4px;color:#a8321f;
+  font-variant-numeric:tabular-nums}
+
+/* ── 판 공통 ───────────────────────────────────────────────────────── */
+.pn{margin-bottom:22px}
+.pn>.in{padding:17px 20px 20px}
+.pn h2{font-family:var(--hand);font-size:22px;font-weight:700;color:var(--ink2);
+  display:flex;align-items:baseline;gap:6px 11px;flex-wrap:wrap;line-height:1.6}
+.pn h2 s{text-decoration:none;font-family:var(--hand);font-size:15px;color:var(--ink3);
+  font-weight:400;line-height:1.7}
+.pn .cap{font-family:var(--hand);font-size:16px;color:var(--ink2);margin-top:12px;
+  letter-spacing:-.2px;line-height:1.85}
+
+/* ── ③ 누적 적중 추이 ──────────────────────────────────────────────── */
+.chwrap{margin-top:6px}
+.ch{display:block;width:100%;height:auto;overflow:visible}
+.ch .gl{fill:none;stroke:#00000014;stroke-width:1}
+.ch .gv{fill:none;stroke:#0000000f;stroke-width:1}
+.ch .axl{fill:none;stroke:#33302B;stroke-width:1.4;stroke-linecap:round;opacity:.5}
+.ch .axl.s2{opacity:.24}
+.ch .pl{fill:none;stroke:#3C4A5C;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.ch .pl.s2{opacity:.32;stroke-width:1.7}
+/* ★ 50% 는 «가로 굵은 실선».  점선을 쓰지 않는다 */
+.ch .fifty{fill:none;stroke:#C2543F;stroke-width:3;stroke-linecap:round;opacity:.95}
+.ch .fifty.f2{stroke-width:1.6;opacity:.42}
+.ch .dot{fill:#EFE3D5;stroke:#3C4A5C;stroke-width:1.7;opacity:.96}
+.ch .dotc{fill:#3C4A5C;stroke:none;opacity:.85}
+/* ★ 그림 «안» 숫자도 손글씨를 안 쓴다 */
+.ch text{font-family:var(--hand);font-variant-numeric:tabular-nums}
+.ch .ax{font-size:13px;fill:#8b8378}
+.ch .xl{font-size:13px;fill:var(--ink2);font-weight:600;text-anchor:middle}
+.ch .xn{font-size:12px;fill:#8b8378;text-anchor:middle}
+.ch .vl{font-size:14px;fill:var(--ink);font-weight:800}
+.ch .fiftyt{font-size:14px;fill:#C2543F;font-weight:800}
+.ch--mb{display:none}
+.leg{display:flex;gap:20px 22px;flex-wrap:wrap;margin-top:14px;line-height:1.8;
+  font-family:var(--hand);font-size:15px;color:var(--ink2)}
+.leg s{text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.leg s i{display:block;flex:none;width:24px;height:3px;background:#C2543F;border-radius:2px}
+.leg s.d i{width:15px;height:15px;border:2px solid #3C4A5C;border-radius:50%;background:#EFE3D5}
+.leg s em{font-style:normal;font-size:13px;color:var(--ink3);margin-left:5px}
+
+/* ── ④ 픽 하나하나 ─────────────────────────────────────────────────── */
+.tw{overflow-x:auto;margin-top:12px;padding-bottom:4px}
+
+/* ═══ 표 다루기 — 찾기 · 정렬 · 머리 고정 ═══════════════════════════════
+   ★ .tw 가 overflow-x:auto 라 «세로 sticky 가 안 먹는다».
+     한 축이 visible 이 아니면 다른 축도 auto 가 돼서, .tw 가 스크롤 상자가 된다.
+     .tw 는 세로로 안 넘치니 sticky 가 붙을 데가 없어진다.
+     그래서 «표가 다 들어가는 폭» 에서만 넘침을 푼다 (표 min-width 880) */
+.tsr{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:14px 0 2px}
+.tsb{display:inline-flex;align-items:center;gap:8px;flex:1;min-width:260px;max-width:520px;
+  border:1.4px dashed #00000030;border-radius:11px;padding:6px 13px 7px;background:#FFFDF4aa}
+.tsb:focus-within{border-style:solid;border-color:#C8AE5A;background:#FFF6DD}
+.tsb svg{width:17px;height:17px;flex:none;fill:none;stroke:var(--ink3);stroke-width:1.7;
+  stroke-linecap:round}
+.tsb input{flex:1;min-width:0;border:0;outline:0;background:transparent;
+  font-family:var(--hand);font-size:16px;color:var(--ink);line-height:1.7}
+.tsb input::placeholder{color:var(--ink3);opacity:.75}
+.tsb input::-webkit-search-cancel-button{-webkit-appearance:none}
+.tct{font-family:var(--hand);font-size:15px;color:var(--ink2);white-space:nowrap}
+.tct b{font-size:20px;color:var(--ink);margin-right:2px}
+.tct i{font-style:normal;font-size:13.5px;color:var(--ink3);margin-left:8px}
+tbody tr.qoff{display:none}          /* ★ 찾기도 «끄는 쪽만».  필터와 같은 규칙이라 안 싸운다 */
+
+/* 정렬 — 누를 수 있는 열만 표시가 뜬다 */
+th[data-k]{cursor:pointer;user-select:none;padding-right:20px}
+th[data-k]:hover{color:var(--ink)}
+th[data-k]::after{content:"";position:absolute;right:6px;top:50%;width:9px;height:11px;
+  margin-top:-7px;opacity:0;transition:opacity .15s;
+  background:no-repeat center/contain
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 11' fill='none' stroke='%2333302B' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4.4 1.2 Q4.6 5 4.5 9.6'/%3E%3Cpath d='M1.4 6.6 Q3 8.4 4.5 9.9 Q6.1 8.3 7.6 6.5'/%3E%3C/svg%3E")}
+th[data-k]:hover::after{opacity:.3}
+th.srt::after{opacity:.95}
+th.srt.up::after{transform:rotate(180deg)}
+
+/* 행 — 짚어 보는 줄 */
+tbody tr:hover td{background:#FFF6DD66}
+tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
+
+/* ★ 판정 칸에 손그림 표시.  카드에는 있는데 표에만 없었다.
+     370행에 SVG 를 하나씩 박으면 무거워서 «한 벌» 을 배경으로 돌려 쓴다 */
+td.j b{position:relative;padding:0 3px}
+tr.hit td.j b::before,tr.miss td.j b::before{content:"";position:absolute;
+  left:-9px;right:-9px;top:50%;height:26px;margin-top:-13px;z-index:-1;
+  background:no-repeat center/100% 100%}
+tr.hit td.j b::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%232F7A4F%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M82.9%2011.8%20Q86.1%2015.2%2086.9%2019.0%20Q85.9%2023.0%2082.9%2027.0%20Q78.3%2030.8%2072.1%2034.3%20Q64.5%2037.1%2056.0%2039.1%20Q47.2%2040.0%2038.7%2040.1%20Q30.8%2039.3%2023.8%2037.7%20Q18.2%2035.3%2014.5%2032.1%20Q12.8%2028.4%2013.6%2024.3%20Q16.2%2020.3%2020.6%2016.5%20Q26.5%2012.9%2033.7%209.9%20Q42.0%207.7%2050.8%206.4%20Q59.4%206.2%2067.5%206.8%20Q74.6%208.3%2080.5%2010.6%22%2F%3E%3C%2Fsvg%3E")}
+tr.miss td.j b::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%2246%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%23C2543F%22%20stroke-width%3D%222.9%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M14.5%209.5%20Q50.4%2025.3%2088.7%2038.6%22%2F%3E%3Cpath%20d%3D%22M84.8%2011.2%20Q50.4%2024.8%2016.0%2038.4%22%2F%3E%3C%2Fsvg%3E")}
+
+@media (min-width:1000px){
+  .tw{overflow:visible}
+  thead th{position:sticky;top:0;z-index:6;background:var(--card,#FFFDF4);
+    box-shadow:0 1px 0 #00000014,0 6px 10px -8px #0000002e}
+}
+@media (max-width:860px){
+  .tsr{gap:9px;margin-top:11px}
+  .tsb{min-width:0;padding:5px 11px 6px}
+  .tsb input{font-size:15px}
+  .tct{font-size:14px}.tct b{font-size:18px}
+  .tct i{display:block;margin:2px 0 0}
+}
+table{border-collapse:collapse;width:100%;min-width:880px;font-size:15px}
+th,td{padding:8px 10px;text-align:left;vertical-align:middle;position:relative}
+thead th{font-family:var(--hand);font-size:16px;font-weight:700;color:var(--ink2);
+  white-space:nowrap;padding-bottom:6px;line-height:1.7}
+tbody td::after{content:'';position:absolute;left:0;right:0;top:0;height:1px;
+  background:repeating-linear-gradient(90deg,#00000022 0 5px,transparent 5px 11px)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td.d{color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums}
+td.g{font-weight:600}
+td.p{font-weight:700}
+td.w{color:var(--ink2)}
+td.j{white-space:nowrap}
+td.j b{font-weight:800}
+td.j i{font-style:normal;font-family:var(--hand);font-size:15px;color:var(--ink3);line-height:1.7}
+tr.hit td.j b{color:var(--ok)}
+tr.miss td.j b{color:var(--bad)}
+tr.pend td.j b,tr.late td.j b{color:var(--ink3)}
+tr.pend td{color:var(--ink3)}
+td.l a{color:#2f6ab0;text-decoration:none;border-bottom:1px dashed #2f6ab066}
+td.l a:hover{border-bottom-style:solid}
+.tnote{font-family:var(--hand);font-size:15px;color:var(--ink3);margin-top:12px;line-height:1.8}
+
+.ft{font-family:var(--hand);font-size:15px;color:var(--ink3);padding:8px 4px 0;
+  text-align:center;line-height:1.8}
+
+
+/* ══ 탭 ═══════════════════════════════════════════════════════════════
+   ★ radio + label + :checked ~ .  JS 0줄.
+   ★ :target 은 쓰지 않는다 — replaceState 로 # 을 떼면 재평가가 안 돼서 데인 적이 있다.
+   ★ 라디오를 display:none 으로 숨기면 키보드로 못 넘어간다.  clip 으로 숨긴다 */
+/* ★ position:fixed 다 — absolute 가 아니다 (2026-08-16 지시).
+     absolute 로 문서 맨 위에 두면, 라벨을 누를 때 브라우저가 «그 라디오를 보이게 하려고»
+     맨 위로 스크롤한다.  필터를 누를 때마다 화면이 위로 튀던 게 이것이다.
+   ★ fixed 는 «항상 화면 안» 이라 스크롤할 이유가 없어진다.
+     1500·393 둘 다 스크롤 900 이 그대로 유지되는 걸 확인했다. */
+.tabin{position:fixed;top:0;left:0;width:1px;height:1px;margin:0;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap;opacity:0}
+.tabs{display:flex;gap:8px;align-items:flex-end;margin:6px 0 20px}
+.tabs label{font-family:var(--hand);font-size:19px;font-weight:700;color:var(--ink3);
+  padding:7px 22px 8px;cursor:pointer;line-height:1.6;border-radius:12px 12px 0 0;
+  border:1.5px solid transparent;border-bottom:none;user-select:none;white-space:nowrap}
+.tabs label:hover{color:var(--ink2);background:#00000008}
+.tabs .rule{flex:1;height:1px;margin-bottom:1px;
+  background:repeating-linear-gradient(90deg,#00000026 0 6px,transparent 6px 12px)}
+#pt-g:checked ~ .page .tabs label[for="pt-g"],
+#pt-l:checked ~ .page .tabs label[for="pt-l"],
+#pt-s:checked ~ .page .tabs label[for="pt-s"]{color:var(--ink);background:var(--card);
+  border-color:#33302B55}
+#pt-g:focus-visible ~ .page .tabs label[for="pt-g"],
+#pt-l:focus-visible ~ .page .tabs label[for="pt-l"],
+#pt-s:focus-visible ~ .page .tabs label[for="pt-s"]{outline:2px dashed #C2543F;outline-offset:2px}
+.pane{display:none}
+#pt-g:checked ~ .page .pane-games{display:block}
+#pt-s:checked ~ .page .pane-sum{display:block}
+#pt-l:checked ~ .page .pane-lg{display:block}
+.lead{font-family:var(--hand);font-size:17px;line-height:1.8;color:var(--ink2);
+  margin:0 2px 14px;letter-spacing:-.2px}
+
+/* ── 날짜 고르기 = 필터 ────────────────────────────────────────────── */
+.dates{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.dates .dl{font-family:var(--hand);font-size:16px;color:var(--ink3);line-height:1.7;
+  margin-right:3px}
+.dates label{display:inline-flex;align-items:baseline;gap:7px;cursor:pointer;
+  font-family:var(--hand);font-size:14px;color:var(--ink3);line-height:1.7;
+  border:1.4px dashed #00000030;border-radius:10px;padding:4px 12px 5px;
+  background:#FFFDF4aa;user-select:none;white-space:nowrap}
+.dates label:hover{background:#FFF6DD;color:var(--ink2)}
+.dates label i{font-style:normal;font-size:12.5px;color:var(--ink3)}
+.daysum{display:none;align-items:baseline;gap:8px;flex-wrap:wrap;
+  font-family:var(--hand);font-size:14px;color:var(--ink2);margin-top:13px;
+  padding-top:11px;line-height:1.7;position:relative}
+.daysum::before{content:'';position:absolute;left:0;right:0;top:0;height:1px;
+  background:repeating-linear-gradient(90deg,#00000022 0 5px,transparent 5px 11px)}
+.daysum>b{font-size:18px;color:var(--ink)}
+.daysum s{text-decoration:none;color:#0000002e}
+.daysum span{font-size:15px}
+.daysum span b{font-size:17px;color:var(--ink)}
+.daysum em{font-style:normal;margin-left:auto;font-size:13px;color:var(--ink3)}
+
+/* ── 경기 카드 ─────────────────────────────────────────────────────── */
+.glist{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px}
+/* ★ 4열 기준점을 1560 → 1180 으로 내렸다 (2026-08-16).
+     1200 까지 «잘림 0 · 삐짐 0 · 넘침 0» 을 실측하고 정했다 (1600·1512·1440·1366·1280·1200).
+     1440·1366 노트북에서 3열로 떨어지던 게 이것 때문이었다 */
+@media (max-width:1180px){.glist{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:980px){.glist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){.glist{grid-template-columns:1fr;gap:11px}}/* ★ auto-fill 은 창 폭에 따라 3열로 떨어졌다.  폭마다 열을 못 박았다 —
+     1920·1680 4열 · 1280 3열 · 1024 2열 · 모바일 1열.  모바일(860) 블록이 뒤에 있어 860 이하는 1열이다 */
+.gc{display:none;position:relative}
+/* ★ 카드 상자는 defs 의 공용 모양을 <use> 로 당겨 쓴다. 경로를 86번 적으면 파일이 130KB 늘어난다 */
+.gc>.hb{--bf:#FFFDF4}
+.gc>.in{position:relative;z-index:1;padding:12px 15px 13px}
+/* ★ 숫자가 .nm 를 타고 .9em 로 줄지 않게 카드 안에서는 되돌린다.  크기는 아래서 직접 준다 */
+.gc .nm,.daysum .nm,.dates .nm{font-size:1em}
+.gh{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+.gh .tc{font-size:19px;font-weight:800;letter-spacing:-.2px}
+.gh .tc.pk{border-bottom:2.5px solid #C2543F66}
+.gh .at{text-decoration:none;font-family:var(--hand);font-size:15px;color:var(--ink3)}
+.gh .lg{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.5px;color:#FFFDF4;
+  background:#6B7A8F;border-radius:5px;padding:2px 6px 3px}
+.gh .dt{font-style:normal;margin-left:auto;font-size:14.5px;color:var(--ink3);
+  font-variant-numeric:tabular-nums}
+.gb{display:grid;grid-template-columns:minmax(0,1fr) 146px;gap:12px;align-items:start}
+.gb h4{font-family:var(--hand);font-size:15px;font-weight:700;color:var(--ink3);
+  line-height:1.6;margin-bottom:1px}
+.ours .pk{font-size:19px;font-weight:800;letter-spacing:-.4px;line-height:1.4}
+.mt{list-style:none;display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;font-size:14.5px;
+  color:var(--ink2);line-height:1.6}
+.mt li{background:#00000009;border-radius:6px;padding:2px 8px 3px}
+.rec{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-top:7px;font-size:15px;
+  line-height:1.7}
+.rec .rl{font-family:var(--hand);font-size:14px;color:var(--ink3)}
+.rec b{font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.rec i{font-style:normal;font-family:var(--hand);font-size:14px;color:var(--ink3)}
+.ln{margin-top:5px;font-size:14.5px;color:var(--ink2);line-height:1.7}
+.ln s{text-decoration:none;color:#00000030}
+.real{border-left:1.4px dashed #00000026;padding-left:12px}
+/* ★ 실제 점수 — 이 화면에서 제일 큰 숫자다 */
+.sc{display:flex;align-items:baseline;gap:5px;font-size:38px;font-weight:800;
+  letter-spacing:-1.8px;line-height:1.3;font-variant-numeric:tabular-nums}
+.sc s{text-decoration:none;font-size:21px;color:var(--ink3);font-weight:700}
+.wn{font-size:15px;font-weight:700;color:var(--ink2);line-height:1.6;margin-top:1px}
+.vd{margin-top:5px;font-size:18px;font-weight:800;line-height:1.6}
+.lk{margin-top:4px}
+.lk a{font-size:13.5px;color:#2f6ab0;text-decoration:none;border-bottom:1px dashed #2f6ab066}
+.gc.hit .vd{color:var(--ok)}
+.gc.miss .vd{color:var(--bad)}
+/* ── 사후 발행 — 예측이 아니라는 게 «한눈에» 보여야 한다 ──────────────
+   ★ opacity 를 .gc 에 걸면 띠까지 같이 흐려진다.  속과 테두리에만 건다 */
+.gc.late>.in{opacity:.56;padding-top:34px}
+.gc.late>.hb{opacity:.45}
+.gc.late .vd{color:var(--ink3)}
+.gc.late .gh .tc.pk{border-bottom-color:#00000033}
+.lband{position:absolute;left:13px;right:13px;top:8px;z-index:3;text-align:center;
+  font-family:var(--hand);font-size:14px;font-weight:700;color:#7a6a3a;line-height:1.6;
+  background:#FFF0A8e6;border:1.2px dashed #C8AE5A;border-radius:8px;padding:2px 10px 3px;
+  transform:rotate(-.6deg)}
+#d0816:checked ~ .page .gc.gd0816{display:block}#d0815:checked ~ .page .gc.gd0815{display:block}#d0814:checked ~ .page .gc.gd0814{display:block}#d0813:checked ~ .page .gc.gd0813{display:block}#d0812:checked ~ .page .gc.gd0812{display:block}#d0811:checked ~ .page .gc.gd0811{display:block}#d0810:checked ~ .page .gc.gd0810{display:block}#d0808:checked ~ .page .gc.gd0808{display:block}#d0807:checked ~ .page .gc.gd0807{display:block}
+
+#d0816:checked ~ .page .dates label[for=d0816]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0816:focus-visible ~ .page .dates label[for=d0816]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0815:checked ~ .page .gc.gd0815{display:block}
+
+#d0815:checked ~ .page .dates label[for=d0815]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0815:focus-visible ~ .page .dates label[for=d0815]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0814:checked ~ .page .gc.gd0814{display:block}
+
+#d0814:checked ~ .page .dates label[for=d0814]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0814:focus-visible ~ .page .dates label[for=d0814]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0813:checked ~ .page .gc.gd0813{display:block}
+
+#d0813:checked ~ .page .dates label[for=d0813]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0813:focus-visible ~ .page .dates label[for=d0813]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0812:checked ~ .page .gc.gd0812{display:block}
+
+#d0812:checked ~ .page .dates label[for=d0812]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0812:focus-visible ~ .page .dates label[for=d0812]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0811:checked ~ .page .gc.gd0811{display:block}
+
+#d0811:checked ~ .page .dates label[for=d0811]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0811:focus-visible ~ .page .dates label[for=d0811]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0810:checked ~ .page .gc.gd0810{display:block}
+
+#d0810:checked ~ .page .dates label[for=d0810]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0810:focus-visible ~ .page .dates label[for=d0810]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0808:checked ~ .page .gc.gd0808{display:block}
+
+#d0808:checked ~ .page .dates label[for=d0808]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0808:focus-visible ~ .page .dates label[for=d0808]{outline:2px dashed #C2543F;outline-offset:2px}
+#d0807:checked ~ .page .gc.gd0807{display:block}
+
+#d0807:checked ~ .page .dates label[for=d0807]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#d0807:focus-visible ~ .page .dates label[for=d0807]{outline:2px dashed #C2543F;outline-offset:2px}
+
+/* ══ 모바일 ═══════════════════════════════════════════════════════════
+   선형인 것(머리·경고·큰 숫자)은 세로로 다시 흘린다.
+   표는 8열이라 «옆으로 밀어서» 본다 — 393px 에 우겨넣으면 글자가 세로로 접혀 겹친다.
+   그림은 «세로로 긴 판» 을 따로 그려 뒀다.  한 장을 줄이면 글자가 6px 이 된다 */
+@media (max-width:860px){
+  .page{padding:0 12px 34px}
+  .hd{padding:18px 2px 12px;gap:11px}
+  .hd h1{font-size:28px}
+  .hd .ul{width:172px;height:11px}
+  .hd .why{margin-left:0;font-size:15px;max-width:100%;padding:6px 13px}
+  .warns{grid-template-columns:1fr;gap:12px;margin-bottom:18px}
+  .wrn,.wrn:nth-child(2){transform:none}
+  .wrn>.in{padding:13px 15px 14px 25px}
+  .wrn p{font-size:16px}
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi:nth-child(2),.kpi:nth-child(3){transform:none}
+  .kpi>.in{padding:11px 13px 12px;min-height:92px}
+  .kpi .v b{font-size:33px;letter-spacing:-1.6px}
+  .kpi h3{font-size:16px}
+  .rate>.in{gap:9px;padding:12px 14px 13px}
+  /* ★ 한 줄로 두면 「이상하지 않 / 다」 로 쪼개졌다.  위아래로 쌓는다 */
+  .rate .ci{margin-left:0;width:100%;flex-direction:column;align-items:flex-start;gap:1px}
+  .rate .ci strong{white-space:nowrap}
+  .pn>.in{padding:14px 13px 16px}
+  .ch--pc{display:none}
+  .ch--mb{display:block}
+  .tabs{gap:5px;margin:4px 0 15px}
+  .tabs label{font-size:17px;padding:6px 15px 7px}
+  .lead{font-size:16px;margin-bottom:11px}
+  .dates{gap:6px}
+  .dates .dl{width:100%;margin-right:0}
+  .dates label{font-size:13px;padding:3px 10px 4px;gap:5px}
+  .dates label i{font-size:11.5px}
+  .daysum{gap:6px;font-size:13px}
+  .daysum>b{font-size:16px}
+  .daysum span b{font-size:15px}
+  .daysum em{margin-left:0;width:100%}
+  .glist{grid-template-columns:1fr;gap:11px;margin-top:13px}
+  .gc>.in{padding:11px 13px 12px}
+  .gb{grid-template-columns:minmax(0,1fr) 122px;gap:10px}
+  .sc{font-size:30px}
+  .real{padding-left:10px}
+  .tw{margin:12px -13px 0;padding:0 13px 6px}
+  .tw::before{content:'← 옆으로 밀어서 본다';display:block;position:sticky;left:0;
+    width:calc(100vw - 26px);font-family:var(--hand);font-size:14px;color:var(--ink3);
+    padding-bottom:6px}
+}
+
+/* ★ 지표를 카드 «전폭» 으로 (2026-08-16 지시 — 「카드가 위아래로 너무 길다」).
+     실제 칸(146px) 옆에 끼면 1200창에서 92px 뿐이라 열세 줄이 전부 감겨
+     카드가 1511px 이 됐다.  전폭으로 빼니 883px 이다 (-42%).
+   ★ 최소폭 165 는 «재서» 정했다.  145 로 낮추면 2열이 더 일찍 되지만
+     칸이 좁아 줄이 감겨 1440·393 에서 «오히려 더 길어진다».
+     2열이 항상 짧은 게 아니다 — 폭마다 재고 제일 짧은 값을 골랐다 */
+.evg{grid-column:1/-1;margin-top:8px;padding-top:7px;border-top:1.2px dashed #00000018;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:0 14px;align-content:start}
+.evg>.rec{margin-top:4px}
+
+/* ★ 받아쓰기 채점 표시 (2026-08-16 지시).
+     「ai 처럼 똑같은 모양 복붙하지 말고 다 미세하게 다르게」 — 그래서 «글 번호» 를 씨앗으로
+     굽는 자리에서 path 를 하나씩 다르게 찍는다.  Math.random 이 아니라서
+     ① 카드마다 다르고  ② 다시 구워도 «같은 카드는 같은 모양» 이다.  JS 는 0줄이다.
+   ★ pointer-events:none — 표시가 글자 위를 덮어도 «글은 긁어서 복사» 된다 */
+.vd{position:relative;display:inline-block;padding:2px 13px 3px;margin:2px 0 3px}
+/* ★ 진짜 받아쓰기 동그라미는 글자보다 «넉넉하게» 두른다.  조이면 도장 찍은 것처럼 보인다 */
+.mk{position:absolute;left:-9px;top:-8px;width:calc(100% + 18px);height:calc(100% + 17px);
+  overflow:visible;pointer-events:none}
+.mk path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;
+  opacity:.9}
+.mk--o path{stroke:#C2543F}
+.mk--x path{stroke:#C2543F}
+/* 맞음은 초록 글씨 + 붉은 동그라미.  빗나감은 붉은 글씨 + 붉은 빗금 */
+.gc.hit .mk--o path{stroke:#2E7D4F}
+
+/* ── 표 필터 ─────────────────────────────────────────────────────
+   ★ JS 0줄.  라디오 «네 벌» 을 끄는 쪽으로 얹는다.  「전체」 면 끄는 규칙이 안 걸린다.
+     이름이 서로 달라 네 조건이 «겹쳐서» 걸린다 (축구 x 챔피언십 x 경기 전).
+   ★ 2026-08-16 자료가 97 → 351행으로 늘며 토큰이 바뀌었다 —
+     pend → wait · lg<슬러그> 12개 · spsoccer 254건 등장 · 배당 없는 행 256개.
+   ★ 「배당 없음」 은 축구용이다.  축구엔 머니라인이 없어 o1/o2/o3 가 안 붙는다.
+   ★ 칩에 건수를 안 적는다.  자료가 바뀌면 숫자만 낡아 거짓말이 된다 */
+.frow{display:flex;flex-direction:column;gap:7px;margin:12px 0 2px}
+.fgrp{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.fgrp .fl{font-size:15px;color:var(--ink3);margin-right:2px;flex:0 0 44px}
+.frow label{display:inline-flex;align-items:baseline;cursor:pointer;font-size:14px;
+  color:var(--ink3);line-height:1.7;border:1.4px dashed #00000030;border-radius:10px;
+  padding:2px 10px 3px;background:#FFFDF4aa;user-select:none;white-space:nowrap}
+.frow label:hover{background:#FFF6DD;color:var(--ink2)}
+tbody:empty::after{content:"고른 조건에 맞는 픽이 없어요"}
+#fj-all:checked ~ .page .frow label[for=fj-all]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fj-hit:checked ~ .page tbody tr:not(.hit){display:none}
+#fj-hit:checked ~ .page .frow label[for=fj-hit]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fj-miss:checked ~ .page tbody tr:not(.miss){display:none}
+#fj-miss:checked ~ .page .frow label[for=fj-miss]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fj-wait:checked ~ .page tbody tr:not(.wait){display:none}
+#fj-wait:checked ~ .page .frow label[for=fj-wait]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fj-pend:checked ~ .page tbody tr:not(.pend){display:none}
+#fj-pend:checked ~ .page .frow label[for=fj-pend]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fs-all:checked ~ .page .frow label[for=fs-all]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fs-base:checked ~ .page tbody tr:not(.spbaseball){display:none}
+#fs-base:checked ~ .page .frow label[for=fs-base]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fs-soc:checked ~ .page tbody tr:not(.spsoccer){display:none}
+#fs-soc:checked ~ .page .frow label[for=fs-soc]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-all:checked ~ .page .frow label[for=fl-all]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-mlb:checked ~ .page tbody tr:not(.lgmlb){display:none}
+#fl-mlb:checked ~ .page .frow label[for=fl-mlb]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-brasileirao:checked ~ .page tbody tr:not(.lgbrasileirao){display:none}
+#fl-brasileirao:checked ~ .page .frow label[for=fl-brasileirao]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-eredivisie:checked ~ .page tbody tr:not(.lgeredivisie){display:none}
+#fl-eredivisie:checked ~ .page .frow label[for=fl-eredivisie]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-championship:checked ~ .page tbody tr:not(.lgchampionship){display:none}
+#fl-championship:checked ~ .page .frow label[for=fl-championship]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-primeira:checked ~ .page tbody tr:not(.lgprimeira){display:none}
+#fl-primeira:checked ~ .page .frow label[for=fl-primeira]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-seriea:checked ~ .page tbody tr:not(.lgseriea){display:none}
+#fl-seriea:checked ~ .page .frow label[for=fl-seriea]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-laliga:checked ~ .page tbody tr:not(.lglaliga){display:none}
+#fl-laliga:checked ~ .page .frow label[for=fl-laliga]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-ligue1:checked ~ .page tbody tr:not(.lgligue1){display:none}
+#fl-ligue1:checked ~ .page .frow label[for=fl-ligue1]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-epl:checked ~ .page tbody tr:not(.lgepl){display:none}
+#fl-epl:checked ~ .page .frow label[for=fl-epl]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-mls:checked ~ .page tbody tr:not(.lgmls){display:none}
+#fl-mls:checked ~ .page .frow label[for=fl-mls]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-bundesliga:checked ~ .page tbody tr:not(.lgbundesliga){display:none}
+#fl-bundesliga:checked ~ .page .frow label[for=fl-bundesliga]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fl-kleague1:checked ~ .page tbody tr:not(.lgkleague1){display:none}
+#fl-kleague1:checked ~ .page .frow label[for=fl-kleague1]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fo-all:checked ~ .page .frow label[for=fo-all]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fo-o1:checked ~ .page tbody tr:not(.o1){display:none}
+#fo-o1:checked ~ .page .frow label[for=fo-o1]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fo-o2:checked ~ .page tbody tr:not(.o2){display:none}
+#fo-o2:checked ~ .page .frow label[for=fo-o2]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fo-o3:checked ~ .page tbody tr:not(.o3){display:none}
+#fo-o3:checked ~ .page .frow label[for=fo-o3]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+#fo-non:checked ~ .page .frow label[for=fo-non]{color:var(--ink);background:#FFF0A8cc;border-style:solid;border-color:#C8AE5A}
+/* ★ 여기 «켜는» 규칙(display:table-row)을 뒀다가 종목 필터의 «끄기» 를 덮어
+     「축구 x 배당 없음」 이 254 대신 256 이 나왔다.  내가 내 규칙을 어긴 것이다 —
+     ★ 끄는 쪽만 쓴다.  켜는 규칙을 하나라도 넣으면 겹치기가 깨진다 */
+#fo-non:checked ~ .page tbody tr.o1,#fo-non:checked ~ .page tbody tr.o2,#fo-non:checked ~ .page tbody tr.o3{display:none}
+
+/* 리그별 줄 — 운영팀이 <div class="lgr"> 로 채운다 (표가 아니다).
+   ★ 처음엔 <table> 로 만들었는데 채우는 쪽이 div 였다.  «채우는 쪽 모양» 에 맞춘다 —
+     tbody 안에 div 를 넣으면 브라우저가 밖으로 끄집어내 배치가 깨진다 */
+.lgwrap{margin-top:12px}
+.lgr{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:15px;
+  color:var(--ink2);padding:9px 0;line-height:1.7;position:relative}
+.lgr::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:repeating-linear-gradient(90deg,#00000018 0 5px,transparent 5px 11px)}
+.lgr>b{font-size:18px;color:var(--ink);min-width:96px}
+/* 건수 막대.  ★ --w 가 없으면 폭 0이라 «안 보인다».  SEO 가 붙이면 그때 뜬다 */
+.lgr::after{content:"";position:absolute;left:0;bottom:2px;height:2.5px;width:var(--w,0);
+  background:linear-gradient(90deg,#C2543F55,#C2543Fbb);border-radius:2px}
+
+/* ★ 채점 0인 리그줄을 «죽인다».  지금 11줄이 「채점 0건 · 0 맞음 · 적중률 —」 을
+     똑같이 반복하고 오른쪽에 같은 문장이 11번 찍힌다.  아무 말도 안 하는 줄이다.
+   ★ .nog 가 «없으면 아무 일도 안 일어난다» — SEO 가 붙이면 그때 적용된다 (--w 와 같은 방식) */
+.lgr.nog{display:none}   /* ★ 채점 0인 리그는 «뺀다» (사용자 지시).
+     흐리게 두는 것도 해 봤는데 「아무 말 안 하는 줄」 이 11개 남는 건 같았다.
+     위 「리그 하나만 보기」 배지가 12개 리그를 다 보여주므로 잃는 정보가 없다 */
+.lgr s{text-decoration:none;color:#0000002e}
+.lgr em{font-style:normal;margin-left:auto;font-size:13px;color:var(--ink3)}
+
+/* ── 리그 하나만 보기 ──────────────────────────────────────────────
+   ★ 라디오 12개 + «켜는 쪽만» 이다.  여기는 교집합을 안 만드니 켜기로 해도 된다
+     (경기 표 필터는 여러 묶음이 겹쳐서 «끄는 쪽만» 이어야 한다 — 규칙이 반대다) */
+.lgtabs{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 15px}
+.lgtabs label{display:inline-flex;align-items:baseline;gap:6px;cursor:pointer;
+  font-family:var(--hand);font-size:14.5px;color:var(--ink3);line-height:1.7;
+  border:1.4px dashed #00000030;border-radius:10px;padding:4px 12px 5px;
+  background:#FFFDF4aa;user-select:none;white-space:nowrap}
+.lgtabs label:hover{background:#FFF6DD;color:var(--ink2)}
+.lgtabs label i{font-style:normal;font-size:12.5px;color:var(--ink3)}
+#lt-mlb:checked ~ .page .lgtabs label[for="lt-mlb"],
+#lt-brasileirao:checked ~ .page .lgtabs label[for="lt-brasileirao"],
+#lt-eredivisie:checked ~ .page .lgtabs label[for="lt-eredivisie"],
+#lt-championship:checked ~ .page .lgtabs label[for="lt-championship"],
+#lt-primeira:checked ~ .page .lgtabs label[for="lt-primeira"],
+#lt-seriea:checked ~ .page .lgtabs label[for="lt-seriea"],
+#lt-laliga:checked ~ .page .lgtabs label[for="lt-laliga"],
+#lt-ligue1:checked ~ .page .lgtabs label[for="lt-ligue1"],
+#lt-epl:checked ~ .page .lgtabs label[for="lt-epl"],
+#lt-mls:checked ~ .page .lgtabs label[for="lt-mls"],
+#lt-kleague1:checked ~ .page .lgtabs label[for="lt-kleague1"],
+#lt-bundesliga:checked ~ .page .lgtabs label[for="lt-bundesliga"]{color:var(--ink);background:var(--card);border-color:#33302B55}
+#lt-mlb:focus-visible ~ .page .lgtabs label[for="lt-mlb"],
+#lt-brasileirao:focus-visible ~ .page .lgtabs label[for="lt-brasileirao"],
+#lt-eredivisie:focus-visible ~ .page .lgtabs label[for="lt-eredivisie"],
+#lt-championship:focus-visible ~ .page .lgtabs label[for="lt-championship"],
+#lt-primeira:focus-visible ~ .page .lgtabs label[for="lt-primeira"],
+#lt-seriea:focus-visible ~ .page .lgtabs label[for="lt-seriea"],
+#lt-laliga:focus-visible ~ .page .lgtabs label[for="lt-laliga"],
+#lt-ligue1:focus-visible ~ .page .lgtabs label[for="lt-ligue1"],
+#lt-epl:focus-visible ~ .page .lgtabs label[for="lt-epl"],
+#lt-mls:focus-visible ~ .page .lgtabs label[for="lt-mls"],
+#lt-kleague1:focus-visible ~ .page .lgtabs label[for="lt-kleague1"],
+#lt-bundesliga:focus-visible ~ .page .lgtabs label[for="lt-bundesliga"]{outline:2px dashed #C2543F;outline-offset:2px}
+.lgpane{display:none}
+#lt-mlb:checked ~ .page .lgpane[data-lg="mlb"],
+#lt-brasileirao:checked ~ .page .lgpane[data-lg="brasileirao"],
+#lt-eredivisie:checked ~ .page .lgpane[data-lg="eredivisie"],
+#lt-championship:checked ~ .page .lgpane[data-lg="championship"],
+#lt-primeira:checked ~ .page .lgpane[data-lg="primeira"],
+#lt-seriea:checked ~ .page .lgpane[data-lg="seriea"],
+#lt-laliga:checked ~ .page .lgpane[data-lg="laliga"],
+#lt-ligue1:checked ~ .page .lgpane[data-lg="ligue1"],
+#lt-epl:checked ~ .page .lgpane[data-lg="epl"],
+#lt-mls:checked ~ .page .lgpane[data-lg="mls"],
+#lt-kleague1:checked ~ .page .lgpane[data-lg="kleague1"],
+#lt-bundesliga:checked ~ .page .lgpane[data-lg="bundesliga"]{display:block}
+.lgsum{display:flex;align-items:baseline;gap:4px 20px;flex-wrap:wrap;
+  font-family:var(--hand);font-size:15px;color:var(--ink2);line-height:1.6}
+.lgsum .nm{font-size:25px;color:var(--ink);margin-right:2px}
+.lgsum span:nth-child(4) .nm{font-size:34px}
+.lgsum em{font-style:normal;margin-left:auto;font-size:13px;color:var(--ink3);
+  align-self:flex-end}
+.lgtrend{margin-top:12px}
+.nodata{font-family:var(--hand);font-size:15px;color:var(--ink3);margin:14px 2px 4px}
+@media (max-width:860px){
+  .lgtabs{gap:6px}
+  .lgtabs label{font-size:13.5px;padding:3px 10px 4px}
+  .lgsum{gap:2px 14px;font-size:14px}
+  .lgsum .nm{font-size:21px}
+  .lgsum span:nth-child(4) .nm{font-size:27px}
+  .lgsum em{margin-left:0;width:100%}
+}
+
+/* ★ 탭을 바꾸면 «맨 아래로 튀던» 것.  크롬 스크롤 앵커링이 원인이다 —
+     짧은 탭에서 긴 탭으로 갈 때 브라우저가 아래 요소를 붙잡는다.
+     .tabin 을 fixed 로 바꾼 것과는 «다른» 원인이라 따로 막는다 */
+html,body,.page,.pane{overflow-anchor:none}
+/* ═══ 쓸데없이 고퀄 · 2차 ═══════════════════════════════════════════ */
+
+/* ① 추이 그래프가 «그어지며» 나타난다 — 연필로 긋는 결.
+   ★ pathLength 로 정규화한다.  경로 길이가 제각각이라 고정 dasharray 를 쓰면
+     선이 허공에서 끊긴다 (CLAUDE.md 에 적어 둔 그 사고다) */
+@media (prefers-reduced-motion:no-preference){
+  .ch .pl,.ch .axl,.ch .fifty{stroke-dasharray:100;stroke-dashoffset:100;
+    animation:draw 1.15s cubic-bezier(.3,.8,.4,1) forwards}
+  .ch .pl.s2{animation-delay:.09s}
+  .ch .fifty,.ch .fifty.f2{animation-duration:.8s}
+  .ch .dot,.ch .dotc{opacity:0;animation:dotin .3s ease-out forwards}
+  .ch .dot{animation-delay:calc(.42s + var(--i,0)*.075s)}
+  .ch .dotc{animation-delay:calc(.47s + var(--i,0)*.075s)}
+  .ch .vl,.ch .xl,.ch .xn{opacity:0;animation:dotin .3s ease-out forwards;
+    animation-delay:calc(.55s + var(--i,0)*.075s)}
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes dotin{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+
+/* ② 잉크 번짐 — 누르면 눌린 자리에서 잉크가 퍼진다 */
+.frow label,.lgtabs label,.dates label,.qzo button,.oxpick button,.morebtn,.toys button{
+  position:relative;overflow:hidden}
+.frow label::after,.lgtabs label::after,.dates label::after,.morebtn::after,.toys button::after{
+  content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;
+  border-radius:50%;background:#33302B;opacity:0;pointer-events:none;transform:scale(1)}
+.frow label:active::after,.lgtabs label:active::after,.dates label:active::after,
+.morebtn:active::after,.toys button:active::after{animation:ink .45s ease-out}
+@keyframes ink{0%{opacity:.16;transform:scale(1)}100%{opacity:0;transform:scale(22)}}
+
+/* ③ 표 머리가 «붙었을 때만» 그림자가 짙어진다 */
+@media (min-width:1000px){
+  thead th{transition:box-shadow .18s}
+  .tw.stuck thead th{box-shadow:0 1px 0 #00000022,0 10px 14px -9px #00000059}
+}
+
+/* ④ 종이 접힌 모서리 — 상자 오른쪽 아래가 살짝 들려 있다 */
+.box.pn>.in::after{content:"";position:absolute;right:0;bottom:0;width:0;height:0;
+  border:11px solid transparent;border-right-color:#00000009;border-bottom-color:#00000009;
+  pointer-events:none}
+
+/* ⑤ 성적표 숫자가 «세어 올라간다» */
+.oxbig{font-variant-numeric:tabular-nums}
+.oxbig i.n{font-style:normal}
+
+/* ═══ 종이 농구 ═══════════════════════════════════════════════════
+   ★ 캔버스를 안 쓴다.  공 하나를 transform 으로 옮긴다 */
+.bbshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:24px;
+  background:#231f1ad9;animation:oxin .18s ease-out}
+.bbwin{position:relative;width:min(680px,100%);font-family:var(--hand);
+  transform:rotate(-.3deg)}   /* ★ filter 를 뺐다 — 공이 움직일 때마다 창 전체를 다시 굽고 있었다.
+     그림자는 아래 ::before(종이) 로 옮겼다.  종이는 안 움직이니 한 번만 굽는다 */
+.bbwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
+  filter:url(#pkTorn) drop-shadow(0 22px 38px #00000073)}
+.bbwin>*{position:relative;z-index:1}
+.bbbar{display:flex;align-items:center;gap:10px;padding:14px 18px 12px;flex-wrap:nowrap}
+.bbbar b{font-size:22px;letter-spacing:2px;color:var(--ink);white-space:nowrap}
+.bbbar s{text-decoration:none;font-size:13px;color:#00000059;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bbsc,.bbleft{font-size:13.5px;color:var(--ink3);white-space:nowrap;flex:none}
+.bbsc{margin-left:auto}
+.bbsc b,.bbleft b{font-size:19px;color:var(--ink);letter-spacing:0}
+.bbx{flex:none;font-family:var(--hand);font-size:19px;line-height:1;cursor:pointer;
+  border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:3px 10px 5px}
+.bbx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.bbfield{position:relative;height:min(62vh,440px);margin:0 16px 18px;overflow:hidden;
+  border-radius:10px;touch-action:none;
+  background:repeating-linear-gradient(180deg,transparent 0 31px,#33302B0a 31px 32px)}
+.bbball{position:absolute;left:0;top:0;width:44px;height:44px;cursor:grab;will-change:transform;
+  background:no-repeat center/contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cpath d='M7 20 Q5 12 12 8 Q20 3 29 6 Q38 9 39 18 Q41 28 34 35 Q26 41 17 37 Q8 33 7 20 Z' fill='%23FFFBEF' stroke='%2333302B' stroke-width='1.6' stroke-linejoin='round' opacity='.92'/%3E%3Cpath d='M13 14 Q19 18 16 24 M27 11 Q24 19 31 22 M20 30 Q26 28 30 32 M11 26 Q16 27 18 32' fill='none' stroke='%2333302B' stroke-width='1.1' stroke-linecap='round' opacity='.5'/%3E%3C/svg%3E")}
+.bbball:active{cursor:grabbing}
+.bbbin{position:absolute;left:0;top:calc(100% - 176px);width:104px;height:96px;will-change:transform;
+  background:no-repeat center/contain;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 96'%3E%3Cpath d='M12 14 Q52 9 92 14' fill='none' stroke='%2333302B' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M16 16 Q19 56 25 88 Q52 93 79 88 Q85 56 88 16' fill='%23FFFDF4' stroke='%2333302B' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M30 24 Q33 56 36 84 M52 24 L52 86 M74 24 Q71 56 68 84' fill='none' stroke='%2333302B' stroke-width='1.2' opacity='.45'/%3E%3C/svg%3E")}
+.bbaim{position:absolute;left:0;top:0;height:3px;transform-origin:0 50%;border-radius:2px;
+  background:repeating-linear-gradient(90deg,#C2543F 0 7px,transparent 7px 13px);
+  pointer-events:none}
+.bbnote{position:absolute;left:0;right:0;top:16px;text-align:center;font-size:21px;
+  font-weight:800;pointer-events:none}
+.bbnote.ok{color:var(--ok)} .bbnote.no{color:#D97742}
+.bbend{position:absolute;inset:0;display:grid;place-content:center;text-align:center;
+  background:#FFFDF4ee}
+.bbbig{font-size:70px;line-height:1;color:var(--ink);letter-spacing:-3px}
+.bbbig s{text-decoration:none;font-size:30px;color:#00000026;margin:0 4px}
+.bbgr{font-size:24px;color:#C2543F;margin-top:6px}
+.bbcmp{font-size:15px;color:var(--ink2);margin:12px 0 4px}
+.bbend button{margin:14px 5px 0;font-family:var(--hand);font-size:16px;cursor:pointer;
+  border:1.7px dashed #00000038;border-radius:12px;background:#FFFDF4;padding:8px 20px 9px;
+  color:var(--ink)}
+.bbend button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+@media (max-width:600px){
+  .bbbar s{display:none} .bbbar b{font-size:19px}
+  .bbfield{height:56vh;margin:0 12px 14px}
+  .bbbig{font-size:54px}
+}
+@media (prefers-reduced-motion:reduce){.bbshow{animation:none}}
+
+/* ★★ [hidden] 은 UA 규칙이라 «클래스 선택자에 진다».
+     .oxshow{display:grid} 가 이겨서 hidden 을 걸어도 창이 안 닫혔다.
+     display 를 주는 모든 덮개에 이 한 줄이 필요하다. */
+.oxshow[hidden],.bbshow[hidden],.qzp[hidden],.qzs[hidden],.qzi[hidden],
+.qzr[hidden],.qzo[hidden],.oxr[hidden],.bbend[hidden],.bbplay[hidden],
+#oxbody[hidden],#oxend[hidden],.memo[hidden],.dood[hidden],.morebar[hidden],
+.toys button[hidden],.oxsnd[hidden]{display:none !important}
+
+/* ── 형광펜 밑칠 ── 표 행에 마우스를 올리면 노란 형광펜이 왼→오 로 그어진다 ──
+   ★ 기존 tr:hover td{background:#FFF6DD66} 를 «대신» 한다.  둘 다 두면 두 겹으로 뜬다 */
+tbody tr:hover td{background:transparent}
+tbody tr td{position:relative;z-index:0}
+tbody tr td::before{content:"";position:absolute;left:0;right:0;top:50%;height:22px;
+  margin-top:-11px;z-index:-1;background:#FFE98A;border-radius:2px;
+  transform:scaleX(0) rotate(-.35deg);transform-origin:left center;opacity:.72;
+  transition:transform .22s cubic-bezier(.3,.9,.4,1)}
+tbody tr:hover td::before{transform:scaleX(1) rotate(-.35deg)}
+/* 칸마다 아주 조금씩 늦게 — 왼쪽부터 «그어지는» 것처럼 보인다 */
+tbody tr td:nth-child(2)::before{transition-delay:.02s}
+tbody tr td:nth-child(3)::before{transition-delay:.04s}
+tbody tr td:nth-child(4)::before{transition-delay:.06s}
+tbody tr td:nth-child(5)::before{transition-delay:.08s}
+tbody tr td:nth-child(6)::before{transition-delay:.1s}
+tbody tr td:nth-child(7)::before{transition-delay:.12s}
+tbody tr td:nth-child(8)::before{transition-delay:.14s}
+tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
+@media (prefers-reduced-motion:reduce){
+  tbody tr td::before{transition:none}
+}
+
+/* ═══ 모눈종이 테트리스 ═══════════════════════════════════════════
+   ★ 「네모 블록은 디지털 게임기로 읽힌다」 가 걱정이었다.
+     그래서 칸을 «연필로 그린 네모» 로 만들고 모눈 위에 얹는다 — 칸마다 기울기가 다르다 */
+.ttshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:22px;
+  background:#231f1ad9;animation:oxin .18s ease-out}
+.ttshow[hidden]{display:none !important}
+.ttwin{position:relative;width:min(640px,100%);font-family:var(--hand);
+  transform:rotate(-.3deg)}   /* ★ filter 를 뺐다 — 공이 움직일 때마다 창 전체를 다시 굽고 있었다.
+     그림자는 아래 ::before(종이) 로 옮겼다.  종이는 안 움직이니 한 번만 굽는다 */
+.ttwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
+  filter:url(#pkTorn) drop-shadow(0 22px 38px #00000073)}
+.ttwin>*{position:relative;z-index:1}
+.ttbar{display:flex;align-items:center;gap:9px;padding:14px 18px 11px;flex-wrap:nowrap}
+.ttbar b{font-size:21px;letter-spacing:1.5px;color:var(--ink);white-space:nowrap}
+.ttbar s{text-decoration:none;font-size:12.5px;color:#00000059;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ttsc,.ttln,.ttlv{font-size:12.5px;color:var(--ink3);white-space:nowrap;flex:none}
+.ttsc{margin-left:auto}
+.ttsc b,.ttln b,.ttlv b{font-size:18px;color:var(--ink)}
+.ttx{flex:none;font-family:var(--hand);font-size:19px;line-height:1;cursor:pointer;
+  border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:3px 10px 5px}
+.ttx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.ttbody{display:flex;gap:16px;padding:0 18px 18px;align-items:flex-start}
+.ttgridw{position:relative;flex:none}
+.ttgrid{display:grid;grid-template-columns:repeat(10,26px);grid-auto-rows:26px;gap:0;
+  background:repeating-linear-gradient(90deg,#33302B14 0 1px,transparent 1px 26px),
+             repeating-linear-gradient(180deg,#33302B14 0 1px,transparent 1px 26px);
+  border:1.6px solid #33302B44;border-radius:3px}
+.ttgrid i{display:block;width:26px;height:26px}
+.ttgrid i.on{position:relative}
+.ttgrid i.on::before{content:"";position:absolute;inset:3px;border-radius:3px;
+  border:2px solid var(--pc,#33302B);background:var(--pf,#33302B14);
+  transform:rotate(var(--r,0deg))}
+.ttgrid i.on::after{content:"";position:absolute;inset:7px;border-radius:2px;
+  border-top:1.4px solid var(--pc,#33302B);opacity:.4;
+  transform:rotate(calc(var(--r,0deg) * -1.6))}
+/* 조각 색 — 우리 팔레트 안에서만 */
+.pI{--pc:#3C4A5C;--pf:#3C4A5C1f}
+.pO{--pc:#C8AE5A;--pf:#FFE98A66}
+.pT{--pc:#C2543F;--pf:#C2543F1c}
+.pS{--pc:#2F7A4F;--pf:#2F7A4F1c}
+.pZ{--pc:#8B5E3C;--pf:#8B5E3C1c}
+.pJ{--pc:#4A6B8A;--pf:#4A6B8A1c}
+.pL{--pc:#B07C2E;--pf:#B07C2E1c}
+.ttover{position:absolute;inset:0;display:grid;place-content:center;text-align:center;
+  background:#FFFDF4ee;border-radius:3px}
+.ttover[hidden]{display:none !important}
+.ttbig{font-size:60px;line-height:1;color:var(--ink);letter-spacing:-2px}
+.ttgr{font-size:22px;color:#C2543F;margin-top:4px}
+.ttcmp{font-size:14px;color:var(--ink2);margin:10px 0 2px}
+.ttover button{margin:12px 4px 0;font-family:var(--hand);font-size:15px;cursor:pointer;
+  border:1.6px dashed #00000038;border-radius:11px;background:#FFFDF4;padding:7px 16px 8px;
+  color:var(--ink)}
+.ttover button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.ttside{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
+.ttnextw em{font-style:normal;font-size:13px;color:var(--ink3);display:block;margin-bottom:5px}
+.ttnext{display:grid;grid-template-columns:repeat(4,20px);grid-auto-rows:20px;
+  border:1.4px dashed #00000026;border-radius:6px;padding:5px;width:max-content}
+.ttnext i{display:block;width:20px;height:20px;position:relative}
+.ttnext i.on::before{content:"";position:absolute;inset:2px;border-radius:2px;
+  border:1.8px solid var(--pc,#33302B);background:var(--pf,#33302B14)}
+.ttpad{display:grid;grid-template-columns:repeat(3,42px);gap:6px}
+.ttpad button{font-family:var(--hand);font-size:17px;cursor:pointer;height:40px;
+  border:1.5px dashed #00000030;border-radius:11px;background:#FFFDF4;color:var(--ink)}
+.ttpad button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.ttL{grid-column:1}
+.ttRot{grid-column:2}
+.ttR{grid-column:3}
+.ttD{grid-column:2}
+.ttDrop{grid-column:1/-1;font-size:15px}
+@media (max-width:600px){
+  .ttbar s{display:none}
+  .ttbar b{font-size:18px}
+  .ttgrid{grid-template-columns:repeat(10,22px);grid-auto-rows:22px}
+  .ttgrid i{width:22px;height:22px}
+  .ttbody{gap:10px;padding:0 12px 14px}
+  .ttpad{grid-template-columns:repeat(3,36px)}
+}
+@media (prefers-reduced-motion:reduce){.ttshow{animation:none}}
+
+/* ═══ 픽 벽돌깨기 ═══ 벽돌 하나가 «빗나간 픽» 한 건이다 ═══════════════ */
+.brshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:22px;
+  background:#231f1ad9;animation:oxin .18s ease-out}
+.brshow[hidden]{display:none !important}
+.brwin{position:relative;width:min(660px,100%);font-family:var(--hand);
+  transform:rotate(-.3deg)}   /* ★ filter 를 뺐다 — 공이 움직일 때마다 창 전체를 다시 굽고 있었다.
+     그림자는 아래 ::before(종이) 로 옮겼다.  종이는 안 움직이니 한 번만 굽는다 */
+.brwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
+  filter:url(#pkTorn) drop-shadow(0 22px 38px #00000073)}
+.brwin>*{position:relative;z-index:1}
+.brbar{display:flex;align-items:center;gap:9px;padding:14px 18px 11px;flex-wrap:nowrap}
+.brbar b{font-size:21px;letter-spacing:1.5px;color:var(--ink);white-space:nowrap}
+.brbar s{text-decoration:none;font-size:12.5px;color:#00000059;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0}
+.brsc,.brlf{font-size:12.5px;color:var(--ink3);white-space:nowrap;flex:none}
+.brsc{margin-left:auto}
+.brsc b,.brlf b{font-size:18px;color:var(--ink)}
+.brx{flex:none;font-family:var(--hand);font-size:19px;line-height:1;cursor:pointer;
+  border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:3px 10px 5px}
+.brx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.brfield{position:relative;height:min(58vh,420px);margin:0 18px;overflow:hidden;
+  border:1.6px solid #33302B33;border-radius:4px;touch-action:none;cursor:none;
+  background:repeating-linear-gradient(180deg,transparent 0 29px,#33302B0a 29px 30px)}
+.brbricks{position:absolute;inset:0;pointer-events:none}
+.brb{position:absolute;display:grid;place-items:center;font-style:normal;
+  font-family:var(--hand);font-size:12.5px;color:var(--ink2);
+  border:1.8px solid #C2543F88;border-radius:5px;background:#C2543F12;
+  transform:rotate(var(--r,0deg));transition:opacity .18s,transform .18s;
+  overflow:hidden;white-space:nowrap;padding:0 3px}
+.brb.gone{opacity:0;transform:rotate(var(--r,0deg)) scale(.55)}
+.brball{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;will-change:transform;
+  border:2.2px solid #33302B;background:#FFFDF4;pointer-events:none}
+.brpad{position:absolute;left:0;bottom:14px;width:104px;height:13px;border-radius:7px;will-change:transform;
+  border:2px solid #3C4A5C;background:#3C4A5C1f;pointer-events:none}
+.brnote{position:absolute;left:0;right:0;bottom:34px;text-align:center;font-size:15px;
+  color:var(--ink3);pointer-events:none;padding:0 10px}
+.brnote.no{color:#D97742;font-size:18px;font-weight:800}
+.brnote.sm{font-size:13px;color:var(--ink2)}
+.brover{position:absolute;inset:0;display:grid;place-content:center;text-align:center;
+  background:#FFFDF4ee}
+.brover[hidden]{display:none !important}
+.brbig{font-size:62px;line-height:1;color:var(--ink);letter-spacing:-2px}
+.brgr{font-size:22px;color:#C2543F;margin-top:4px}
+.brcmp{font-size:15px;color:var(--ink2);margin:10px 0 2px}
+.brover button{margin:12px 4px 0;font-family:var(--hand);font-size:15px;cursor:pointer;
+  border:1.6px dashed #00000038;border-radius:11px;background:#FFFDF4;padding:7px 16px 8px;
+  color:var(--ink)}
+.brover button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.brfoot{font-size:12.5px;color:var(--ink3);padding:10px 18px 16px;text-align:center}
+/* 놀이 조작 안내 — 모바일에선 헤더 부제(.bbbar s·.ttbar s)가 숨으니 여기서 준다 */
+.brfoot .onmb{display:none}
+.bbfoot{display:none;font-size:12.5px;color:var(--ink3);padding:8px 18px 14px;text-align:center;font-family:var(--hand)}
+@media (max-width:600px){
+  .brfoot .onpc{display:none} .brfoot .onmb{display:inline}
+  .bbfoot{display:block}
+}
+@media (max-width:600px){
+  .brbar s{display:none}
+  .brbar b{font-size:18px}
+  .brfield{height:52vh;margin:0 12px}
+  .brbig{font-size:50px}
+}
+@media (prefers-reduced-motion:reduce){.brshow{animation:none}.brb{transition:none}}
+
+/* ═══ 놀이 입구 ═══ 「기능 목록」 이 아니라 «종이에 붙은 것» 처럼 ═══════
+   ★ 하단바에 다섯 개를 늘어놓으면 기능 목록으로 읽힌다.
+     포스트잇·낙서·휴지통 그림으로 두면 «발견하는» 재미가 남는다.
+     완전히 숨기진 않는다 — 보이되 장식처럼 보이게. */
+
+/* 공통 — 누를 수 있다는 티만 아주 살짝 */
+.spot{border:0;background:transparent;cursor:pointer;font-family:var(--hand);
+  padding:0;transition:transform .16s,filter .16s}
+.spot:hover{transform:translateY(-3px) rotate(-1.2deg)}
+.spot:active{transform:translateY(0) rotate(.3deg)}
+.spot:focus-visible{outline:2px dashed #C8AE5A;outline-offset:4px}
+
+/* ① 포스트잇 — 채점 요약 맨 위 */
+.spot-note{position:absolute;right:6px;top:-16px;z-index:8;width:126px;padding:14px 12px 12px;
+  background:#FFF8C4;color:#7a6a2e;text-align:center;line-height:1.45;
+  transform:rotate(2.4deg);box-shadow:0 7px 15px -9px #00000066,0 1px 2px #0000001a}
+.spot-note b{display:block;font-size:16px;color:#5f5320;letter-spacing:1px}
+.spot-note s{text-decoration:none;display:block;font-size:11.5px;color:#00000052;margin-top:3px}
+.spot-note i{position:absolute;left:50%;top:-9px;width:56px;height:18px;margin-left:-28px;
+  background:#FFFFFF66;border-left:1px dashed #00000014;border-right:1px dashed #00000014;
+  transform:rotate(-2deg)}
+.spot-note:hover{transform:rotate(1.2deg) translateY(-3px)}
+.kpis{position:relative}
+
+/* ② 낙서 화살표 — 「픽 하나하나」 제목 옆 */
+.spot-doodle{display:inline-flex;align-items:center;gap:5px;margin-left:12px;
+  font-size:13.5px;color:#C2543F;vertical-align:2px}
+.spot-doodle svg{width:38px;height:17px;fill:none;stroke:#C2543F;stroke-width:2;
+  stroke-linecap:round;opacity:.75}
+.spot-doodle:hover{filter:brightness(.85)}
+
+/* ③ 휴지통 그림 — 바닥 각주 옆 */
+.spot-bin{display:inline-flex;flex-direction:column;align-items:center;gap:2px;
+  margin:0 14px;vertical-align:-30px}
+.spot-bin i{width:40px;height:38px;background:no-repeat center/contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 96'%3E%3Cpath d='M12 14 Q52 9 92 14' fill='none' stroke='%2333302B' stroke-width='4' stroke-linecap='round' opacity='.55'/%3E%3Cpath d='M16 16 Q19 56 25 88 Q52 93 79 88 Q85 56 88 16' fill='none' stroke='%2333302B' stroke-width='3.4' stroke-linejoin='round' opacity='.55'/%3E%3Cpath d='M30 24 Q33 56 36 84 M52 24 L52 86 M74 24 Q71 56 68 84' fill='none' stroke='%2333302B' stroke-width='2' opacity='.3'/%3E%3C/svg%3E")}
+.spot-bin s{text-decoration:none;font-size:11.5px;color:#00000047}
+
+/* ④ 접힌 종이 귀퉁이 — 「리그 하나만 보기」 상자 오른쪽 위 */
+.spot-fold{position:absolute;right:0;top:0;z-index:6;width:46px;height:46px;
+  overflow:hidden}
+.spot-fold::before{content:"";position:absolute;right:0;top:0;border:23px solid transparent;
+  border-top-color:#EFE6CE;border-right-color:#EFE6CE;
+  filter:drop-shadow(-1px 1px 1px #00000012)}
+.spot-fold::after{content:"";position:absolute;right:5px;top:8px;width:22px;height:2px;
+  background:#33302B;opacity:.32;transform:rotate(-45deg);border-radius:2px}
+.spot-fold em{position:absolute;right:-42px;top:9px;font-style:normal;font-size:10.5px;
+  color:#00000052;transform:rotate(-45deg);white-space:nowrap;transition:right .16s}
+.spot-fold:hover em{right:2px}
+/* ★ 손가락에는 hover 가 없다. 그냥 두면 «정체불명 삼각형» 이 된다.
+   접힌 귀퉁이 «안» 으로 밀어넣으면 overflow:hidden 에 잘려서 「테」 만 보인다 —
+   실제로 그렇게 나왔다. 그래서 밖에 가로로 눕혀 붙인다. */
+@media (hover:none){
+  .spot-fold{overflow:visible}
+  .spot-fold em{right:9px;top:auto;bottom:-14px;transform:none;font-size:10.5px}
+}
+.spot-fold:hover::before{border-top-color:#E4D8B8;border-right-color:#E4D8B8}
+.box.pn{position:relative}
+
+/* ── 첫 탭(경기별)에도 놀이 입구를 둔다 ────────────────────────────
+   ★ 놀이 4개 중 3개가 «숨은 탭» 에 있어서 첫 화면엔 휴지통 하나만 보였다.
+     하단바에 늘어놓으면 다시 「기능 목록」 이 되니, 여백 낙서로 둔다.
+     원래 버튼은 제 탭에 그대로 있다 — 여기 것은 그걸 대신 눌러준다. */
+.spot-marg{display:flex;justify-content:flex-end;align-items:center;gap:18px;
+  margin:-6px 2px 14px}
+.spot-oxm{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#9C7F2E}
+.spot-oxm svg{width:44px;height:20px;fill:none;stroke:#C8AE5A;stroke-width:2.2;
+  stroke-linecap:round;opacity:.9}
+.spot-oxm:hover svg{stroke:#9C7F2E}
+/* ★ 테트리스는 접힌 귀퉁이(.spot-fold)뿐이라 안 보였다 — 10.5px · 검정 32% 다.
+   같은 줄의 다른 둘처럼 «글자» 를 준다.  귀퉁이는 장식으로 그대로 둔다 */
+.spot-ttm{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:#5C6B7F}
+.spot-ttm svg{width:56px;height:35px;fill:none;stroke:#8494A8;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;opacity:.95;transform:rotate(-2deg)}
+.spot-ttm:hover svg{stroke:#5C6B7F}
+.spot-marg .spot-doodle svg{width:64px;height:30px}
+
+/* ═══ 놀이 입구를 흐트러뜨린다 (웹만) ═══════════════════════════════
+   셋이 오른쪽 끝에 «일자로» 붙어 있어서 「기능 목록」 으로 읽혔다 (사용자 지적).
+   OX 는 위쪽 포스트잇 · 테트리스는 탭줄 옆 낙서 · 벽돌깨기는 왼쪽 아래 낙서.
+   ★ 모바일(≤1199)은 손대지 않는다.  거기선 지금 줄이 맞다.
+   ★ 벽돌깨기만 «흐름 안» 에 남긴다 — 리드 문단 줄 수가 바뀌면
+     절대 좌표로 박은 것은 겹친다.  하나는 흐름에 두는 게 안전하다 */
+@media (min-width:1200px){
+  .spot-marg{justify-content:flex-start;gap:0;margin:-2px 2px 10px}
+  /* 벽돌깨기 — 왼쪽 아래, 살짝 기울여 */
+  .spot-marg .spot-doodle{transform:rotate(-3.4deg);transform-origin:0 50%}
+  .spot-marg .spot-doodle:hover{transform:rotate(-3.4deg) translateY(-2px)}
+
+  /* OX — 위쪽에 «붙여 둔 포스트잇» */
+  #ox2open{position:absolute;left:540px;top:14px;z-index:9;
+    flex-direction:column;align-items:flex-start;gap:2px;
+    width:132px;padding:13px 13px 11px;
+    background:#FFF0A8;color:#5f5320;font-size:13.5px;line-height:1.5;
+    box-shadow:2px 4px 10px #0000001f;transform:rotate(-2.6deg);
+    transition:transform .16s,box-shadow .16s}
+  #ox2open::before{content:"";position:absolute;left:50%;top:-9px;margin-left:-27px;
+    width:54px;height:17px;background:#FFFDF4cc;border:1px solid #00000012;
+    transform:rotate(-2.2deg);box-shadow:0 1px 2px #0000000f}
+  #ox2open::after{content:"초록으로 만들어 보세요";display:block;white-space:nowrap;
+    font-size:10.5px;color:#00000052;margin-top:2px}
+  #ox2open svg{width:40px;height:19px;stroke:#9C7F2E}
+  #ox2open:hover{transform:rotate(-1.4deg) translateY(-3px);box-shadow:3px 7px 15px #00000026}
+
+  /* 테트리스 — 탭줄 오른쪽 여백에 «끄적여 둔» 낙서 */
+  #tt3open{position:absolute;right:292px;top:164px;z-index:9;
+    transform:rotate(3.2deg);transform-origin:100% 50%;
+    transition:transform .16s}
+  #tt3open:hover{transform:rotate(1.6deg) translateY(-3px)}
+}
+.spot-marg .spot-doodle{margin-left:0}
+@media (max-width:600px){
+  .spot-marg{justify-content:flex-start;gap:14px;flex-wrap:wrap;margin:-2px 2px 14px}
+}
+
+/* 하단바에는 «도구» 만 남긴다 */
+.toys .toyox{display:none}
+
+@media (max-width:860px){
+  .spot-note{position:static;width:auto;display:block;margin:0 0 12px;transform:rotate(-.8deg)}
+  .spot-note i{display:none}
+  .spot-bin{vertical-align:-24px;margin:0 8px}
+  .spot-fold{width:38px;height:38px}
+}
+@media (prefers-reduced-motion:reduce){.spot,.spot-fold em{transition:none}}
+
+/* 휴지통 — 버린 픽이 있으면 그림에 표가 난다 */
+.spot-bin.has i{filter:none;opacity:1}
+.spot-bin.has s{color:#C2543F}
+.bblist{list-style:none;margin:8px auto 0;padding:0;max-width:330px;text-align:left;
+  font-family:var(--hand);font-size:13px;color:var(--ink2);max-height:150px;overflow:auto}
+.bblist li{padding:5px 0;position:relative}
+.bblist li+li::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:repeating-linear-gradient(90deg,#00000018 0 4px,transparent 4px 10px)}
+.bblist b{color:var(--ink);font-size:14px;margin-right:6px}
+.bblist s{text-decoration:none;color:var(--ink3);font-size:12px}
+.bblist em{font-style:normal;float:right;color:#D97742;font-size:12.5px}
+.bbmore{font-size:12px;color:var(--ink3);margin-top:5px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<!-- ★ 종이 찢긴 가장자리.  feTurbulence 는 «절대 크기» 로 흔든다 —
+     상자가 34px 이든 16,000px 이든 찢긴 결이 «같다».  늘어날 여지가 없다.
+     전에 쓰던 .hb 는 SVG 한 장을 상자 크기에 맞춰 통째로 늘려서,
+     표 상자(세로 16,000)에서 y 로 80배 늘어나 ±2px 손떨림이 ±160px 파도가 됐다. -->
+<filter id="pkTorn" x="-5%" y="-5%" width="110%" height="110%" primitiveUnits="userSpaceOnUse">
+  <feTurbulence type="fractalNoise" baseFrequency="0.018 0.09" numOctaves="4" seed="7" result="n"/>
+  <feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+</filter></defs></svg>
+
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter>
+  <defs><path id="gs0" d="M7 2 Q31 2 44 2 Q58 1 71 1 Q85 0 98 1 Q111 1 123 1 Q136 1 150 1 Q163 2 176 1 Q189 0 202 0 Q215 0 228 1 Q241 1 254 1 Q267 1 280 0 Q293 0 307 1 Q320 1 333 1 Q346 1 359 2 Q373 2 386 1 Q398 0 411 0 Q423 0 436 0 Q449 0 463 0 Q476 0 490 1 Q504 1 516 1 Q529 0 542 0 Q555 0 568 0 Q581 0 594 0 Q608 0 621 0 Q633 1 633 0 Q633 0 636 1 Q638 2 638 4 Q637 6 638 5 Q639 5 639 18 Q638 32 638 46 Q638 59 638 72 Q638 86 638 100 Q639 114 639 127 Q639 141 639 153 Q639 166 638 179 Q638 192 638 193 Q638 193 638 196 Q637 198 635 198 Q633 198 634 198 Q634 197 621 198 Q607 198 595 198 Q582 197 568 198 Q555 199 542 199 Q529 198 516 199 Q502 199 490 198 Q477 198 464 199 Q450 199 437 199 Q423 198 411 198 Q398 199 385 199 Q371 199 358 198 Q345 197 333 198 Q321 198 307 198 Q294 198 280 198 Q266 198 254 198 Q241 198 228 199 Q214 199 201 198 Q188 198 175 198 Q163 199 150 198 Q137 198 124 198 Q110 198 97 198 Q84 198 71 198 Q59 198 45 198 Q32 199 19 199 Q7 199 7 199 Q7 199 4 198 Q1 198 1 196 Q0 194 0 194 Q0 193 1 180 Q1 167 1 154 Q1 141 1 127 Q0 113 1 100 Q2 87 2 73 Q2 60 1 46 Q0 32 0 19 Q1 5 1 6 Q1 7 2 5 Q3 3 4 2 L5 0 Z" vector-effect="non-scaling-stroke"/><path id="gs0b" d="M6 1 Q33 1 45 1 Q58 1 71 0 Q84 0 98 0 Q111 0 124 1 Q136 2 149 2 Q162 2 175 1 Q188 0 201 0 Q214 0 228 1 Q242 1 255 2 Q268 2 280 1 Q292 0 306 0 Q319 0 333 1 Q346 1 359 1 Q372 1 384 1 Q397 1 410 1 Q424 2 438 1 Q451 0 464 0 Q476 1 490 1 Q503 2 516 2 Q529 1 542 2 Q555 2 569 2 Q582 2 595 2 Q608 1 620 0 Q632 -0 632 0 Q633 0 634 1 Q636 1 637 3 Q639 5 639 5 Q638 5 638 19 Q637 33 638 47 Q639 60 638 73 Q637 85 638 99 Q638 113 638 126 Q638 139 638 153 Q638 167 638 180 Q637 192 638 192 Q639 192 638 195 Q636 198 635 199 Q633 200 633 199 Q634 199 620 199 Q607 200 594 199 Q581 198 568 198 Q555 199 543 199 Q530 199 516 199 Q501 199 489 199 Q476 198 463 198 Q450 199 438 199 Q425 199 411 199 Q398 200 385 198 Q373 197 359 198 Q346 199 332 199 Q318 199 305 198 Q293 197 280 198 Q267 199 255 198 Q242 197 228 198 Q214 199 201 199 Q188 198 175 199 Q161 199 149 198 Q137 198 123 199 Q110 199 98 199 Q86 198 71 199 Q57 199 45 199 Q32 200 20 200 Q7 200 7 200 Q6 199 4 198 Q1 197 1 195 Q0 194 1 194 Q1 193 1 180 Q1 167 0 154 Q0 140 0 127 Q0 114 1 101 Q2 87 2 73 Q1 59 1 46 Q1 33 1 20 Q2 6 2 7 Q2 7 2 5 Q3 3 4 2 L6 1 Z" vector-effect="non-scaling-stroke"/><path id="gs1" d="M5 0 Q33 0 45 0 Q58 1 71 1 Q83 2 97 1 Q111 0 123 0 Q136 1 149 1 Q162 1 175 1 Q188 2 201 1 Q214 1 227 0 Q240 0 254 0 Q268 1 281 1 Q293 1 307 1 Q320 1 332 1 Q345 2 359 2 Q372 1 385 1 Q399 1 411 2 Q423 2 436 1 Q449 1 463 1 Q477 2 490 1 Q503 1 516 1 Q529 1 542 1 Q554 1 568 1 Q581 1 594 1 Q607 1 620 1 Q633 0 634 0 Q634 0 635 1 Q636 3 638 4 Q639 5 639 5 Q638 5 638 19 Q638 33 638 46 Q638 59 638 72 Q638 85 639 99 Q639 112 639 126 Q639 140 639 153 Q639 166 638 180 Q638 194 638 194 Q638 194 638 195 Q637 196 635 197 Q633 198 633 198 Q634 199 621 199 Q608 199 595 198 Q581 198 568 198 Q556 199 542 199 Q528 198 515 198 Q502 197 490 198 Q477 198 463 198 Q450 198 436 198 Q423 198 410 199 Q398 199 385 199 Q372 198 359 199 Q346 199 333 198 Q320 197 307 198 Q294 198 280 199 Q267 199 253 199 Q240 199 227 199 Q215 198 202 198 Q189 198 176 198 Q164 199 150 199 Q137 199 123 199 Q110 199 97 199 Q84 199 71 198 Q58 197 45 197 Q32 197 19 198 Q6 199 6 198 Q6 198 4 198 Q3 198 2 196 Q1 194 1 194 Q1 194 1 180 Q1 166 1 153 Q1 139 1 127 Q1 114 0 100 Q0 86 1 72 Q1 59 1 46 Q0 33 0 19 Q0 6 0 6 Q0 6 1 4 Q2 2 3 1 L5 0 Z" vector-effect="non-scaling-stroke"/><path id="gs1b" d="M6 2 Q32 1 45 1 Q59 0 72 1 Q85 2 98 1 Q112 0 124 1 Q136 1 150 1 Q164 1 176 1 Q189 2 202 1 Q215 0 228 1 Q242 2 254 1 Q266 -0 279 0 Q293 1 306 0 Q319 -0 332 1 Q345 2 358 1 Q371 1 384 0 Q397 0 411 1 Q424 2 438 1 Q451 1 464 0 Q477 0 490 1 Q503 2 516 2 Q529 2 542 1 Q555 0 568 1 Q581 1 594 1 Q607 0 620 1 Q633 2 633 1 Q633 0 635 1 Q636 2 638 4 Q639 6 638 6 Q638 5 638 19 Q639 32 639 46 Q640 60 639 73 Q638 85 638 100 Q638 114 638 126 Q638 139 638 153 Q639 167 639 181 Q639 194 638 194 Q637 193 637 194 Q636 196 634 197 Q633 197 633 198 Q633 198 621 199 Q608 200 594 199 Q580 198 567 198 Q554 198 541 199 Q529 199 516 198 Q503 197 490 198 Q477 198 463 199 Q449 199 437 200 Q425 200 411 200 Q397 200 384 199 Q372 199 358 199 Q345 198 332 198 Q320 199 306 198 Q292 197 280 198 Q268 198 255 198 Q241 198 228 198 Q214 198 201 198 Q188 198 175 199 Q162 199 149 199 Q136 199 124 199 Q111 199 98 199 Q86 200 72 199 Q58 199 45 198 Q33 197 19 198 Q6 199 6 199 Q5 198 4 197 Q3 197 2 195 Q2 194 2 194 Q2 194 1 180 Q0 166 0 152 Q0 139 0 126 Q1 113 1 99 Q0 86 0 73 Q1 60 1 46 Q2 32 2 19 Q1 7 1 6 Q1 6 1 3 Q1 1 3 1 L5 1 Z" vector-effect="non-scaling-stroke"/><path id="gs2" d="M6 0 Q32 0 45 0 Q59 1 71 1 Q83 1 96 1 Q109 0 122 0 Q135 1 149 0 Q163 0 176 1 Q189 1 202 1 Q215 1 227 1 Q240 1 253 1 Q267 1 280 1 Q294 1 306 0 Q319 0 333 1 Q347 2 359 1 Q371 1 384 1 Q397 0 411 1 Q425 2 438 2 Q451 2 463 1 Q476 1 489 1 Q502 1 516 1 Q529 1 541 1 Q554 0 567 0 Q580 0 593 0 Q607 0 620 0 Q634 0 633 0 Q633 0 634 1 Q636 2 638 4 Q639 6 638 6 Q638 5 638 19 Q639 33 639 46 Q639 59 639 73 Q639 87 639 100 Q639 113 639 127 Q638 140 638 153 Q638 166 638 179 Q639 193 639 193 Q639 193 638 195 Q637 197 635 198 Q633 198 633 198 Q634 198 620 198 Q607 199 594 199 Q580 199 568 199 Q555 199 542 198 Q530 198 517 198 Q503 198 490 198 Q477 199 464 199 Q451 199 437 199 Q423 199 410 199 Q397 199 384 198 Q371 198 358 198 Q345 199 333 199 Q321 199 307 199 Q294 199 281 198 Q267 198 254 198 Q241 198 228 198 Q215 199 202 199 Q189 198 176 198 Q162 199 150 198 Q137 197 124 198 Q111 198 97 198 Q84 198 71 198 Q58 197 46 197 Q33 198 19 198 Q5 198 5 199 Q5 199 3 198 Q2 198 1 196 Q0 194 1 193 Q1 193 0 180 Q0 167 0 154 Q0 140 1 126 Q1 113 1 100 Q1 87 1 73 Q1 58 1 46 Q1 33 0 20 Q0 6 0 5 Q0 5 2 4 Q3 2 5 2 L6 1 Z" vector-effect="non-scaling-stroke"/><path id="gs2b" d="M4 2 Q32 1 45 1 Q59 0 72 0 Q85 1 97 1 Q109 1 122 1 Q135 1 149 0 Q163 0 175 1 Q188 1 202 1 Q216 1 229 1 Q242 0 254 0 Q267 0 280 0 Q293 0 307 1 Q321 1 334 2 Q346 2 360 1 Q373 1 385 1 Q398 1 411 1 Q423 2 437 2 Q451 2 463 2 Q476 2 489 1 Q502 1 515 1 Q529 0 541 1 Q554 1 568 1 Q582 0 594 1 Q606 2 620 2 Q633 2 634 1 Q634 0 636 2 Q637 3 638 4 Q639 5 639 5 Q639 5 639 20 Q638 34 638 47 Q637 60 638 74 Q638 87 638 100 Q638 112 638 125 Q638 139 638 153 Q639 167 639 180 Q639 194 638 194 Q637 194 637 195 Q636 197 634 197 Q633 197 633 197 Q633 197 620 197 Q606 197 594 198 Q582 199 569 199 Q555 198 542 199 Q528 199 516 199 Q503 198 490 198 Q477 199 464 198 Q451 198 438 198 Q425 197 412 197 Q399 197 386 198 Q373 199 359 198 Q346 198 332 198 Q318 198 305 198 Q292 198 280 198 Q268 197 254 198 Q241 200 227 200 Q214 199 202 199 Q189 199 176 199 Q163 199 150 198 Q136 197 123 198 Q110 198 98 198 Q86 198 72 198 Q59 199 45 198 Q31 198 18 198 Q5 199 5 199 Q5 199 3 198 Q2 197 1 195 Q0 194 0 193 Q0 193 1 180 Q1 168 1 154 Q2 140 2 127 Q2 114 1 99 Q1 85 0 72 Q0 60 0 46 Q-0 32 0 20 Q1 7 1 6 Q1 5 2 3 Q3 2 5 1 L7 0 Z" vector-effect="non-scaling-stroke"/><path id="gs3" d="M6 0 Q32 0 44 0 Q57 0 70 0 Q84 0 97 0 Q110 1 123 1 Q137 0 150 1 Q163 1 175 1 Q188 1 202 1 Q215 1 228 1 Q240 1 254 1 Q267 1 281 2 Q294 2 306 2 Q319 2 332 1 Q346 0 359 0 Q373 1 385 1 Q398 2 411 2 Q425 2 438 1 Q451 0 464 0 Q477 0 489 0 Q502 0 515 0 Q528 0 542 0 Q556 1 568 1 Q581 2 594 1 Q608 1 621 1 Q634 0 634 0 Q633 0 635 1 Q636 2 638 4 Q639 5 639 5 Q639 6 639 19 Q638 32 639 45 Q639 59 639 73 Q639 87 639 100 Q639 113 638 127 Q638 140 638 154 Q638 168 639 180 Q639 193 639 193 Q639 193 638 195 Q637 196 635 197 Q633 198 633 198 Q634 198 621 198 Q608 199 595 199 Q582 199 569 199 Q556 198 542 198 Q529 198 516 198 Q503 198 489 198 Q475 197 463 197 Q450 197 438 198 Q425 199 412 199 Q399 199 385 198 Q372 197 359 198 Q346 199 333 199 Q320 199 307 199 Q294 199 281 198 Q268 198 254 198 Q241 199 228 198 Q215 198 202 198 Q188 198 176 198 Q163 199 150 198 Q137 198 123 198 Q110 198 97 198 Q84 199 70 199 Q57 199 44 199 Q31 198 19 198 Q7 198 7 198 Q6 197 5 198 Q3 198 2 196 Q1 194 2 194 Q2 193 1 180 Q1 167 1 153 Q2 139 1 126 Q0 114 1 100 Q1 86 1 73 Q0 60 1 46 Q1 32 1 19 Q0 6 1 6 Q1 6 2 5 Q2 3 4 2 L5 1 Z" vector-effect="non-scaling-stroke"/><path id="gs3b" d="M5 0 Q31 2 44 1 Q57 0 71 0 Q85 0 97 1 Q110 2 124 1 Q138 0 150 1 Q162 1 176 1 Q190 1 202 1 Q214 1 228 1 Q242 1 255 1 Q268 0 281 1 Q293 2 307 1 Q320 1 333 1 Q345 2 359 1 Q372 0 385 0 Q399 0 411 1 Q423 2 437 1 Q451 0 464 0 Q477 1 490 1 Q504 1 516 1 Q528 1 541 0 Q554 0 567 1 Q580 2 594 1 Q608 0 621 1 Q633 2 633 1 Q633 0 635 1 Q637 2 638 4 Q638 6 638 6 Q638 6 639 19 Q640 33 639 46 Q638 60 638 73 Q638 87 638 100 Q638 113 638 126 Q637 139 637 153 Q637 167 638 180 Q638 193 638 194 Q638 194 638 195 Q638 196 635 197 Q633 197 633 198 Q633 199 620 198 Q607 197 594 197 Q582 197 569 198 Q556 198 542 198 Q527 199 515 199 Q502 199 490 199 Q477 199 464 199 Q451 199 438 198 Q425 198 411 198 Q398 197 385 198 Q372 198 358 198 Q344 198 332 198 Q320 198 307 198 Q294 198 280 199 Q266 199 254 199 Q242 198 228 198 Q214 198 201 199 Q189 199 175 199 Q162 199 149 199 Q136 199 123 199 Q110 199 98 199 Q85 199 71 199 Q57 199 44 198 Q32 198 19 198 Q7 199 7 198 Q6 198 5 197 Q3 197 3 195 Q2 194 1 194 Q1 194 0 180 Q0 167 1 154 Q1 141 0 126 Q0 112 1 99 Q1 86 0 73 Q-0 59 0 46 Q0 33 0 19 Q1 5 0 5 Q0 6 1 5 Q2 3 4 1 L6 0 Z" vector-effect="non-scaling-stroke"/><path id="gs4" d="M7 1 Q31 1 45 0 Q58 0 71 1 Q84 1 97 1 Q110 1 123 1 Q137 0 149 0 Q162 0 176 0 Q189 0 203 0 Q216 0 229 1 Q242 2 255 2 Q268 2 281 1 Q294 1 307 1 Q320 1 333 1 Q345 0 359 0 Q372 1 385 1 Q398 1 411 1 Q424 2 438 1 Q451 1 464 1 Q477 2 490 1 Q503 0 516 0 Q528 0 542 0 Q555 0 568 0 Q582 1 594 1 Q607 0 621 0 Q634 0 634 0 Q634 0 635 0 Q637 1 638 4 Q639 7 639 6 Q638 6 638 19 Q637 33 637 46 Q637 59 638 73 Q639 86 639 100 Q639 114 638 127 Q638 140 638 154 Q639 167 639 181 Q639 194 639 194 Q639 194 638 195 Q636 197 635 198 Q633 198 633 199 Q634 199 620 199 Q606 199 594 198 Q581 197 568 198 Q554 198 541 198 Q528 198 515 198 Q503 199 489 198 Q476 198 463 198 Q450 198 437 199 Q425 199 412 199 Q398 199 385 199 Q371 199 359 199 Q347 198 334 199 Q321 199 307 199 Q293 199 280 199 Q266 199 253 199 Q240 198 227 198 Q215 199 201 199 Q188 198 175 199 Q162 199 149 199 Q136 199 123 199 Q110 199 97 198 Q84 198 71 198 Q58 199 45 199 Q32 198 19 198 Q6 198 6 198 Q6 198 4 198 Q2 198 1 196 Q0 194 0 194 Q0 194 0 180 Q0 166 1 153 Q1 139 1 126 Q0 112 0 100 Q0 87 1 73 Q2 59 2 46 Q2 33 2 19 Q2 6 1 6 Q1 5 1 4 Q1 2 4 1 L7 1 Z" vector-effect="non-scaling-stroke"/><path id="gs4b" d="M6 0 Q31 2 44 2 Q58 2 72 2 Q85 1 98 1 Q110 0 124 0 Q137 0 150 0 Q163 0 176 0 Q189 0 202 1 Q215 2 228 2 Q242 2 254 1 Q266 0 280 1 Q294 1 307 0 Q319 0 332 0 Q345 0 358 0 Q371 0 385 1 Q399 1 412 1 Q425 2 438 1 Q451 1 463 0 Q475 0 489 0 Q503 1 515 1 Q528 2 542 1 Q556 1 568 1 Q581 1 594 1 Q607 2 620 2 Q634 2 634 1 Q634 0 636 1 Q637 3 638 4 Q638 5 638 6 Q637 6 638 19 Q639 32 639 46 Q638 60 638 73 Q638 86 638 100 Q638 113 639 126 Q639 139 639 152 Q638 166 638 179 Q638 192 638 192 Q638 193 638 195 Q638 197 635 197 Q633 198 633 198 Q633 198 620 198 Q608 197 594 198 Q581 198 568 198 Q554 198 542 198 Q529 199 516 199 Q502 199 490 198 Q477 198 463 197 Q450 197 437 198 Q424 198 411 198 Q398 197 385 198 Q373 198 359 198 Q346 197 332 198 Q318 198 306 198 Q294 198 281 198 Q267 198 254 199 Q241 199 228 198 Q214 197 201 198 Q188 199 175 199 Q163 199 149 198 Q136 197 123 198 Q111 199 98 198 Q85 198 72 198 Q58 198 45 198 Q32 198 19 198 Q6 199 6 199 Q5 199 4 198 Q2 197 1 195 Q1 194 1 194 Q1 194 2 180 Q2 166 1 152 Q0 139 0 126 Q1 113 0 99 Q-0 85 0 72 Q2 58 1 45 Q1 32 1 18 Q0 5 1 5 Q2 5 2 3 Q3 1 4 0 L5 0 Z" vector-effect="non-scaling-stroke"/><path id="gs5" d="M5 1 Q31 1 45 0 Q58 0 71 0 Q84 0 97 0 Q110 0 123 0 Q137 0 150 1 Q163 1 176 1 Q189 0 201 0 Q214 0 228 0 Q242 0 254 0 Q267 0 280 0 Q293 0 306 0 Q320 1 333 0 Q346 0 359 0 Q371 0 385 1 Q399 2 411 2 Q424 1 437 2 Q451 2 464 1 Q476 1 489 0 Q503 0 515 0 Q528 1 541 1 Q555 1 568 0 Q580 0 593 1 Q607 1 620 1 Q633 0 633 0 Q633 0 635 1 Q637 2 638 4 Q639 6 638 6 Q638 6 638 19 Q639 32 638 46 Q638 59 639 73 Q639 86 639 99 Q639 112 638 126 Q637 140 638 154 Q639 167 639 180 Q638 194 638 193 Q637 192 637 195 Q636 198 634 198 Q633 199 633 199 Q633 199 620 199 Q607 199 594 198 Q581 198 568 198 Q555 198 542 198 Q530 198 516 199 Q502 199 489 199 Q476 198 464 199 Q451 199 438 198 Q425 198 411 197 Q398 197 385 198 Q372 199 359 199 Q345 198 333 198 Q320 199 306 199 Q293 199 280 199 Q267 199 254 199 Q242 199 228 198 Q215 198 202 198 Q189 199 176 199 Q162 199 149 198 Q136 198 124 198 Q111 198 97 198 Q84 199 71 199 Q59 199 46 199 Q32 198 19 198 Q5 198 5 198 Q5 197 3 197 Q1 198 1 195 Q2 192 1 193 Q1 193 1 180 Q2 167 1 154 Q1 140 1 127 Q1 113 1 100 Q0 86 1 72 Q1 59 1 46 Q0 33 1 20 Q1 6 1 7 Q0 7 1 5 Q2 3 4 2 L6 1 Z" vector-effect="non-scaling-stroke"/><path id="gs5b" d="M7 0 Q33 0 46 1 Q58 1 71 1 Q83 0 97 0 Q110 1 124 0 Q137 0 150 1 Q162 2 176 1 Q190 0 203 0 Q215 0 228 0 Q241 0 254 0 Q267 1 281 0 Q294 0 306 0 Q319 -0 332 0 Q346 0 359 0 Q373 0 385 0 Q397 0 411 1 Q425 1 438 2 Q451 2 464 2 Q477 2 489 1 Q502 0 515 0 Q528 0 541 0 Q555 0 569 0 Q582 0 594 0 Q606 1 620 1 Q634 2 634 1 Q635 0 636 1 Q638 1 638 4 Q638 7 639 6 Q639 6 638 20 Q638 33 638 47 Q639 60 639 73 Q639 86 638 100 Q638 114 639 126 Q639 138 639 152 Q639 166 638 180 Q638 194 638 194 Q639 193 638 196 Q637 198 635 198 Q633 198 633 198 Q633 198 619 198 Q606 197 593 198 Q580 198 568 198 Q556 197 542 198 Q528 199 515 198 Q501 197 489 198 Q477 198 464 198 Q452 198 438 198 Q424 199 411 198 Q397 197 384 197 Q372 198 359 197 Q347 197 333 197 Q320 198 307 198 Q294 198 281 198 Q268 198 254 198 Q241 198 227 198 Q214 199 202 199 Q190 199 177 199 Q164 199 149 199 Q135 198 123 198 Q110 198 98 198 Q85 199 72 199 Q59 198 46 199 Q33 199 19 199 Q5 198 6 198 Q7 198 4 197 Q1 196 0 195 Q-0 194 1 194 Q2 193 1 180 Q1 168 0 154 Q-0 140 1 127 Q2 114 1 100 Q0 86 1 73 Q1 60 1 46 Q1 33 1 19 Q0 5 1 6 Q1 7 1 5 Q2 2 4 2 L7 2 Z" vector-effect="non-scaling-stroke"/></defs>
+</svg>
+<!-- ★ 탭·날짜 라디오.  .page «앞» 에 둬야 ~ 로 닿는다.  JS 는 한 줄도 없다 -->
+<!-- ★ 표 필터 라디오 세 벌.  이름이 서로 달라 «겹쳐서» 걸린다 (빗나감 x 홈 x 싼 배당) -->
+<input class="tabin" type="radio" name="fj" id="fj-all" checked><input class="tabin" type="radio" name="fj" id="fj-hit"><input class="tabin" type="radio" name="fj" id="fj-miss"><input class="tabin" type="radio" name="fj" id="fj-wait"><input class="tabin" type="radio" name="fj" id="fj-pend"><input class="tabin" type="radio" name="fs" id="fs-all" checked><input class="tabin" type="radio" name="fs" id="fs-base"><input class="tabin" type="radio" name="fs" id="fs-soc"><input class="tabin" type="radio" name="fl" id="fl-all" checked><input class="tabin" type="radio" name="fl" id="fl-mlb"><input class="tabin" type="radio" name="fl" id="fl-brasileirao"><input class="tabin" type="radio" name="fl" id="fl-eredivisie"><input class="tabin" type="radio" name="fl" id="fl-championship"><input class="tabin" type="radio" name="fl" id="fl-primeira"><input class="tabin" type="radio" name="fl" id="fl-seriea"><input class="tabin" type="radio" name="fl" id="fl-laliga"><input class="tabin" type="radio" name="fl" id="fl-ligue1"><input class="tabin" type="radio" name="fl" id="fl-epl"><input class="tabin" type="radio" name="fl" id="fl-mls"><input class="tabin" type="radio" name="fl" id="fl-bundesliga"><input class="tabin" type="radio" name="fl" id="fl-kleague1"><input class="tabin" type="radio" name="fo" id="fo-all" checked><input class="tabin" type="radio" name="fo" id="fo-o1"><input class="tabin" type="radio" name="fo" id="fo-o2"><input class="tabin" type="radio" name="fo" id="fo-o3"><input class="tabin" type="radio" name="fo" id="fo-non">
+<input class="tabin" type="radio" name="plt" id="pt-g" checked><input class="tabin" type="radio" name="plt" id="pt-s"><input class="tabin" type="radio" name="plt" id="pt-l">
+<input class="tabin" type="radio" name="plg" id="lt-mlb" checked><input class="tabin" type="radio" name="plg" id="lt-brasileirao"><input class="tabin" type="radio" name="plg" id="lt-eredivisie"><input class="tabin" type="radio" name="plg" id="lt-championship"><input class="tabin" type="radio" name="plg" id="lt-primeira"><input class="tabin" type="radio" name="plg" id="lt-seriea"><input class="tabin" type="radio" name="plg" id="lt-laliga"><input class="tabin" type="radio" name="plg" id="lt-ligue1"><input class="tabin" type="radio" name="plg" id="lt-epl"><input class="tabin" type="radio" name="plg" id="lt-mls"><input class="tabin" type="radio" name="plg" id="lt-kleague1"><input class="tabin" type="radio" name="plg" id="lt-bundesliga">
+<input class="tabin" type="radio" name="pld" id="d0816" checked><input class="tabin" type="radio" name="pld" id="d0815"><input class="tabin" type="radio" name="pld" id="d0814"><input class="tabin" type="radio" name="pld" id="d0813"><input class="tabin" type="radio" name="pld" id="d0812"><input class="tabin" type="radio" name="pld" id="d0811"><input class="tabin" type="radio" name="pld" id="d0810"><input class="tabin" type="radio" name="pld" id="d0808"><input class="tabin" type="radio" name="pld" id="d0807">
+<div class="grid"></div><div class="fiber"></div>
+
+<div class="page">
+
+  <div class="hd">
+    <div>
+      <h1>픽랩 · 오늘의픽 채점</h1>
+      <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
+      <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 22:43<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
