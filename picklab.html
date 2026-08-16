@@ -71,6 +71,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--hand);
 .box::before,.gc::before{content:"";position:absolute;inset:0;z-index:0;
   background:var(--bf);filter:url(#pkTorn) drop-shadow(0 2px 2px #00000014)}
 .gc.late::before{opacity:.55}
+/* ★ 놀이가 열려 있는 동안은 뒤 페이지의 난류(feTurbulence)를 끈다.
+   .box·.gc 가 99개라 «덮개에 가려 안 보이는 것» 을 계속 굽고 있었다.
+   .fiber 는 화면 전면 난류 + multiply 라 아이폰(DPR 3)에서 296만 픽셀짜리다.
+   ★ 레이아웃은 안 건드린다 — filter 와 fixed 요소만 손대니 스크롤 자리도 안 잃는다 */
+body.playing .box::before,body.playing .gc::before{filter:none}
+body.playing .fiber{display:none}
 .box>.in{position:relative;z-index:1}
 
 /* ── 머리 ──────────────────────────────────────────────────────────── */
@@ -1060,9 +1066,10 @@ html,body,.page,.pane{overflow-anchor:none}
 .bbshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:24px;
   background:#231f1ad9;animation:oxin .18s ease-out}
 .bbwin{position:relative;width:min(680px,100%);font-family:var(--hand);
-  transform:rotate(-.3deg);filter:drop-shadow(0 22px 38px #00000073)}
+  transform:rotate(-.3deg)}   /* ★ filter 를 뺐다 — 공이 움직일 때마다 창 전체를 다시 굽고 있었다.
+     그림자는 아래 ::before(종이) 로 옮겼다.  종이는 안 움직이니 한 번만 굽는다 */
 .bbwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
-  filter:url(#pkTorn)}
+  filter:url(#pkTorn) drop-shadow(0 22px 38px #00000073)}
 .bbwin>*{position:relative;z-index:1}
 .bbbar{display:flex;align-items:center;gap:10px;padding:14px 18px 12px;flex-wrap:nowrap}
 .bbbar b{font-size:22px;letter-spacing:2px;color:var(--ink);white-space:nowrap}
@@ -1078,11 +1085,11 @@ html,body,.page,.pane{overflow-anchor:none}
 .bbfield{position:relative;height:min(62vh,440px);margin:0 16px 18px;overflow:hidden;
   border-radius:10px;touch-action:none;
   background:repeating-linear-gradient(180deg,transparent 0 31px,#33302B0a 31px 32px)}
-.bbball{position:absolute;left:0;top:0;width:44px;height:44px;cursor:grab;
+.bbball{position:absolute;left:0;top:0;width:44px;height:44px;cursor:grab;will-change:transform;
   background:no-repeat center/contain;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cpath d='M7 20 Q5 12 12 8 Q20 3 29 6 Q38 9 39 18 Q41 28 34 35 Q26 41 17 37 Q8 33 7 20 Z' fill='%23FFFBEF' stroke='%2333302B' stroke-width='1.6' stroke-linejoin='round' opacity='.92'/%3E%3Cpath d='M13 14 Q19 18 16 24 M27 11 Q24 19 31 22 M20 30 Q26 28 30 32 M11 26 Q16 27 18 32' fill='none' stroke='%2333302B' stroke-width='1.1' stroke-linecap='round' opacity='.5'/%3E%3C/svg%3E")}
 .bbball:active{cursor:grabbing}
-.bbbin{position:absolute;left:0;top:calc(100% - 176px);width:104px;height:96px;
+.bbbin{position:absolute;left:0;top:calc(100% - 176px);width:104px;height:96px;will-change:transform;
   background:no-repeat center/contain;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 96'%3E%3Cpath d='M12 14 Q52 9 92 14' fill='none' stroke='%2333302B' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M16 16 Q19 56 25 88 Q52 93 79 88 Q85 56 88 16' fill='%23FFFDF4' stroke='%2333302B' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M30 24 Q33 56 36 84 M52 24 L52 86 M74 24 Q71 56 68 84' fill='none' stroke='%2333302B' stroke-width='1.2' opacity='.45'/%3E%3C/svg%3E")}
 .bbaim{position:absolute;left:0;top:0;height:3px;transform-origin:0 50%;border-radius:2px;
@@ -1145,9 +1152,10 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   background:#231f1ad9;animation:oxin .18s ease-out}
 .ttshow[hidden]{display:none !important}
 .ttwin{position:relative;width:min(640px,100%);font-family:var(--hand);
-  transform:rotate(-.3deg);filter:drop-shadow(0 22px 38px #00000073)}
+  transform:rotate(-.3deg)}   /* ★ filter 를 뺐다 — 공이 움직일 때마다 창 전체를 다시 굽고 있었다.
+     그림자는 아래 ::before(종이) 로 옮겼다.  종이는 안 움직이니 한 번만 굽는다 */
 .ttwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
-  filter:url(#pkTorn)}
+  filter:url(#pkTorn) drop-shadow(0 22px 38px #00000073)}
 .ttwin>*{position:relative;z-index:1}
 .ttbar{display:flex;align-items:center;gap:9px;padding:14px 18px 11px;flex-wrap:nowrap}
 .ttbar b{font-size:21px;letter-spacing:1.5px;color:var(--ink);white-space:nowrap}
@@ -1223,9 +1231,10 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   background:#231f1ad9;animation:oxin .18s ease-out}
 .brshow[hidden]{display:none !important}
 .brwin{position:relative;width:min(660px,100%);font-family:var(--hand);
-  transform:rotate(-.3deg);filter:drop-shadow(0 22px 38px #00000073)}
+  transform:rotate(-.3deg)}   /* ★ filter 를 뺐다 — 공이 움직일 때마다 창 전체를 다시 굽고 있었다.
+     그림자는 아래 ::before(종이) 로 옮겼다.  종이는 안 움직이니 한 번만 굽는다 */
 .brwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
-  filter:url(#pkTorn)}
+  filter:url(#pkTorn) drop-shadow(0 22px 38px #00000073)}
 .brwin>*{position:relative;z-index:1}
 .brbar{display:flex;align-items:center;gap:9px;padding:14px 18px 11px;flex-wrap:nowrap}
 .brbar b{font-size:21px;letter-spacing:1.5px;color:var(--ink);white-space:nowrap}
@@ -1248,9 +1257,9 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   transform:rotate(var(--r,0deg));transition:opacity .18s,transform .18s;
   overflow:hidden;white-space:nowrap;padding:0 3px}
 .brb.gone{opacity:0;transform:rotate(var(--r,0deg)) scale(.55)}
-.brball{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;
+.brball{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;will-change:transform;
   border:2.2px solid #33302B;background:#FFFDF4;pointer-events:none}
-.brpad{position:absolute;left:0;bottom:14px;width:104px;height:13px;border-radius:7px;
+.brpad{position:absolute;left:0;bottom:14px;width:104px;height:13px;border-radius:7px;will-change:transform;
   border:2px solid #3C4A5C;background:#3C4A5C1f;pointer-events:none}
 .brnote{position:absolute;left:0;right:0;bottom:34px;text-align:center;font-size:15px;
   color:var(--ink3);pointer-events:none;padding:0 10px}
@@ -1411,7 +1420,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 17:13<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 19:14<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -2379,8 +2388,9 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   var G=0.62, BOUNCE=0.26, FRICT=0.985, flyT=0;
   var MISSPICKS=[];
 
+  var HX=0,HY=0;                 /* ★ 판의 화면 위치를 «여기서 한 번» 잰다 */
   function sizes(){
-    var r=host.getBoundingClientRect(); W=r.width; H=r.height;
+    var r=host.getBoundingClientRect(); W=r.width; H=r.height; HX=r.left; HY=r.top;
     binX=(W-binW)/2;
   }
   function reset(){
@@ -2466,7 +2476,9 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   }
 
   /* ── 새총처럼 당겼다 놓는다 ─────────────────────────────────────── */
-  function pt(e){ var r=host.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top] }
+  /* ★ 여기서 getBoundingClientRect 를 부르면 «손가락 움직임 1회당 강제 레이아웃 1회» 다.
+     sizes() 에서 잰 값을 쓴다.  놀이 중엔 body 가 overflow:hidden 이라 안 밀린다 */
+  function pt(e){ return [e.clientX-HX, e.clientY-HY] }
   ball.addEventListener("pointerdown",function(e){
     if(flying) return;
     dragging=true; var p=pt(e); sx=p[0]; sy=p[1];
@@ -2481,7 +2493,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     aim.style.width=len+"px";
     aim.style.transform="translate("+(x+22)+"px,"+(y+22)+"px) rotate("+(ang*180/Math.PI)+"deg)";
     aim.style.opacity=String(0.25+len/300);
-  });
+  },{passive:true});
   function release(e){
     if(!dragging) return;
     dragging=false; aim.hidden=true;
@@ -2500,12 +2512,14 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     /* 오늘 빗나간 픽이 몇 장인지 — 끝나고 알려 준다 */
     MISSPICKS=[].slice.call(document.querySelectorAll("tbody tr.miss"));
     shell.hidden=false;
+    document.body.classList.add("playing");   /* ★ 뒤 페이지 난류 끄기.  재기 «전» 에 건다 */
     document.body.style.overflow="hidden";
     start();
   }
   function close_(){
     cancelAnimationFrame(raf); raf=null;
     shell.hidden=true; document.body.style.overflow="";
+    document.body.classList.remove("playing");
   }
   document.getElementById("bbopen").onclick=open_;
   shell.querySelector(".bbx").onclick=close_;
@@ -2669,10 +2683,12 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     nxt=null; overEl.hidden=true;
     spawn(); paint(); restartTimer();
   }
-  function open_(){ shell.hidden=false; document.body.style.overflow="hidden"; start() }
+  function open_(){ shell.hidden=false; document.body.classList.add("playing");
+    document.body.style.overflow="hidden"; start() }
   function close_(){
     if(timer){clearInterval(timer);timer=null}
     shell.hidden=true; document.body.style.overflow="";
+    document.body.classList.remove("playing");
   }
   document.getElementById("ttopen").onclick=open_;
   $(".ttx").onclick=close_;
@@ -2709,6 +2725,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       scEl=$(".brsc b"), lfEl=$(".brlf b"), noteEl=$(".brnote");
   var W=0,H=0, bx=0,by=0, vx=0,vy=0, px=0, PW=104, PH=13, R=9;
   var raf=null, bricks=[], score=0, lives=3, running=false, picks=[];
+  var FX=0;                      /* ★ 판의 화면 x.  손가락 움직일 때마다 재지 않는다 */
 
   function rnd(s,i){var x=Math.sin(s*12.9898+i*78.233)*43758.5453;return x-Math.floor(x)}
 
@@ -2732,7 +2749,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     return last.length>5 ? last.slice(0,5) : last;
   }
   function build(){
-    var r=field.getBoundingClientRect(); W=r.width; H=r.height;
+    var r=field.getBoundingClientRect(); W=r.width; H=r.height; FX=r.left;
     wrap.innerHTML=""; bricks=[];
     var COLS=6, ROWS=Math.min(4, Math.max(2, Math.ceil(picks.length/6)));
     var bw=(W-24-(COLS-1)*8)/COLS, bh=26;
@@ -2792,8 +2809,9 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
         }
       }
       if(by>H+20){ lose(); return }
+      draw();                    /* ★ 공이 멈춰 있을 때는 안 그린다.  막대는 pointermove 가 직접 그린다 */
     }
-    draw(); raf=requestAnimationFrame(tick);
+    raf=requestAnimationFrame(tick);
   }
   function lose(){
     lives--; lfEl.textContent=lives;
@@ -2820,18 +2838,20 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     build(); serve();
     if(!raf) raf=requestAnimationFrame(tick);
   }
-  function open_(){ shell.hidden=false; document.body.style.overflow="hidden"; start() }
+  function open_(){ shell.hidden=false; document.body.classList.add("playing");
+    document.body.style.overflow="hidden"; start() }
   function close_(){
     if(raf){cancelAnimationFrame(raf);raf=null}
     shell.hidden=true; document.body.style.overflow="";
+    document.body.classList.remove("playing");
   }
 
   field.addEventListener("pointermove",function(e){
-    var r=field.getBoundingClientRect();
-    px=Math.max(0,Math.min(W-PW, e.clientX-r.left-PW/2));
+    /* ★ 여기서 rect 를 재면 손가락 1회당 강제 레이아웃 1회다.  build() 에서 잰 값을 쓴다 */
+    px=Math.max(0,Math.min(W-PW, e.clientX-FX-PW/2));
     if(!running){ bx=px+PW/2; by=H-46 }
     draw();
-  });
+  },{passive:true});
   field.addEventListener("pointerdown",function(){
     if(!running){ running=true; noteEl.textContent=""; }
   });
@@ -2845,7 +2865,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     if(e.key==="ArrowRight"){ e.preventDefault(); px=Math.min(W-PW,px+26); if(!running){bx=px+PW/2} draw() }
     if(e.key===" "){ e.preventDefault(); running=true; noteEl.textContent="" }
   });
-  addEventListener("resize",function(){ if(!shell.hidden){ var r=field.getBoundingClientRect(); W=r.width; H=r.height } });
+  addEventListener("resize",function(){ if(!shell.hidden){ var r=field.getBoundingClientRect(); W=r.width; H=r.height; FX=r.left } });
 })();
 
 /* ═══ 휴지통 ═══ 퀴즈에서 틀린 픽이 여기 쌓인다.  «버리는 시늉을 하되 보관한다» ══
