@@ -1054,6 +1054,59 @@ html,body,.page,.pane{overflow-anchor:none}
 /* ⑤ 성적표 숫자가 «세어 올라간다» */
 .oxbig{font-variant-numeric:tabular-nums}
 .oxbig i.n{font-style:normal}
+
+/* ═══ 종이 농구 ═══════════════════════════════════════════════════
+   ★ 캔버스를 안 쓴다.  공 하나를 transform 으로 옮긴다 */
+.bbshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:24px;
+  background:#231f1ad9;animation:oxin .18s ease-out}
+.bbwin{position:relative;width:min(680px,100%);font-family:var(--hand);
+  transform:rotate(-.3deg);filter:drop-shadow(0 22px 38px #00000073)}
+.bbwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
+  filter:url(#pkTorn)}
+.bbwin>*{position:relative;z-index:1}
+.bbbar{display:flex;align-items:center;gap:10px;padding:14px 18px 12px;flex-wrap:nowrap}
+.bbbar b{font-size:22px;letter-spacing:2px;color:var(--ink);white-space:nowrap}
+.bbbar s{text-decoration:none;font-size:13px;color:#00000059;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bbsc,.bbleft{font-size:13.5px;color:var(--ink3);white-space:nowrap;flex:none}
+.bbsc{margin-left:auto}
+.bbsc b,.bbleft b{font-size:19px;color:var(--ink);letter-spacing:0}
+.bbx{flex:none;font-family:var(--hand);font-size:19px;line-height:1;cursor:pointer;
+  border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:3px 10px 5px}
+.bbx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.bbfield{position:relative;height:min(62vh,440px);margin:0 16px 18px;overflow:hidden;
+  border-radius:10px;touch-action:none;
+  background:repeating-linear-gradient(180deg,transparent 0 31px,#33302B0a 31px 32px)}
+.bbball{position:absolute;left:0;top:0;width:44px;height:44px;cursor:grab;
+  background:no-repeat center/contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cpath d='M7 20 Q5 12 12 8 Q20 3 29 6 Q38 9 39 18 Q41 28 34 35 Q26 41 17 37 Q8 33 7 20 Z' fill='%23FFFBEF' stroke='%2333302B' stroke-width='1.6' stroke-linejoin='round' opacity='.92'/%3E%3Cpath d='M13 14 Q19 18 16 24 M27 11 Q24 19 31 22 M20 30 Q26 28 30 32 M11 26 Q16 27 18 32' fill='none' stroke='%2333302B' stroke-width='1.1' stroke-linecap='round' opacity='.5'/%3E%3C/svg%3E")}
+.bbball:active{cursor:grabbing}
+.bbbin{position:absolute;left:0;top:calc(100% - 176px);width:104px;height:96px;
+  background:no-repeat center/contain;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 96'%3E%3Cpath d='M12 14 Q52 9 92 14' fill='none' stroke='%2333302B' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M16 16 Q19 56 25 88 Q52 93 79 88 Q85 56 88 16' fill='%23FFFDF4' stroke='%2333302B' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M30 24 Q33 56 36 84 M52 24 L52 86 M74 24 Q71 56 68 84' fill='none' stroke='%2333302B' stroke-width='1.2' opacity='.45'/%3E%3C/svg%3E")}
+.bbaim{position:absolute;left:0;top:0;height:3px;transform-origin:0 50%;border-radius:2px;
+  background:repeating-linear-gradient(90deg,#C2543F 0 7px,transparent 7px 13px);
+  pointer-events:none}
+.bbnote{position:absolute;left:0;right:0;top:16px;text-align:center;font-size:21px;
+  font-weight:800;pointer-events:none}
+.bbnote.ok{color:var(--ok)} .bbnote.no{color:#D97742}
+.bbend{position:absolute;inset:0;display:grid;place-content:center;text-align:center;
+  background:#FFFDF4ee}
+.bbbig{font-size:70px;line-height:1;color:var(--ink);letter-spacing:-3px}
+.bbbig s{text-decoration:none;font-size:30px;color:#00000026;margin:0 4px}
+.bbgr{font-size:24px;color:#C2543F;margin-top:6px}
+.bbcmp{font-size:15px;color:var(--ink2);margin:12px 0 4px}
+.bbend button{margin:14px 5px 0;font-family:var(--hand);font-size:16px;cursor:pointer;
+  border:1.7px dashed #00000038;border-radius:12px;background:#FFFDF4;padding:8px 20px 9px;
+  color:var(--ink)}
+.bbend button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+@media (max-width:600px){
+  .bbbar s{display:none} .bbbar b{font-size:19px}
+  .bbfield{height:56vh;margin:0 12px 14px}
+  .bbbig{font-size:54px}
+}
+@media (prefers-reduced-motion:reduce){.bbshow{animation:none}}
 </style>
 </head>
 <body>
@@ -1086,7 +1139,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:06<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:09<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1221,6 +1274,21 @@ html,body,.page,.pane{overflow-anchor:none}
   <div class="memoh">메모<span>이 브라우저에만 남아요</span><button type="button" id="memox" aria-label="접기">×</button></div>
   <div class="memob" id="memob" contenteditable="true" spellcheck="false" data-ph="여기에 적어요…"></div>
 </div>
+<div class="bbshow" hidden role="dialog" aria-label="종이 농구">
+  <div class="bbwin">
+    <div class="bbbar"><b>종이 농구</b><s>구겨서 휴지통에 넣어요 · 뒤로 당겼다 놓기</s>
+      <span class="bbsc">넣은 것 <b>0</b></span><span class="bbleft">남은 공 <b>10</b></span>
+      <button type="button" class="bbx" aria-label="닫기">&#215;</button></div>
+    <div class="bbfield" id="bbgame">
+      <div class="bbbin" aria-hidden="true"></div>
+      <i class="bbaim" hidden aria-hidden="true"></i>
+      <div class="bbball" aria-label="종이 공"></div>
+      <div class="bbnote"></div>
+      <div class="bbplay"></div>
+      <div class="bbend" hidden></div>
+    </div>
+  </div>
+</div>
 <div class="oxshow" id="oxshow" hidden role="dialog" aria-label="OX 퀴즈">
   <div class="oxwin"><i class="oxclip" aria-hidden="true"></i>
     <div class="oxbar"><b>O X 퀴즈</b><s>우리 픽, 맞았을까요?</s>
@@ -1254,6 +1322,7 @@ html,body,.page,.pane{overflow-anchor:none}
 </div>
 <div class="toys">
   <button type="button" id="oxopen" class="toyox" title="OX 퀴즈">OX 퀴즈</button>
+  <button type="button" id="bbopen" class="toyox" title="종이 농구">농구</button>
   <button type="button" id="memobtn" title="메모  (M)">메모</button>
   <button type="button" id="doodbtn" title="연필로 낙서  (D)">낙서</button>
   <button type="button" id="doodclr" title="낙서 지우기" hidden>지우기</button>
@@ -1947,6 +2016,148 @@ html,body,.page,.pane{overflow-anchor:none}
       countUp(b.querySelector(".n"), +m[1], 620);
     }).observe(end,{childList:true,subtree:true});
   }
+})();
+
+/* ═══ 종이 농구 ═══ 빗나간 픽을 구겨서 휴지통에 던진다 ══════════════════
+   ★ 캔버스를 안 쓴다.  공 하나를 transform 으로 옮긴다 — 가볍다.
+   ★ 던지는 힘은 «끌어당긴 거리» 다.  새총처럼 뒤로 당겼다 놓는다. */
+(function(){
+  var host=document.getElementById("bbgame"); if(!host) return;
+  var $=function(s){return host.querySelector(s)};
+  var ball=$(".bbball"), bin=$(".bbbin"), aim=$(".bbaim"),
+      scoreEl=$(".bbsc b"), leftEl=$(".bbleft b"), noteEl=$(".bbnote");
+  var W=0,H=0, x=0,y=0, vx=0,vy=0, flying=false, raf=null;
+  var binX=0, binDir=1, binW=104, score=0, left=10, dragging=false, sx=0, sy=0;
+  var G=0.55, BOUNCE=0.42, FRICT=0.995;
+  var MISSPICKS=[];
+
+  function sizes(){
+    var r=host.getBoundingClientRect(); W=r.width; H=r.height;
+    binX=(W-binW)/2;
+  }
+  function reset(){
+    sizes();
+    x=W/2-22; y=H-96; vx=vy=0; flying=false;
+    ball.style.opacity="1";
+    draw();
+  }
+  function draw(){
+    ball.style.transform="translate("+x+"px,"+y+"px) rotate("+(x*1.6)+"deg)";
+    bin.style.transform="translateX("+binX+"px)";
+  }
+  function label(){
+    scoreEl.textContent=score; leftEl.textContent=left;
+  }
+
+  function tick(){
+    /* 휴지통이 좌우로 움직인다 — 남은 공이 적을수록 빨라진다 */
+    var sp=1.1+(10-left)*0.16;
+    binX+=binDir*sp;
+    if(binX<8){binX=8;binDir=1} if(binX>W-binW-8){binX=W-binW-8;binDir=-1}
+
+    if(flying){
+      vy+=G; vx*=FRICT; x+=vx; y+=vy;
+      if(x<0){x=0;vx=-vx*BOUNCE} if(x>W-44){x=W-44;vx=-vx*BOUNCE}
+      /* 골 — 휴지통 «입» 을 위에서 아래로 통과해야 들어간다 */
+      var mouthY=H-150;
+      if(vy>0 && y+22>mouthY && y+22<mouthY+26 && x+22>binX+14 && x+22<binX+binW-14){
+        goal(); return;
+      }
+      if(y>H-44){ y=H-44; vy=-vy*BOUNCE; vx*=0.86;
+        if(Math.abs(vy)<2.2){ miss(); return } }
+      draw(); raf=requestAnimationFrame(tick); return;
+    }
+    draw(); raf=requestAnimationFrame(tick);
+  }
+  function goal(){
+    score++; left--; label();
+    ball.style.opacity="0";
+    noteEl.textContent = score>=8 ? "들어갔다! 손 좋은데요" : "들어갔다!";
+    noteEl.className="bbnote ok";
+    setTimeout(next,620);
+  }
+  function miss(){
+    left--; label();
+    noteEl.textContent="빗나갔어요"; noteEl.className="bbnote no";
+    setTimeout(next,620);
+  }
+  function next(){
+    noteEl.textContent=""; noteEl.className="bbnote";
+    if(left<=0){ done(); return }
+    reset();
+  }
+  function done(){
+    cancelAnimationFrame(raf); raf=null;
+    var w=MISSPICKS.length;
+    $(".bbend").hidden=false;
+    $(".bbend").innerHTML='<div class="bbbig">'+score+'<s>/</s>10</div>'
+      +'<div class="bbgr">'+(score>=8?"고수":score>=5?"제법":score>=2?"보통":"오늘은 아니네요")+'</div>'
+      +(w?'<div class="bbcmp">오늘 구겨 버릴 빗나간 픽이 <b>'+w+'</b>장 있어요</div>':'')
+      +'<div><button type="button" class="bbagain">한 판 더</button>'
+      +'<button type="button" class="bbclose2">닫기</button></div>';
+    $(".bbagain").onclick=start;
+    $(".bbclose2").onclick=close_;
+    $(".bbplay").hidden=true;
+  }
+  function start(){
+    score=0; left=10; label();
+    $(".bbend").hidden=true; $(".bbplay").hidden=false;
+    reset();
+    if(!raf) raf=requestAnimationFrame(tick);
+  }
+
+  /* ── 새총처럼 당겼다 놓는다 ─────────────────────────────────────── */
+  function pt(e){ var r=host.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top] }
+  ball.addEventListener("pointerdown",function(e){
+    if(flying) return;
+    dragging=true; var p=pt(e); sx=p[0]; sy=p[1];
+    ball.setPointerCapture(e.pointerId);
+    aim.hidden=false;
+  });
+  host.addEventListener("pointermove",function(e){
+    if(!dragging) return;
+    var p=pt(e), dx=sx-p[0], dy=sy-p[1];
+    var len=Math.min(Math.hypot(dx,dy),150);
+    var ang=Math.atan2(dy,dx);
+    aim.style.width=len+"px";
+    aim.style.transform="translate("+(x+22)+"px,"+(y+22)+"px) rotate("+(ang*180/Math.PI)+"deg)";
+    aim.style.opacity=String(0.25+len/300);
+  });
+  function release(e){
+    if(!dragging) return;
+    dragging=false; aim.hidden=true;
+    var p=pt(e), dx=sx-p[0], dy=sy-p[1];
+    var len=Math.hypot(dx,dy);
+    if(len<12) return;                       /* 살짝 건드린 건 안 던진다 */
+    var k=Math.min(len,150)/150;
+    vx=dx*0.15*(0.5+k); vy=dy*0.15*(0.5+k);
+    flying=true;
+  }
+  host.addEventListener("pointerup",release);
+  host.addEventListener("pointercancel",function(){ dragging=false; aim.hidden=true });
+
+  /* ── 열고 닫기 ──────────────────────────────────────────────────── */
+  function open_(){
+    /* 오늘 빗나간 픽이 몇 장인지 — 끝나고 알려 준다 */
+    MISSPICKS=[].slice.call(document.querySelectorAll("tbody tr.miss"));
+    host.parentNode.hidden=false;
+    document.body.style.overflow="hidden";
+    start();
+  }
+  function close_(){
+    cancelAnimationFrame(raf); raf=null;
+    host.parentNode.hidden=true; document.body.style.overflow="";
+  }
+  document.getElementById("bbopen").onclick=open_;
+  host.parentNode.querySelector(".bbx").onclick=close_;
+  host.parentNode.addEventListener("click",function(e){
+    if(e.target===host.parentNode) close_();
+  });
+  document.addEventListener("keydown",function(e){
+    if(host.parentNode.hidden) return;
+    if(e.key==="Escape") close_();
+  });
+  addEventListener("resize",function(){ if(!host.parentNode.hidden) sizes() });
 })();
 </script>
 </body>
