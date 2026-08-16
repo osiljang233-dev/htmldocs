@@ -251,19 +251,20 @@ tbody tr.capoff{display:none}
 .oxclose:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
 
 /* ★ 소리 버튼 — 눈에 띄게.  안 보이면 아무도 안 켠다 */
-.oxsnd{margin-left:auto;display:flex;align-items:center;gap:2px;flex:none;
+.oxsnd{margin-left:auto;display:flex;align-items:center;gap:2px;flex:none;opacity:.72;
   animation:oxfloat 2.4s ease-in-out infinite}
-.oxsnd em{font-style:normal;font-size:13px;color:#C2543F;white-space:nowrap;
+.oxsnd em{font-style:normal;font-size:12px;color:#00000059;white-space:nowrap;
   transform:rotate(-2deg);line-height:1.3}
 .oxarw{width:46px;height:22px;flex:none;transform:scaleX(-1) rotate(6deg)}
 @keyframes oxfloat{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}
-#oxmute{flex:none;display:flex;align-items:center;gap:7px;cursor:pointer;
+/* ★ 노란 알약 + 빨간 화살표가 «문제» 보다 세서 시선을 먼저 먹었다.  눅인다 */
+#oxmute{flex:none;display:flex;align-items:center;gap:6px;cursor:pointer;
   font-family:var(--hand);white-space:nowrap;
-  background:#FFF0A8;border:2px solid #C8AE5A;border-radius:12px;padding:6px 14px 7px;
+  background:#FFFDF4;border:1.6px dashed #00000038;border-radius:11px;padding:5px 12px 6px;
   animation:oxwig 2.4s ease-in-out infinite}
 #oxmute i{width:15px;height:15px;flex:none;background:no-repeat center/contain;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2333302B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4z'/%3E%3Cpath d='M17 8.5l4 7M21 8.5l-4 7'/%3E%3C/svg%3E")}
-#oxmute b{font-size:14.5px;color:var(--ink);font-weight:800;margin:0;letter-spacing:0}
+#oxmute b{font-size:13.5px;color:var(--ink2);font-weight:700;margin:0;letter-spacing:0}
 #oxmute s{text-decoration:none;font-size:11.5px;color:#00000059;white-space:nowrap}
 #oxmute:hover{transform:rotate(-1.5deg) scale(1.04)}
 #oxmute[aria-pressed=true]{animation:none;background:#DFF3E4;border-color:#2F7A4F88}
@@ -322,6 +323,13 @@ tbody tr.capoff{display:none}
    ★ 꼬리표는 카드 «밖 위» 에 붙인다.  안에 넣었더니 글자를 덮었다 */
 .oxpick{padding-top:16px}                 /* 꼬리표가 앉을 자리 */
 .oxpick.done button.ans::before{filter:url(#pkTorn) drop-shadow(0 5px 9px #00000026)}
+/* ★ 큰 빨간 X 가 시선을 다 먹는다.  작은 초록 꼬리표로는 못 이긴다 —
+     카드를 «초록 테두리» 로 감싸서 신호 크기를 맞춘다 */
+.oxpick.done button.ans{outline:3px dashed #2F7A4Fa8;outline-offset:-5px;border-radius:16px}
+.oxpick.done button.pick:not(.ans){outline:3px dashed #C2543F8c;outline-offset:-5px;
+  border-radius:16px;animation:oxshake .3s ease-out}
+@keyframes oxshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}
+  60%{transform:translateX(3px)}}
 .oxpick.done button.pick{opacity:1}
 .oxpick.done button.pick::before{filter:url(#pkTorn) drop-shadow(0 5px 9px #00000026)}
 .oxtag{position:absolute;top:-13px;z-index:3;font-family:var(--hand);font-size:13.5px;
@@ -332,7 +340,24 @@ tbody tr.capoff{display:none}
 .oxtag.ans{right:14px;transform:rotate(3deg);color:#2F7A4F;background:#EAF4EC;
   border:2px solid #2F7A4F88}
 @keyframes oxtagin{from{transform:scale(.5) rotate(-14deg);opacity:0}}
-/* 채점 */
+/* 채점 — ★ 「내가 맞았나」 를 제일 크게, 이유는 그다음, 근거 수치는 제일 작게 */
+.oxv{font-size:34px;font-weight:800;letter-spacing:2px;line-height:1.15;
+  animation:oxpop .3s cubic-bezier(.3,1.6,.5,1)}
+.oxv.ok{color:var(--ok)}
+.oxv.no{color:#D97742}                 /* ★ 새빨강은 벌주는 느낌이라 주황으로 눅인다 */
+.oxwhy{font-size:17px;color:var(--ink);margin-top:4px}
+.oxwhy b{font-size:19px}
+.oxsub{font-size:14px;color:var(--ink3);margin-top:2px}
+.oxsub i{font-style:normal;font-variant-numeric:tabular-nums;
+  border-bottom:1.4px dashed #00000026;padding-bottom:1px}
+/* ★ 다음 행동이 화면에서 제일 약했다.  도장처럼 «채워서» 무겁게 */
+.oxnext{margin-top:20px !important;font-size:18px !important;font-weight:800;
+  padding:11px 34px 12px !important;background:#33302B !important;color:#FFFDF4 !important;
+  border:0 !important;border-radius:14px !important;letter-spacing:1px;
+  box-shadow:0 4px 0 #00000026,0 8px 16px -8px #00000059}
+.oxnext:hover{background:#C2543F !important;transform:translateY(-2px) rotate(-.6deg)}
+.oxnext:active{transform:translateY(2px);box-shadow:0 1px 0 #00000026}
+
 .oxr{margin-top:20px;font-size:16.5px;line-height:1.9;color:var(--ink2);text-align:center}
 .oxr .ok,.oxr .no{display:inline-block;font-weight:800;font-size:24px;letter-spacing:1px;
   animation:oxpop .3s cubic-bezier(.3,1.6,.5,1)}
@@ -1006,7 +1031,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:29<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:33<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1148,8 +1173,8 @@ html,body,.page,.pane{overflow-anchor:none}
     <div class="oxbar"><b>O X 퀴즈</b><s>우리 픽, 맞았을까요?</s>
       <span class="oxsnd" id="oxsnd">
         <svg class="oxarw" viewBox="0 0 86 40" aria-hidden="true"><path d="M4 34 Q10 18 26 12 Q44 5 68 9"
-          fill="none" stroke="#C2543F" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M58 3 Q66 8 70 10 Q64 14 59 19" fill="none" stroke="#C2543F"
+          fill="none" stroke="#33302B" opacity=".5" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M58 3 Q66 8 70 10 Q64 14 59 19" fill="none" stroke="#33302B" opacity=".5"
           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <em>여기 눌러야 소리 나요</em></span>
       <button type="button" id="oxmute" aria-pressed="false"><i></i><b>소리 꺼짐</b><s>눌러서 켜요</s></button>
@@ -1608,7 +1633,9 @@ html,body,.page,.pane{overflow-anchor:none}
   function dots(){
     var h="";
     for(var i=0;i<N;i++){
-      var c = i<idx ? (seq[i]._got?"o":"x") : (i===idx?"now":"");
+      var done = i<idx || (i===idx && seq[i]._done);
+      var c = done ? (seq[i]._got?"o":"x") : (i===idx?"now":"");
+      if(i===idx && done) c+=" now";
       h+='<i class="'+c+'"></i>';
     }
     elD.innerHTML=h; elS.textContent=score;
@@ -1640,7 +1667,7 @@ html,body,.page,.pane{overflow-anchor:none}
     stopTimer();
     var truth=cur.classList.contains("hit");         /* 우리 픽이 맞았나 */
     var ok = (v!==null) && (v==="o")===truth;
-    cur._got=ok; if(ok) score++;
+    cur._got=ok; cur._done=true; if(ok) score++;
     elP.classList.add("done");
     [].forEach.call(elP.children,function(b){
       var isAns=(b.dataset.v===(truth?"o":"x")), isPick=(v&&b.dataset.v===v);
@@ -1656,11 +1683,13 @@ html,body,.page,.pane{overflow-anchor:none}
     });
     ok?ding():buzz();
     elP.hidden=false; elR.hidden=false;
-    elR.innerHTML='<span class="'+(ok?"ok":"no")+'">'
-      +(v===null?"시간 초과!":(ok?"정답!":"땡!"))+'</span> '
-      +'실제로는 <b>'+(truth?"맞은":"빗나간")+' 픽</b>이에요 · 이긴 팀 '
-      +(cur.cells[5].textContent||"").trim()+' ('+(cur.cells[4].textContent||"").trim()+')'
-      +'<br><button type="button">'+(idx+1>=N?"결과 보기":"다음 문제")+'</button>';
+    /* ★ 세 가지 무게를 한 문장에 뭉치면 「내가 맞았나」 가 안 튄다.  줄을 갈라 층을 준다 */
+    elR.innerHTML='<div class="oxv '+(ok?"ok":"no")+'">'
+      +(v===null?"시간 초과":(ok?"정답":"땡"))+'</div>'
+      +'<div class="oxwhy">실제로는 <b>'+(truth?"맞은":"빗나간")+' 픽</b>이에요</div>'
+      +'<div class="oxsub">이긴 팀 '+(cur.cells[5].textContent||"").trim()
+      +' <i>'+(cur.cells[4].textContent||"").trim()+'</i></div>'
+      +'<button type="button" class="oxnext">'+(idx+1>=N?"결과 보기":"다음 문제")+'</button>';
     dots();
     $("button",elR).onclick=function(){ idx++; if(idx>=N){ finish() } else { ask() } };
   }
@@ -1686,7 +1715,7 @@ html,body,.page,.pane{overflow-anchor:none}
   function start(){
     idx=0; score=0;
     seq=shuffle(pool.slice(), Math.floor(Date.now()/1000)%9973).slice(0,N);
-    seq.forEach(function(r){ r._got=false });
+    seq.forEach(function(r){ r._got=false; r._done=false });
     elEnd.hidden=true; elBody.hidden=false; ask();
   }
   function open_(){
