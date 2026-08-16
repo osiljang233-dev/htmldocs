@@ -245,6 +245,12 @@ tbody tr.capoff{display:none}
 .oxbar{flex-wrap:nowrap;min-width:0}
 .oxbar b{white-space:nowrap}
 .oxbar>s{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* ★ 내 컴퓨터 음악 — 고른 파일을 «이 브라우저에서만» 튼다.  어디에도 안 올린다 */
+.oxmym{flex:none;cursor:pointer;font-family:var(--hand);font-size:13px;color:var(--ink2);
+  border:1.4px dashed #00000030;border-radius:11px;padding:5px 12px 6px;background:#FFFDF4;
+  white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.oxmym:hover{background:#FFF0A8;color:var(--ink)}
+.oxmym.on{background:#DFF3E4;border-color:#2F7A4F88;border-style:solid;color:#2F7A4F}
 .oxclose{flex:none;font-family:var(--hand);font-size:20px;line-height:1;cursor:pointer;
   border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
   padding:4px 11px 6px}
@@ -1036,7 +1042,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:51<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:54<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1181,6 +1187,8 @@ html,body,.page,.pane{overflow-anchor:none}
           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <em>여기 눌러야 소리 나요</em></span>
       <button type="button" id="oxmute" aria-pressed="false"><i></i><b>소리 꺼짐</b><s>눌러서 켜요</s></button>
+      <label class="oxmym" title="내 컴퓨터 음악 파일 틀기"><span>내 음악</span>
+        <input type="file" id="oxfile" accept="audio/*" hidden></label>
       <button type="button" id="oxclose" class="oxclose" aria-label="닫기">×</button></div>
     <div class="oxin">
       <div id="oxbody">
@@ -1765,8 +1773,27 @@ html,body,.page,.pane{overflow-anchor:none}
     host.hidden=false; document.body.style.overflow="hidden"; start();
   }
   function close_(){
-    stopTimer(); bgmOn(false); host.hidden=true; document.body.style.overflow="";
+    stopTimer(); bgmOn(false); if(myAud) myAud.pause(); host.hidden=true; document.body.style.overflow="";
   }
+  /* ── 내 음악 ── ★ 고른 파일을 «이 브라우저에서만» 튼다.
+       어디에도 안 올리고 안 저장한다.  창을 닫으면 멈춘다. */
+  var myAud=null, fi=$("#oxfile");
+  if(fi) fi.onchange=function(){
+    var f=this.files && this.files[0]; if(!f) return;
+    if(myAud){ myAud.pause(); URL.revokeObjectURL(myAud.src) }
+    myAud=new Audio(URL.createObjectURL(f));
+    myAud.loop=true; myAud.volume=.42;
+    var lb=document.querySelector(".oxmym");
+    lb.classList.add("on"); lb.querySelector("span").textContent=f.name.replace(/\.[^.]+$/,"").slice(0,16);
+    muted=false;
+    var mb2=$("#oxmute");
+    mb2.setAttribute("aria-pressed","true");
+    mb2.querySelector("b").textContent="소리 켜짐";
+    mb2.querySelector("s").textContent="내 음악";
+    var sn=document.getElementById("oxsnd"); if(sn) sn.classList.add("off");
+    bgmOn(false);                     /* ★ 만든 곡은 끈다.  둘이 같이 나면 안 된다 */
+    myAud.play().catch(function(){});
+  };
   $("#oxopen").onclick=open_;
   $("#oxclose").onclick=close_;
   $("#oxmute").onclick=function(){
@@ -1775,7 +1802,8 @@ html,body,.page,.pane{overflow-anchor:none}
     this.querySelector("b").textContent = muted ? "소리 꺼짐" : "소리 켜짐";
     this.querySelector("s").textContent = muted ? "눌러서 켜요" : "신나죠?";
     var sn=document.getElementById("oxsnd"); if(sn) sn.classList.add("off");
-    bgmOn(!muted);
+    if(myAud){ muted ? myAud.pause() : myAud.play().catch(function(){}) }
+    else bgmOn(!muted);
     if(!muted) beep([659],.12,"triangle",.12);
   };
   document.addEventListener("keydown",function(e){
