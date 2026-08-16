@@ -411,6 +411,9 @@ tbody tr.capoff{display:none}
 
 /* ── 메모지 ───────────────────────────────────────────────────────── */
 .toys{position:fixed;right:16px;bottom:16px;z-index:400;display:flex;gap:8px}
+.toys .toyox{background:#FFF0A8ee;border-style:solid;border-color:#C8AE5A;color:var(--ink);
+  font-weight:800;letter-spacing:.5px}
+.toys .toyox:hover{background:#FFE98A}
 .toys button{font-family:var(--hand);font-size:14px;cursor:pointer;padding:6px 13px 7px;
   border:1.4px dashed #00000030;border-radius:11px;background:#FFFDF4ee;color:var(--ink2);
   box-shadow:0 2px 6px #00000014;transition:transform .12s,background .12s}
@@ -1033,7 +1036,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:47<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:50<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1141,7 +1144,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h2>나도 맞춰볼래<s>우리 픽이랑 견줘보는 거예요 · 채점된 경기에서 뽑아요</s></h2>
       <div class="qzi">
         <p class="qzl">경기를 보여줄게요. <b>누가 이겼을까요?</b> 열 판 하고 우리 픽이랑 견줘봐요.</p>
-        <button class="qzgo" type="button">시작할래요</button> <button class="qzgo oxbtn" type="button" id="oxopen">★ OX 퀴즈 (크게)</button>
+        <button class="qzgo" type="button">시작할래요</button>
       </div>
       <div class="qzp" hidden>
         <div class="qzq"><i class="qznum"><b class="qzc">1</b></i>
@@ -1198,6 +1201,7 @@ html,body,.page,.pane{overflow-anchor:none}
   </div>
 </div>
 <div class="toys">
+  <button type="button" id="oxopen" class="toyox" title="OX 퀴즈">OX 퀴즈</button>
   <button type="button" id="memobtn" title="메모  (M)">메모</button>
   <button type="button" id="doodbtn" title="연필로 낙서  (D)">낙서</button>
   <button type="button" id="doodclr" title="낙서 지우기" hidden>지우기</button>
@@ -1607,22 +1611,60 @@ html,body,.page,.pane{overflow-anchor:none}
   var buzz=function(){ beep([196,155],.34,"sawtooth",.10) };        /* 땡 */
   var tick=function(){ beep([1200],.045,"square",.045) };
 
-  /* 배경음악 — 네 마디 벼락치기 벰프.  setInterval 로 돌린다 */
-  var BG=[262,0,330,0,392,0,330,0, 294,0,349,0,440,0,349,0,
-          247,0,311,0,392,0,311,0, 262,0,392,0,523,0,392,0];
+
+  /* ── 배경음악 ── ★ 파일이 없다.  오실레이터로 «직접 연주» 한다.
+       바깥 요청 0을 지키고, 저작물을 안 쓴다.
+       결은 옛 온라인 게임 마을 음악 — 밝고 통통 튀는 장조, 16마디 돌림. */
+  var NOTE={0:0,C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,
+    C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880.00,B5:987.77,C6:1046.50,
+    C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196.00,A3:220.00,B3:246.94,
+    Fs4:369.99,Fs5:739.99,Bb3:233.08,Bb4:466.16};
+  var N=function(s){return NOTE[s]||0};
+  /* 가락 — 한 칸이 8분음표.  «묻고 답하는» 두 마디 짝을 네 번 */
+  var LEAD=("E5 . G5 . A5 . G5 E5 . D5 . C5 . D5 . . . "+
+            "E5 . G5 . A5 . B5 C6 . B5 . G5 . A5 . . . "+
+            "F5 . E5 . D5 . E5 F5 . G5 . A5 . G5 . . . "+
+            "E5 . D5 . C5 . D5 E5 . C5 . D5 . C5 . . . ").trim().split(/\s+/);
+  var BASS=("C3 . G3 . C3 . G3 . A3 . E3 . A3 . E3 . "+
+            "F3 . C4 . F3 . C4 . G3 . D4 . G3 . D4 . "+
+            "A3 . E4 . A3 . E4 . F3 . C4 . F3 . C4 . "+
+            "C3 . G3 . C3 . G3 . G3 . D4 . G3 . B3 . ").trim().split(/\s+/);
+  var STEP=0.135;                              /* 8분음표 길이 (초) — 약 111 BPM */
+
+  function voice(c,f,t,dur,type,vol,det){
+    if(!f) return;
+    var o=c.createOscillator(), g=c.createGain();
+    o.type=type; o.frequency.value=f;
+    if(det) o.detune.value=det;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(vol,t+0.012);          /* 딱 끊기지 않게 */
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.02);
+  }
+  var bgmT=null, bgmI=0, bgmStart=0;
+  function bgmStep(){
+    var c=ac(); if(!c||muted) return;
+    var i=bgmI % LEAD.length;
+    var t=bgmStart + bgmI*STEP;
+    if(t < c.currentTime) { bgmStart = c.currentTime - bgmI*STEP + 0.05; t = bgmStart + bgmI*STEP }
+    /* 가락 — 사각파 두 겹을 살짝 어긋내 «두툼하게» */
+    var lf=N(LEAD[i]);
+    if(lf){ voice(c,lf,t,STEP*1.7,"square",0.055,0); voice(c,lf,t,STEP*1.7,"square",0.028,7) }
+    /* 베이스 */
+    var bf=N(BASS[i]);
+    if(bf) voice(c,bf,t,STEP*1.5,"triangle",0.075,0);
+    /* 뒷박 딸깍 — 리듬만 잡아 준다 */
+    if(i%4===2) voice(c,N("C6"),t,0.035,"square",0.012,0);
+    bgmI++;
+  }
   function bgmOn(v){
-    if(!v){ if(bgm){clearInterval(bgm); bgm=null} return }
-    var c=ac(); if(!c) return; var i=0;
-    bgm=setInterval(function(){
-      if(muted) return;
-      var f=BG[i%BG.length]; i++;
-      if(!f) return;
-      var o=c.createOscillator(), g=c.createGain();
-      o.type="square"; o.frequency.value=f/2;
-      g.gain.setValueAtTime(.035,c.currentTime);
-      g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.16);
-      o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+.18);
-    },150);
+    if(bgmT){ clearInterval(bgmT); bgmT=null }
+    if(!v) return;
+    var c=ac(); if(!c) return;
+    bgmI=0; bgmStart=c.currentTime+0.08;
+    bgmStep();
+    bgmT=setInterval(bgmStep, STEP*1000);
   }
 
   /* ── 판 ── */
