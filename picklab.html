@@ -804,11 +804,11 @@ td.l a:hover{border-bottom-style:solid}
 .dates:has(.calwrap){align-items:center}
 .calwrap{position:relative;display:inline-block}
 /* 접힌 상태 — 고른 날짜 한 줄.  ★ 달력을 펴 두면 세로 563px 을 먹는다 (2026-08-17 지적) */
-.caltrig{display:inline-flex;align-items:baseline;gap:8px;cursor:pointer;font-family:var(--hand);
+.dates .caltrig{display:inline-flex;align-items:baseline;gap:8px;cursor:pointer;font-family:var(--hand);
   border:1.5px dashed #00000038;border-radius:11px;padding:5px 13px 6px;background:#FFFDF4;
   user-select:none;white-space:nowrap;transition:background .13s,transform .13s}
-.caltrig:hover{background:#FFF6DD;transform:translateY(-1px)}
-.caltrig .tsel span{display:none}#d0816:checked ~ .page .caltrig .t0816{display:inline}#d0815:checked ~ .page .caltrig .t0815{display:inline}#d0814:checked ~ .page .caltrig .t0814{display:inline}#d0813:checked ~ .page .caltrig .t0813{display:inline}#d0812:checked ~ .page .caltrig .t0812{display:inline}#d0811:checked ~ .page .caltrig .t0811{display:inline}#d0810:checked ~ .page .caltrig .t0810{display:inline}#d0808:checked ~ .page .caltrig .t0808{display:inline}#d0807:checked ~ .page .caltrig .t0807{display:inline}
+.dates .caltrig:hover{background:#FFF6DD;transform:translateY(-1px)}
+.dates .caltrig .tsel span{display:none}#d0816:checked ~ .page .caltrig .t0816{display:inline}#d0815:checked ~ .page .caltrig .t0815{display:inline}#d0814:checked ~ .page .caltrig .t0814{display:inline}#d0813:checked ~ .page .caltrig .t0813{display:inline}#d0812:checked ~ .page .caltrig .t0812{display:inline}#d0811:checked ~ .page .caltrig .t0811{display:inline}#d0810:checked ~ .page .caltrig .t0810{display:inline}#d0808:checked ~ .page .caltrig .t0808{display:inline}#d0807:checked ~ .page .caltrig .t0807{display:inline}
 .caltrig .tsel b{font-size:17px;color:var(--ink);font-weight:400;margin-right:6px}
 .caltrig .tsel i{font-style:normal;font-size:13px;color:var(--ink3)}
 .caltrig .tsel i em{font-style:normal;color:var(--ink2);font-size:14.5px}
@@ -819,7 +819,7 @@ td.l a:hover{border-bottom-style:solid}
 /* ★ 판이 카드 «밑» 으로 깔렸다.  .box>.in{z-index:1} 이 문맥을 만들어서,
      안에서 41을 줘도 뒤에 오는 .glist 를 못 이긴다.  «상자 자체» 를 올려야 한다 */
 .box.pn:has(#calopen:checked){z-index:50}
-.calveil{display:none}
+.dates .calveil{display:none}
 #calopen:checked ~ .calveil{display:block;position:fixed;inset:0;z-index:40;cursor:default}
 /* 펼친 판 */
 .calpop{display:none}
@@ -827,16 +827,16 @@ td.l a:hover{border-bottom-style:solid}
   width:min(760px,calc(100vw - 30px));max-height:min(74vh,620px);overflow:auto;
   background:#FFFDF4;border:1.5px solid #00000018;border-radius:15px;padding:14px 17px 17px;
   box-shadow:0 18px 34px -12px #00000059,0 2px 6px #0000001a}
-.calx{position:absolute;right:11px;top:10px;cursor:pointer;font-family:var(--hand);font-size:17px;
+.dates .calx{position:absolute;right:11px;top:10px;cursor:pointer;font-family:var(--hand);font-size:17px;
   line-height:1;color:var(--ink3);border:1.4px dashed #00000030;border-radius:9px;
   padding:3px 9px 5px;background:#FFFDF4;z-index:2}
-.calx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.dates .calx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
 /* 폰 — 판이 트리거 «아래» 로 붙으면 y 636 에서 시작해 화면 밖으로 나간다.
    바닥에 붙이는 판으로 바꾼다.  ★ 조상에 transform/filter 가 없어야 fixed 가 먹는다 (확인함) */
 @media (max-width:600px){
   #calopen:checked ~ .calpop{position:fixed;left:12px;right:12px;top:auto;bottom:12px;
     width:auto;max-height:76vh}
-  .caltrig{padding:6px 12px 7px}
+  .dates .caltrig{padding:6px 12px 7px}
   .caltrig .tsel b{font-size:16px}
   .caltrig .tsel i{font-size:12px}
 }
@@ -1681,7 +1681,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-17 01:46<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-17 01:49<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
