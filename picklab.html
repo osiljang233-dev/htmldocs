@@ -1649,10 +1649,10 @@ html,body,.page,.pane{overflow-anchor:none}
     var t=bgmStart + bgmI*STEP;
     if(t < c.currentTime) { bgmStart = c.currentTime - bgmI*STEP + 0.05; t = bgmStart + bgmI*STEP }
     /* 가락 — 사각파 두 겹을 살짝 어긋내 «두툼하게» */
-    var lf=N(LEAD[i]);
+    var lf=NF(LEAD[i]);
     if(lf){ voice(c,lf,t,STEP*1.7,"square",0.055,0); voice(c,lf,t,STEP*1.7,"square",0.028,7) }
     /* 베이스 */
-    var bf=N(BASS[i]);
+    var bf=NF(BASS[i]);
     if(bf) voice(c,bf,t,STEP*1.5,"triangle",0.075,0);
     /* 뒷박 딸깍 — 리듬만 잡아 준다 */
     if(i%4===2) voice(c,NF("C6"),t,0.035,"square",0.012,0);
