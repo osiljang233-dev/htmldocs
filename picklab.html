@@ -191,8 +191,13 @@ td.l a:hover{border-bottom-style:solid}
    ★ radio + label + :checked ~ .  JS 0줄.
    ★ :target 은 쓰지 않는다 — replaceState 로 # 을 떼면 재평가가 안 돼서 데인 적이 있다.
    ★ 라디오를 display:none 으로 숨기면 키보드로 못 넘어간다.  clip 으로 숨긴다 */
-.tabin{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
-  clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap}
+/* ★ position:fixed 다 — absolute 가 아니다 (2026-08-16 지시).
+     absolute 로 문서 맨 위에 두면, 라벨을 누를 때 브라우저가 «그 라디오를 보이게 하려고»
+     맨 위로 스크롤한다.  필터를 누를 때마다 화면이 위로 튀던 게 이것이다.
+   ★ fixed 는 «항상 화면 안» 이라 스크롤할 이유가 없어진다.
+     1500·393 둘 다 스크롤 900 이 그대로 유지되는 걸 확인했다. */
+.tabin{position:fixed;top:0;left:0;width:1px;height:1px;margin:0;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap;opacity:0}
 .tabs{display:flex;gap:8px;align-items:flex-end;margin:6px 0 20px}
 .tabs label{font-family:var(--hand);font-size:19px;font-weight:700;color:var(--ink3);
   padding:7px 22px 8px;cursor:pointer;line-height:1.6;border-radius:12px 12px 0 0;
@@ -501,7 +506,7 @@ tbody:empty::after{content:"고른 조건에 맞는 픽이 없어요"}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 12:09<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 12:17<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
