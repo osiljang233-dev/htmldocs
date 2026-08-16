@@ -129,29 +129,182 @@ tbody tr.capoff{display:none}
    ★ 쓸데없지만 결을 지킨다.  종이 화면이니 «종이로 할 수 있는 것» 만 한다 —
      구기고, 도장 찍고, 연필로 낙서하고, 메모지를 붙인다. */
 
-/* ── 퀴즈 ─────────────────────────────────────────────────────────── */
-.qzl{font-family:var(--hand);font-size:16px;color:var(--ink2);line-height:1.8;margin:2px 0 12px}
-.qzgo,.qzo button,.qzs button,.qzr button{font-family:var(--hand);font-size:16px;cursor:pointer;
-  border:1.6px dashed #00000038;border-radius:12px;padding:7px 18px 8px;
-  background:#FFFDF4;color:var(--ink);transition:transform .12s,background .12s,border-color .12s}
-.qzgo:hover,.qzo button:hover,.qzs button:hover,.qzr button:hover{background:#FFF0A8cc;border-color:#C8AE5A;
+/* ── 퀴즈 ── ★ «시험지» 처럼 보이게.  종이에 글자만 얹으면 퀴즈로 안 읽힌다 ──
+   문제 번호는 동그라미 안에 · 보기는 ①② 큰 칸 · 채점은 빨간 펜 손그림 */
+.qz .in{position:relative}
+.qz::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;z-index:0;
+  pointer-events:none;border-radius:4px;
+  background:repeating-linear-gradient(180deg,transparent 0 33px,#33302B0a 33px 34px)}
+.qzl{font-family:var(--hand);font-size:16.5px;color:var(--ink2);line-height:1.8;margin:2px 0 14px}
+.qzgo,.qzs button,.qzr button{font-family:var(--hand);cursor:pointer;line-height:1.7;
+  border:1.7px dashed #00000038;border-radius:12px;background:#FFFDF4;color:var(--ink);
+  transition:transform .12s,background .12s,border-color .12s}
+.qzgo{font-size:17px;padding:9px 26px 10px}
+.qzs button,.qzr button{font-size:15px;padding:6px 18px 7px;margin-top:10px}
+.qzgo:hover,.qzs button:hover,.qzr button:hover{background:#FFF0A8cc;border-color:#C8AE5A;
   border-style:solid;transform:translateY(-1px) rotate(-.4deg)}
-.qzgo:active,.qzo button:active{transform:translateY(1px) rotate(.3deg)}
-.qzn{font-family:var(--hand);font-size:14px;color:var(--ink3);margin-bottom:4px}
-.qzn .qzc{font-size:20px;color:var(--ink)}
-.qzn s{text-decoration:none;margin:0 2px;color:#0000002e}
-.qzg{font-family:var(--hand);font-size:22px;color:var(--ink);line-height:1.7;margin-bottom:12px}
-.qzg em{font-style:normal;font-size:14px;color:var(--ink3);margin-left:8px}
-.qzo{display:flex;gap:11px;flex-wrap:wrap}
-.qzo button{font-size:17px;min-width:190px}
-.qzr{margin-top:14px;font-family:var(--hand);font-size:16px;line-height:1.9;color:var(--ink2)}
+
+/* 문제 머리 */
+.qzq{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:9px}
+.qznum{position:relative;flex:none;width:40px;height:40px;display:grid;place-items:center;
+  font-style:normal;font-family:var(--hand);font-size:20px;font-weight:800;color:var(--ink)}
+.qznum::before{content:"";position:absolute;inset:0;border:2.2px solid #C2543F;border-radius:50%;
+  opacity:.72;transform:rotate(-6deg) scale(1.04,.92)}
+.qzask{font-family:var(--hand);font-size:19px;color:var(--ink);font-weight:700}
+.qzdate{font-style:normal;font-family:var(--hand);font-size:14px;color:var(--ink3);margin-left:auto}
+.qzg{font-family:var(--hand);font-size:25px;color:var(--ink);line-height:1.55;margin:0 0 15px 51px}
+.qzg s{text-decoration:none;color:#00000030;margin:0 10px;font-size:19px}
+
+/* 보기 ①② — «누를 것» 으로 보이게 크게 */
+.qzo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-left:51px}
+.qzo button{position:relative;display:flex;align-items:center;gap:11px;cursor:pointer;
+  font-family:var(--hand);font-size:19px;color:var(--ink);text-align:left;
+  padding:16px 18px 17px;border:2px dashed #00000030;border-radius:14px;background:#FFFDF4;
+  transition:transform .13s,background .13s,border-color .13s,box-shadow .13s}
+.qzo button::before{content:attr(data-n);flex:none;width:27px;height:27px;display:grid;
+  place-items:center;font-size:15px;color:#fff;background:#3C4A5C;border-radius:50%;
+  transform:rotate(-4deg)}
+.qzo button:hover{background:#FFF6DD;border-color:#C8AE5A;border-style:solid;
+  transform:translateY(-2px) rotate(-.4deg);box-shadow:0 6px 14px -8px #00000045}
+.qzo button:active{transform:translateY(1px)}
+.qzo.done button{cursor:default;pointer-events:none}
+.qzo.done button.pick::after,.qzo.done button.ans::after{content:"";position:absolute;
+  left:8px;right:8px;top:50%;height:52px;margin-top:-26px;pointer-events:none;
+  background:no-repeat center/100% 100%}
+.qzo.done button.pick.no::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%23C2543F%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M6.7%2032.7%20Q47.7%2023.3%2088.6%208.3%22%2F%3E%3C%2Fsvg%3E")}
+.qzo.done button.ans::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%232F7A4F%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M82.9%2011.8%20Q86.1%2015.2%2086.9%2019.0%20Q85.9%2023.0%2082.9%2027.0%20Q78.3%2030.8%2072.1%2034.3%20Q64.5%2037.1%2056.0%2039.1%20Q47.2%2040.0%2038.7%2040.1%20Q30.8%2039.3%2023.8%2037.7%20Q18.2%2035.3%2014.5%2032.1%20Q12.8%2028.4%2013.6%2024.3%20Q16.2%2020.3%2020.6%2016.5%20Q26.5%2012.9%2033.7%209.9%20Q42.0%207.7%2050.8%206.4%20Q59.4%206.2%2067.5%206.8%20Q74.6%208.3%2080.5%2010.6%22%2F%3E%3C%2Fsvg%3E")}
+.qzo.done button.ans{border-color:#2F7A4F66;background:#F2F8F2}
+.qzo.done button:not(.ans):not(.pick){opacity:.45}
+
+/* 채점 — 빨간 펜 */
+.qzr{margin:16px 0 0 51px;font-family:var(--hand);font-size:16.5px;line-height:1.95;color:var(--ink2)}
 .qzr b{color:var(--ink);font-size:18px}
-.qzr button{font-size:15px;padding:5px 16px 6px;margin-top:8px}
-.qzr .ok{color:var(--ok)}.qzr .no{color:var(--bad)}
-.qzs{font-family:var(--hand);font-size:17px;line-height:2;color:var(--ink2)}
-.qzs .big{font-size:38px;color:var(--ink);letter-spacing:-1px}
-.qzs .bar{height:9px;border-radius:6px;background:#00000010;overflow:hidden;margin:3px 0 9px;max-width:520px}
-.qzs .bar i{display:block;height:100%;border-radius:6px}
+.qzr .ok{color:var(--ok);font-weight:800}
+.qzr .no{color:var(--bad);font-weight:800}
+.qzr .us{display:inline-block;border-bottom:1.6px dashed #00000026;padding-bottom:1px}
+
+/* 진행 점 · 작대기 점수 */
+.qzfoot{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 0 51px;
+  padding-top:12px;position:relative}
+.qzfoot::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:repeating-linear-gradient(90deg,#00000022 0 5px,transparent 5px 11px)}
+.qzdots{display:flex;gap:7px}
+.qzdots i{width:11px;height:11px;border-radius:50%;border:1.6px solid #00000030;
+  transform:rotate(-8deg) scale(1.05,.92)}
+.qzdots i.o{background:#2F7A4F;border-color:#2F7A4F}
+.qzdots i.x{background:#C2543F;border-color:#C2543F}
+.qzdots i.now{border-color:#C8AE5A;box-shadow:0 0 0 3px #FFF0A8aa}
+.qztal{font-family:var(--hand);font-size:15px;color:var(--ink3);margin-left:auto}
+.qztal b{font-size:21px;color:var(--ink)}
+
+/* 점수판 */
+.qzs{font-family:var(--hand);font-size:17px;line-height:1.9;color:var(--ink2)}
+.qzs .row{display:flex;align-items:baseline;gap:10px;margin-top:4px}
+.qzs .nm{width:170px;flex:none}
+.qzs .big{font-size:34px;color:var(--ink);letter-spacing:-1px}
+.qzs .bar{flex:1;height:11px;border-radius:7px;background:#00000010;overflow:hidden;max-width:460px}
+.qzs .bar i{display:block;height:100%;border-radius:7px}
+.qzs .vd{margin-top:12px;font-size:17px;color:var(--ink)}
+
+@media (max-width:860px){
+  .qzg,.qzo,.qzr,.qzfoot{margin-left:0}
+  .qzg{font-size:20px}
+  .qzo{grid-template-columns:1fr;gap:10px}
+  .qzo button{font-size:17px;padding:13px 15px 14px}
+  .qzs .nm{width:auto}
+  .qzs .row{flex-wrap:wrap}
+}
+
+/* ── OX 퀴즈 게임쇼 ── 종이 결은 지키되 «판이 커진다» ─────────────── */
+.oxbtn{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.oxshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:22px;
+  background:#2b2620cc;backdrop-filter:blur(2px);animation:oxin .18s ease-out}
+@keyframes oxin{from{opacity:0}}
+.oxwin{width:min(760px,100%);max-height:92vh;overflow:auto;background:#FFFDF4;
+  border-radius:6px;box-shadow:0 26px 60px -18px #000000a6;transform:rotate(-.25deg);
+  font-family:var(--hand)}
+.oxbar{display:flex;align-items:center;gap:10px;padding:11px 14px 12px;
+  border-bottom:2px dashed #00000024;position:sticky;top:0;background:#FFF8C4;z-index:2}
+.oxbar b{font-size:21px;letter-spacing:2px;color:var(--ink)}
+.oxbar s{text-decoration:none;font-size:14px;color:#00000059}
+/* ★ 소리 버튼 — 눈에 띄게.  안 보이면 아무도 안 켠다 */
+.oxsnd{margin-left:auto;display:flex;align-items:center;gap:2px;
+  animation:oxfloat 2.4s ease-in-out infinite}
+.oxsnd em{font-style:normal;font-size:13.5px;color:#C2543F;white-space:nowrap;
+  transform:rotate(-2deg)}
+.oxarw{width:52px;height:24px;transform:scaleX(-1) rotate(6deg)}
+@keyframes oxfloat{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}
+#oxmute{margin-left:0 !important;display:flex;align-items:center;gap:7px;
+  background:#FFF0A8 !important;border:2px solid #C8AE5A !important;border-radius:12px;
+  padding:6px 14px 7px !important;animation:oxwig 2.4s ease-in-out infinite}
+#oxmute i{width:15px;height:15px;flex:none;border-radius:2px;background:no-repeat center/contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2333302B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4z'/%3E%3Cpath d='M17 8.5l4 7M21 8.5l-4 7'/%3E%3C/svg%3E")}
+#oxmute b{font-size:14.5px;color:var(--ink);font-weight:800}
+#oxmute s{text-decoration:none;font-size:12px;color:#00000059}
+#oxmute:hover{transform:rotate(-1.5deg) scale(1.04)}
+#oxmute[aria-pressed=true]{animation:none;background:#DFF3E4 !important;border-color:#2F7A4F88 !important}
+#oxmute[aria-pressed=true] i{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232F7A4F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4z'/%3E%3Cpath d='M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12'/%3E%3C/svg%3E");
+  animation:oxpulse 1.1s ease-in-out infinite}
+#oxmute[aria-pressed=true] s{color:#2F7A4F}
+@keyframes oxwig{0%,88%,100%{transform:rotate(0)}92%{transform:rotate(-3deg)}96%{transform:rotate(3deg)}}
+@keyframes oxpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+.oxsnd.off{display:none}
+@media (max-width:600px){.oxsnd em{display:none}.oxarw{width:34px}}
+@media (prefers-reduced-motion:reduce){.oxsnd,#oxmute,#oxmute i{animation:none}}
+.oxbar button{margin-left:auto;font-family:var(--hand);font-size:14px;cursor:pointer;
+  border:1.4px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:5px 12px 6px}
+.oxbar button+button{margin-left:6px;font-size:19px;line-height:1;padding:3px 10px 5px}
+.oxbar button:hover{background:#FFF0A8;color:var(--ink)}
+.oxin{padding:20px 24px 24px}
+.oxtimew{height:9px;border-radius:6px;background:#00000010;overflow:hidden;margin-bottom:18px}
+.oxtime{display:block;height:100%;width:100%;border-radius:6px;background:#3C4A5C;
+  transition:width .1s linear}
+.oxtime.hot{background:#C2543F}
+.oxq{font-size:22px;line-height:1.6;color:var(--ink);text-align:center;margin-bottom:20px}
+.oxq em{font-style:normal;font-size:14px;color:var(--ink3)}
+.oxq b{display:inline-block;margin-top:8px;font-size:26px}
+.oxq span{display:block;margin-top:6px;font-size:16px;color:var(--ink3)}
+.oxpick{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.oxpick button{height:132px;cursor:pointer;border:2.4px dashed #00000026;border-radius:18px;
+  background-color:#FFFDF4;background-repeat:no-repeat;background-position:center;
+  background-size:64% 62%;transition:transform .13s,background-color .13s,border-color .13s}
+.oxpick button.o{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%232F7A4F%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M82.9%2011.8%20Q86.1%2015.2%2086.9%2019.0%20Q85.9%2023.0%2082.9%2027.0%20Q78.3%2030.8%2072.1%2034.3%20Q64.5%2037.1%2056.0%2039.1%20Q47.2%2040.0%2038.7%2040.1%20Q30.8%2039.3%2023.8%2037.7%20Q18.2%2035.3%2014.5%2032.1%20Q12.8%2028.4%2013.6%2024.3%20Q16.2%2020.3%2020.6%2016.5%20Q26.5%2012.9%2033.7%209.9%20Q42.0%207.7%2050.8%206.4%20Q59.4%206.2%2067.5%206.8%20Q74.6%208.3%2080.5%2010.6%22%2F%3E%3C%2Fsvg%3E")}
+.oxpick button.x{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%23C2543F%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M6.7%2032.7%20Q47.7%2023.3%2088.6%208.3%22%2F%3E%3C%2Fsvg%3E")}
+.oxpick button:hover{transform:translateY(-3px) rotate(-.6deg);background-color:#FFF6DD;
+  border-color:#C8AE5A;border-style:solid}
+.oxpick.done button{cursor:default;pointer-events:none;opacity:.35}
+.oxpick.done button.ans{opacity:1;border-style:solid;border-color:#2F7A4F88;background-color:#F2F8F2}
+.oxpick.done button.pick{opacity:1;box-shadow:0 0 0 3px #C8AE5A66}
+.oxr{margin-top:18px;font-size:16.5px;line-height:1.9;color:var(--ink2);text-align:center}
+.oxr .ok{color:var(--ok);font-weight:800;font-size:21px}
+.oxr .no{color:var(--bad);font-weight:800;font-size:21px}
+.oxr button,#oxend button{margin-top:12px;font-family:var(--hand);font-size:16px;cursor:pointer;
+  border:1.6px dashed #00000038;border-radius:12px;background:#FFFDF4;padding:7px 20px 8px;
+  color:var(--ink);margin-left:4px;margin-right:4px}
+.oxr button:hover,#oxend button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.oxfoot{display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:13px;
+  border-top:1px dashed #00000022}
+.oxdots{display:flex;gap:7px}
+.oxdots i{width:12px;height:12px;border-radius:50%;border:1.7px solid #00000028;
+  transform:rotate(-8deg) scale(1.05,.92)}
+.oxdots i.o{background:#2F7A4F;border-color:#2F7A4F}
+.oxdots i.x{background:#C2543F;border-color:#C2543F}
+.oxdots i.now{border-color:#C8AE5A;box-shadow:0 0 0 3px #FFF0A8aa}
+.oxsc{margin-left:auto;font-size:15px;color:var(--ink3)}
+.oxsc b{font-size:22px;color:var(--ink)}
+#oxend{text-align:center;padding:10px 0 6px}
+.oxbig{font-size:74px;line-height:1;color:var(--ink);letter-spacing:-3px}
+.oxbig s{text-decoration:none;font-size:34px;color:#00000030;margin:0 4px}
+.oxgrade{font-size:26px;color:#C2543F;margin-top:6px}
+.oxcmp{font-size:16px;color:var(--ink2);margin:12px 0 18px}
+@media (max-width:600px){
+  .oxin{padding:16px 15px 20px}
+  .oxq{font-size:18px}.oxq b{font-size:22px}
+  .oxpick{gap:12px}.oxpick button{height:106px}
+  .oxbig{font-size:56px}
+}
+@media (prefers-reduced-motion:reduce){.oxshow{animation:none}.oxpick button{transition:none}}
 
 /* ── 메모지 ───────────────────────────────────────────────────────── */
 .toys{position:fixed;right:16px;bottom:16px;z-index:400;display:flex;gap:8px}
@@ -777,7 +930,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:09<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:15<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -887,13 +1040,15 @@ html,body,.page,.pane{overflow-anchor:none}
       <h2>나도 맞춰볼래<s>우리 픽이랑 견줘보는 거예요 · 채점된 경기에서 뽑아요</s></h2>
       <div class="qzi">
         <p class="qzl">경기를 보여줄게요. <b>누가 이겼을까요?</b> 열 판 하고 우리 픽이랑 견줘봐요.</p>
-        <button class="qzgo" type="button">시작할래요</button>
+        <button class="qzgo" type="button">시작할래요</button> <button class="qzgo oxbtn" type="button" id="oxopen">★ OX 퀴즈 (크게)</button>
       </div>
       <div class="qzp" hidden>
-        <div class="qzn"><b class="qzc">1</b><s>/</s>10</div>
+        <div class="qzq"><i class="qznum"><b class="qzc">1</b></i>
+          <span class="qzask">누가 이겼을까요?</span><em class="qzdate"></em></div>
         <div class="qzg"></div>
         <div class="qzo"></div>
         <div class="qzr" hidden></div>
+        <div class="qzfoot"><span class="qzdots"></span><span class="qztal">맞은 것 <b>0</b></span></div>
       </div>
       <div class="qzs" hidden></div>
     </div></div>
@@ -1274,6 +1429,171 @@ html,body,.page,.pane{overflow-anchor:none}
     mo.observe(cn,{childList:true,characterData:true,subtree:true});
   }
 })();
+
+/* ═══ OX 퀴즈 — 팝업 게임쇼 ═══════════════════════════════════════════
+   ★ 배경음악은 «파일이 없다».  Web Audio 로 만든다 — 바깥 요청 0을 지킨다.
+   ★ 기본은 «꺼짐».  브라우저가 자동재생을 막기도 하고,
+     사무실에서 갑자기 소리가 나는 게 제일 나쁘다.  사람이 켜야 난다. */
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  function rnd(seed,i){var x=Math.sin(seed*12.9898+i*78.233)*43758.5453;return x-Math.floor(x)}
+
+  var host=$("#oxshow"); if(!host) return;
+  var pool=[].slice.call(document.querySelectorAll("tbody tr")).filter(function(r){
+    return (r.classList.contains("hit")||r.classList.contains("miss"))
+        && (r.cells[2].textContent||"").trim() && (r.cells[5].textContent||"").trim();
+  });
+
+  /* ── 소리 ── 오실레이터로 만든다.  꺼져 있으면 컨텍스트도 안 연다 ── */
+  var AC=null, bgm=null, muted=true;
+  function ac(){ if(!AC){ var C=window.AudioContext||window.webkitAudioContext;
+    if(!C) return null; AC=new C() } if(AC.state==="suspended") AC.resume(); return AC }
+  function beep(freqs,dur,type,vol){
+    var c=ac(); if(!c||muted) return;
+    freqs.forEach(function(f,i){
+      var o=c.createOscillator(), g=c.createGain();
+      o.type=type||"triangle"; o.frequency.value=f;
+      var t=c.currentTime+i*(dur*.62);
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(vol||.16,t+.012);
+      g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+dur+.02);
+    });
+  }
+  var ding=function(){ beep([784,988,1319],.26,"triangle",.15) };   /* 딩동댕 */
+  var buzz=function(){ beep([196,155],.34,"sawtooth",.10) };        /* 땡 */
+  var tick=function(){ beep([1200],.045,"square",.045) };
+
+  /* 배경음악 — 네 마디 벼락치기 벰프.  setInterval 로 돌린다 */
+  var BG=[262,0,330,0,392,0,330,0, 294,0,349,0,440,0,349,0,
+          247,0,311,0,392,0,311,0, 262,0,392,0,523,0,392,0];
+  function bgmOn(v){
+    if(!v){ if(bgm){clearInterval(bgm); bgm=null} return }
+    var c=ac(); if(!c) return; var i=0;
+    bgm=setInterval(function(){
+      if(muted) return;
+      var f=BG[i%BG.length]; i++;
+      if(!f) return;
+      var o=c.createOscillator(), g=c.createGain();
+      o.type="square"; o.frequency.value=f/2;
+      g.gain.setValueAtTime(.035,c.currentTime);
+      g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.16);
+      o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+.18);
+    },150);
+  }
+
+  /* ── 판 ── */
+  var N=10, idx=0, score=0, seq=[], cur=null, tmr=null, left=0, LIMIT=8;
+  var elQ=$("#oxq"), elP=$("#oxpick"), elR=$("#oxr"), elD=$("#oxdots"),
+      elS=$("#oxscore"), elT=$("#oxtime"), elEnd=$("#oxend"), elBody=$("#oxbody");
+
+  function dots(){
+    var h="";
+    for(var i=0;i<N;i++){
+      var c = i<idx ? (seq[i]._got?"o":"x") : (i===idx?"now":"");
+      h+='<i class="'+c+'"></i>';
+    }
+    elD.innerHTML=h; elS.textContent=score;
+  }
+  function stopTimer(){ if(tmr){clearInterval(tmr); tmr=null} }
+  function startTimer(){
+    left=LIMIT; elT.style.width="100%"; elT.className="oxtime";
+    stopTimer();
+    tmr=setInterval(function(){
+      left-=.1;
+      elT.style.width=Math.max(0,left/LIMIT*100)+"%";
+      if(left<=3) elT.className="oxtime hot";
+      if(left<=3.05&&left>2.95) tick();
+      if(left<=0){ stopTimer(); answer(null) }
+    },100);
+  }
+  function ask(){
+    cur=seq[idx];
+    var pk=(cur.cells[2].textContent||"").trim();
+    elQ.innerHTML='<em>'+(cur.cells[0].textContent||"").trim()+'</em><br>'
+      +(cur.cells[1].textContent||"").trim()
+      +'<br><b>우리 픽 — '+pk+'</b><span>맞았을까요?</span>';
+    elR.hidden=true; elP.hidden=false; elP.classList.remove("done");
+    [].forEach.call(elP.children,function(b){ b.className=b.dataset.v });
+    dots(); startTimer();
+  }
+  function answer(v){
+    stopTimer();
+    var truth=cur.classList.contains("hit");         /* 우리 픽이 맞았나 */
+    var ok = (v!==null) && (v==="o")===truth;
+    cur._got=ok; if(ok) score++;
+    elP.classList.add("done");
+    [].forEach.call(elP.children,function(b){
+      if(b.dataset.v===(truth?"o":"x")) b.classList.add("ans");
+      if(v&&b.dataset.v===v) b.classList.add("pick");
+    });
+    ok?ding():buzz();
+    elP.hidden=false; elR.hidden=false;
+    elR.innerHTML='<span class="'+(ok?"ok":"no")+'">'
+      +(v===null?"시간 초과!":(ok?"정답!":"땡!"))+'</span> '
+      +'실제로는 <b>'+(truth?"맞은":"빗나간")+' 픽</b>이에요 · 이긴 팀 '
+      +(cur.cells[5].textContent||"").trim()+' ('+(cur.cells[4].textContent||"").trim()+')'
+      +'<br><button type="button">'+(idx+1>=N?"결과 보기":"다음 문제")+'</button>';
+    dots();
+    $("button",elR).onclick=function(){ idx++; if(idx>=N){ finish() } else { ask() } };
+  }
+  function finish(){
+    stopTimer(); elBody.hidden=true; elEnd.hidden=false;
+    var pct=Math.round(score/N*100);
+    var grade = pct>=80?"고수":pct>=60?"제법":pct>=40?"보통":"운이 없었어요";
+    var ours=Math.round(seq.filter(function(r){return r.classList.contains("hit")}).length/N*100);
+    elEnd.innerHTML='<div class="oxbig">'+score+'<s>/</s>'+N+'</div>'
+      +'<div class="oxgrade">'+grade+'</div>'
+      +'<div class="oxcmp">같은 열 경기에서 우리 픽은 <b>'+ours+'%</b> 였어요'
+      +' · 동전 던지기는 <b>50%</b></div>'
+      +'<div><button type="button" id="oxagain">한 판 더</button>'
+      +'<button type="button" id="oxclose2">닫기</button></div>';
+    $("#oxagain").onclick=start;
+    $("#oxclose2").onclick=close_;
+    if(pct>=80) setTimeout(function(){ beep([523,659,784,1047],.3,"triangle",.14) },160);
+  }
+  function shuffle(a,s){
+    for(var i=a.length-1;i>0;i--){var j=Math.floor(rnd(s,i)*(i+1));var t=a[i];a[i]=a[j];a[j]=t}
+    return a;
+  }
+  function start(){
+    idx=0; score=0;
+    seq=shuffle(pool.slice(), Math.floor(Date.now()/1000)%9973).slice(0,N);
+    seq.forEach(function(r){ r._got=false });
+    elEnd.hidden=true; elBody.hidden=false; ask();
+  }
+  function open_(){
+    if(pool.length<N){ alert("채점된 경기가 "+pool.length+"건뿐이라 아직 열 판을 못 만들어요"); return }
+    host.hidden=false; document.body.style.overflow="hidden"; start();
+  }
+  function close_(){
+    stopTimer(); bgmOn(false); host.hidden=true; document.body.style.overflow="";
+  }
+  $("#oxopen").onclick=open_;
+  $("#oxclose").onclick=close_;
+  $("#oxmute").onclick=function(){
+    muted=!muted;
+    this.setAttribute("aria-pressed", muted?"false":"true");
+    this.querySelector("b").textContent = muted ? "소리 꺼짐" : "소리 켜짐";
+    this.querySelector("s").textContent = muted ? "눌러서 켜요" : "신나죠?";
+    var sn=document.getElementById("oxsnd"); if(sn) sn.classList.add("off");
+    bgmOn(!muted);
+    if(!muted) beep([659],.12,"triangle",.12);
+  };
+  document.addEventListener("keydown",function(e){
+    if(host.hidden) return;
+    var a=document.activeElement;
+    if(a&&(a.tagName==="INPUT"||a.isContentEditable)) return;
+    if(e.key==="Escape"){ close_(); return }
+    if(elP.hidden||elP.classList.contains("done")) return;
+    var k=(e.key||"").toLowerCase();
+    if(k==="o"||e.key==="ArrowLeft"){ e.preventDefault(); answer("o") }
+    if(k==="x"||e.key==="ArrowRight"){ e.preventDefault(); answer("x") }
+  });
+  [].forEach.call(elP.children,function(b){
+    b.onclick=function(){ if(!elP.classList.contains("done")) answer(b.dataset.v) };
+  });
+})();
 </script>
 </div>
 <canvas class="dood" id="dood" hidden aria-hidden="true"></canvas>
@@ -1281,6 +1601,33 @@ html,body,.page,.pane{overflow-anchor:none}
   <i class="memotape"></i>
   <div class="memoh">메모<span>이 브라우저에만 남아요</span><button type="button" id="memox" aria-label="접기">×</button></div>
   <div class="memob" id="memob" contenteditable="true" spellcheck="false" data-ph="여기에 적어요…"></div>
+</div>
+<div class="oxshow" id="oxshow" hidden role="dialog" aria-label="OX 퀴즈">
+  <div class="oxwin">
+    <div class="oxbar"><b>O X 퀴즈</b><s>우리 픽, 맞았을까요?</s>
+      <span class="oxsnd" id="oxsnd">
+        <svg class="oxarw" viewBox="0 0 86 40" aria-hidden="true"><path d="M4 34 Q10 18 26 12 Q44 5 68 9"
+          fill="none" stroke="#C2543F" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M58 3 Q66 8 70 10 Q64 14 59 19" fill="none" stroke="#C2543F"
+          stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <em>여기 눌러야 소리 나요</em></span>
+      <button type="button" id="oxmute" aria-pressed="false"><i></i><b>소리 꺼짐</b><s>눌러서 켜요</s></button>
+      <button type="button" id="oxclose" aria-label="닫기">×</button></div>
+    <div class="oxin">
+      <div id="oxbody">
+        <div class="oxtimew"><i class="oxtime" id="oxtime"></i></div>
+        <div class="oxq" id="oxq"></div>
+        <div class="oxpick" id="oxpick">
+          <button type="button" data-v="o" class="o" aria-label="맞았다"></button>
+          <button type="button" data-v="x" class="x" aria-label="빗나갔다"></button>
+        </div>
+        <div class="oxr" id="oxr" hidden></div>
+        <div class="oxfoot"><span class="oxdots" id="oxdots"></span>
+          <span class="oxsc">맞은 것 <b id="oxscore">0</b></span></div>
+      </div>
+      <div id="oxend" hidden></div>
+    </div>
+  </div>
 </div>
 <div class="toys">
   <button type="button" id="memobtn" title="메모  (M)">메모</button>
