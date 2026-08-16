@@ -320,6 +320,9 @@ tbody tr.capoff{display:none}
 .oxpick button::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
   filter:url(#pkTorn) drop-shadow(0 3px 4px #0000001f);transition:filter .14s}
 .oxpick button>*{position:relative;z-index:1}
+/* ★ <button> 은 UA 가 overflow:hidden 을 준다.  그래서 카드 «밖 위» 에 붙인 꼬리표의
+     윗동강이 잘려 「내 답」·「정답」 글자가 반만 보였다.  데스크톱도 같이 잘렸다 */
+.oxpick button{overflow:visible}
 .oxpick button .mk{width:132px;height:62px;background:no-repeat center/contain;display:block}
 .oxpick button.o .mk{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%232F7A4F%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M82.9%2011.8%20Q86.1%2015.2%2086.9%2019.0%20Q85.9%2023.0%2082.9%2027.0%20Q78.3%2030.8%2072.1%2034.3%20Q64.5%2037.1%2056.0%2039.1%20Q47.2%2040.0%2038.7%2040.1%20Q30.8%2039.3%2023.8%2037.7%20Q18.2%2035.3%2014.5%2032.1%20Q12.8%2028.4%2013.6%2024.3%20Q16.2%2020.3%2020.6%2016.5%20Q26.5%2012.9%2033.7%209.9%20Q42.0%207.7%2050.8%206.4%20Q59.4%206.2%2067.5%206.8%20Q74.6%208.3%2080.5%2010.6%22%2F%3E%3C%2Fsvg%3E")}
 .oxpick button.x .mk{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%2246%22%20viewBox%3D%220%200%20100%2046%22%20fill%3D%22none%22%20stroke%3D%22%23C2543F%22%20stroke-width%3D%222.9%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M14.5%209.5%20Q50.4%2025.3%2088.7%2038.6%22%2F%3E%3Cpath%20d%3D%22M84.8%2011.2%20Q50.4%2024.8%2016.0%2038.4%22%2F%3E%3C%2Fsvg%3E")}
@@ -434,7 +437,9 @@ tbody tr.capoff{display:none}
   #oxmute s{display:none}                  /* 「눌러서 켜요」 는 뺀다.  아이콘+글자는 남긴다 */
   .oxmym{font-size:12px;padding:5px 9px 6px;max-width:78px}
   .oxclose{flex:none;padding:4px 9px 6px}
-  .oxpick button>.oxtag{font-size:11.5px;padding:4px 8px 5px;top:-15px}
+  .oxpick{padding-top:19px}                /* 꼬리표가 통째로 앉을 자리 */
+  .oxpick button s{display:none}           /* 「O 또는 ←」 — 폰에 키보드가 없다 */
+  .oxpick button>.oxtag{font-size:11.5px;padding:4px 8px 5px;top:-18px}
   .oxpick button>.oxtag.me{left:6px}
   .oxpick button>.oxtag.ans{right:6px}
 }
@@ -450,7 +455,7 @@ tbody tr.capoff{display:none}
   .oxq b{font-size:21px;margin-top:6px}
   .oxq span{margin-top:8px;font-size:15px}
   .oxq em{font-size:12.5px}
-  .oxpick{gap:12px;padding-top:15px}
+  .oxpick{gap:12px;padding-top:19px}
   .oxpick button{padding:10px 8px 9px}
   .oxpick button .mk{width:84px;height:38px}
   .oxpick button b{font-size:16px}
@@ -468,6 +473,20 @@ tbody tr.capoff{display:none}
   .oxsc{font-size:14px}.oxsc b{font-size:20px}
   .oxbig{font-size:56px}
   #oxend{padding:8px 0 4px}
+}
+@media (max-height:600px){
+  .oxq{font-size:15px;margin-bottom:10px}
+  .oxq b{font-size:19px;margin-top:4px}
+  .oxq span{margin-top:6px;font-size:14px}
+  .oxtimew{margin-bottom:9px}
+  .oxpick button{padding:8px 6px 7px}
+  .oxpick button .mk{width:70px;height:32px}
+  .oxr{margin-top:9px;font-size:15px}
+  .oxv{font-size:24px}
+  .oxwhy{font-size:14.5px}.oxwhy b{font-size:16px}
+  .oxnext{margin-top:9px !important;font-size:15.5px !important;padding:8px 22px 9px !important}
+  .oxfoot{margin-top:9px;padding-top:8px}
+  .oxbig{font-size:48px}
 }
 @media (prefers-reduced-motion:reduce){
   .oxshow,.oxbig,.oxr .ok,.oxr .no,.oxtime.hot{animation:none}
@@ -1565,7 +1584,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-17 00:51<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-17 00:54<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
