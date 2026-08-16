@@ -1337,6 +1337,19 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   .spot-fold{width:38px;height:38px}
 }
 @media (prefers-reduced-motion:reduce){.spot,.spot-fold em{transition:none}}
+
+/* 휴지통 — 버린 픽이 있으면 그림에 표가 난다 */
+.spot-bin.has i{filter:none;opacity:1}
+.spot-bin.has s{color:#C2543F}
+.bblist{list-style:none;margin:8px auto 0;padding:0;max-width:330px;text-align:left;
+  font-family:var(--hand);font-size:13px;color:var(--ink2);max-height:150px;overflow:auto}
+.bblist li{padding:5px 0;position:relative}
+.bblist li+li::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:repeating-linear-gradient(90deg,#00000018 0 4px,transparent 4px 10px)}
+.bblist b{color:var(--ink);font-size:14px;margin-right:6px}
+.bblist s{text-decoration:none;color:var(--ink3);font-size:12px}
+.bblist em{font-style:normal;float:right;color:#D97742;font-size:12.5px}
+.bbmore{font-size:12px;color:var(--ink3);margin-top:5px}
 </style>
 </head>
 <body>
@@ -1369,7 +1382,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:37<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:39<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -2138,6 +2151,14 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     var truth=cur.classList.contains("hit");         /* 우리 픽이 맞았나 */
     var ok = (v!==null) && (v==="o")===truth;
     cur._got=ok; cur._done=true; if(ok) score++;
+    /* ★ 틀린 픽은 «휴지통» 으로.  던지기·벽돌깨기와 한 줄기가 된다 */
+    if(!ok && window.pkTrash) window.pkTrash.add({
+      pick:(cur.cells[2].textContent||"").trim(),
+      game:(cur.cells[1].textContent||"").trim(),
+      sc:(cur.cells[4].textContent||"").trim(),
+      win:(cur.cells[5].textContent||"").trim(),
+      day:(cur.cells[0].textContent||"").trim()
+    });
     elP.classList.add("done");
     [].forEach.call(elP.children,function(b){
       var isAns=(b.dataset.v===(truth?"o":"x")), isPick=(v&&b.dataset.v===v);
@@ -2385,7 +2406,14 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     $(".bbend").hidden=false;
     $(".bbend").innerHTML='<div class="bbbig">'+score+'<s>/</s>10</div>'
       +'<div class="bbgr">'+(score>=8?"고수":score>=5?"제법":score>=2?"보통":"오늘은 아니네요")+'</div>'
-      +(w?'<div class="bbcmp">오늘 구겨 버릴 빗나간 픽이 <b>'+w+'</b>장 있어요</div>':'')
+      +(function(){
+        var t=(window.pkTrash?window.pkTrash.all():[]);
+        if(!t.length) return w?'<div class="bbcmp">오늘 구겨 버릴 빗나간 픽이 <b>'+w+'</b>장 있어요</div>':'';
+        return '<div class="bbcmp">퀴즈에서 틀린 픽 <b>'+t.length+'</b>장을 버렸어요</div>'
+          +'<ul class="bblist">'+t.slice(-6).map(function(x){
+            return '<li><b>'+x.pick+'</b><s>'+x.game+'</s><em>'+x.sc+'</em></li>' }).join('')+'</ul>'
+          +(t.length>6?'<div class="bbmore">그 밖 '+(t.length-6)+'장</div>':'');
+      })()
       +'<div><button type="button" class="bbagain">한 판 더</button>'
       +'<button type="button" class="bbclose2">닫기</button></div>';
     $(".bbagain").onclick=start;
@@ -2780,6 +2808,36 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     if(e.key===" "){ e.preventDefault(); running=true; noteEl.textContent="" }
   });
   addEventListener("resize",function(){ if(!shell.hidden){ var r=field.getBoundingClientRect(); W=r.width; H=r.height } });
+})();
+
+/* ═══ 휴지통 ═══ 퀴즈에서 틀린 픽이 여기 쌓인다.  «버리는 시늉을 하되 보관한다» ══
+   ★ 이 화면의 성격이다 — 「우리도 틀린다.  근데 뭘 보고 틀렸는지는 남긴다」 */
+(function(){
+  var K="pk_trash_v1";
+  function today(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2) }
+  function load(){
+    try{ var o=JSON.parse(localStorage.getItem(K)||"{}");
+      return (o.day===today() && Array.isArray(o.list)) ? o.list : [];   /* ★ 어제 것은 안 쓴다 */
+    }catch(e){ return [] }
+  }
+  function save(l){ try{ localStorage.setItem(K,JSON.stringify({day:today(),list:l})) }catch(e){} }
+  var list=load();
+  function badge(){
+    var b=document.getElementById("bbopen"); if(!b) return;
+    var s=b.querySelector("s");
+    if(s) s.textContent = list.length ? ("버린 픽 "+list.length+"장") : "구겨서 던지기";
+    b.classList.toggle("has", list.length>0);
+  }
+  window.pkTrash={
+    add:function(it){
+      var k=it.day+"|"+it.game+"|"+it.pick;
+      if(list.some(function(x){return x.day+"|"+x.game+"|"+x.pick===k})) return;
+      list.push(it); save(list); badge();
+    },
+    all:function(){ return list.slice() },
+    clear:function(){ list=[]; save(list); badge() }
+  };
+  badge();
 })();
 </script>
 </body>
