@@ -318,24 +318,20 @@ tbody tr.capoff{display:none}
 .oxpick.done button.ans{opacity:1}
 /* ★ 배경색을 «안» 준다.  정답 카드를 초록으로 칠하면 그 안의 빨간 X 와 싸우고,
      틀린 카드를 분홍으로 칠하면 그 안의 초록 O 와 싸운다.
-     색 대신 «꼬리표» 로 말한다 — 마크의 색은 마크가 뜻하는 것에만 쓴다 */
-.oxpick.done button.ans::before{filter:url(#pkTorn) drop-shadow(0 4px 7px #00000026)}
+     색 대신 «꼬리표» 로 말한다 — 마크의 색은 마크가 뜻하는 것에만 쓴다.
+   ★ 꼬리표는 카드 «밖 위» 에 붙인다.  안에 넣었더니 글자를 덮었다 */
+.oxpick{padding-top:16px}                 /* 꼬리표가 앉을 자리 */
+.oxpick.done button.ans::before{filter:url(#pkTorn) drop-shadow(0 5px 9px #00000026)}
 .oxpick.done button.pick{opacity:1}
-.oxpick.done button.ans::after{content:"정답";position:absolute;right:12px;top:-10px;
-  z-index:2;font-family:var(--hand);font-size:14px;font-weight:800;color:#2F7A4F;
-  padding:3px 13px 4px;transform:rotate(4deg)}
-.oxpick.done button.ans .mk{filter:none}
-.oxpick.done button.ans>b::after{content:"";position:absolute;right:4px;top:-14px;
-  width:58px;height:30px;border:2.2px solid #2F7A4F;border-radius:50%;opacity:.6;
-  transform:rotate(4deg) scale(1.02,.95);pointer-events:none}
-.oxpick.done button>b{position:relative}
-.oxpick.done button.pick::before{filter:url(#pkTorn) drop-shadow(0 4px 7px #00000026)}
-.oxpick.done button.pick>s::after{content:"내 답";position:absolute;left:50%;bottom:-13px;
-  transform:translateX(-50%) rotate(-2deg);z-index:2;font-size:12.5px;color:#fff;
-  background:#33302B;border-radius:9px;padding:2px 11px 3px;white-space:nowrap}
-.oxpick.done button.pick>s{position:relative}
-.oxpick.done button.pick:not(.ans)>s::after{background:#C2543F}
-
+.oxpick.done button.pick::before{filter:url(#pkTorn) drop-shadow(0 5px 9px #00000026)}
+.oxtag{position:absolute;top:-13px;z-index:3;font-family:var(--hand);font-size:13.5px;
+  font-weight:800;line-height:1;padding:5px 14px 6px;border-radius:11px;white-space:nowrap;
+  animation:oxtagin .26s cubic-bezier(.3,1.6,.5,1)}
+.oxtag.me{left:14px;transform:rotate(-2.5deg);color:#fff;background:#33302B}
+.oxtag.me.wrong{background:#C2543F}
+.oxtag.ans{right:14px;transform:rotate(3deg);color:#2F7A4F;background:#EAF4EC;
+  border:2px solid #2F7A4F88}
+@keyframes oxtagin{from{transform:scale(.5) rotate(-14deg);opacity:0}}
 /* 채점 */
 .oxr{margin-top:20px;font-size:16.5px;line-height:1.9;color:var(--ink2);text-align:center}
 .oxr .ok,.oxr .no{display:inline-block;font-weight:800;font-size:24px;letter-spacing:1px;
@@ -1010,7 +1006,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:27<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 15:29<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1636,7 +1632,8 @@ html,body,.page,.pane{overflow-anchor:none}
       +(cur.cells[1].textContent||"").trim()
       +'<br><b>우리 픽 — '+pk+'</b><span>맞았을까요?</span>';
     elR.hidden=true; elP.hidden=false; elP.classList.remove("done");
-    [].forEach.call(elP.children,function(b){ b.className=b.dataset.v });
+    [].forEach.call(elP.children,function(b){ b.className=b.dataset.v;
+      var t=b.querySelector(".oxtag"); if(t) t.remove(); });
     dots(); startTimer();
   }
   function answer(v){
@@ -1646,8 +1643,16 @@ html,body,.page,.pane{overflow-anchor:none}
     cur._got=ok; if(ok) score++;
     elP.classList.add("done");
     [].forEach.call(elP.children,function(b){
-      if(b.dataset.v===(truth?"o":"x")) b.classList.add("ans");
-      if(v&&b.dataset.v===v) b.classList.add("pick");
+      var isAns=(b.dataset.v===(truth?"o":"x")), isPick=(v&&b.dataset.v===v);
+      if(isAns) b.classList.add("ans");
+      if(isPick) b.classList.add("pick");
+      var old=b.querySelector(".oxtag"); if(old) old.remove();
+      if(isAns||isPick){
+        var g=document.createElement("span");
+        if(isAns){ g.className="oxtag ans"; g.textContent = isPick ? "내 답 · 정답" : "정답" }
+        else { g.className="oxtag me wrong"; g.textContent="내 답" }
+        b.appendChild(g);
+      }
     });
     ok?ding():buzz();
     elP.hidden=false; elR.hidden=false;
