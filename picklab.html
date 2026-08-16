@@ -1115,6 +1115,108 @@ html,body,.page,.pane{overflow-anchor:none}
 .qzr[hidden],.qzo[hidden],.oxr[hidden],.bbend[hidden],.bbplay[hidden],
 #oxbody[hidden],#oxend[hidden],.memo[hidden],.dood[hidden],.morebar[hidden],
 .toys button[hidden],.oxsnd[hidden]{display:none !important}
+
+/* ── 형광펜 밑칠 ── 표 행에 마우스를 올리면 노란 형광펜이 왼→오 로 그어진다 ──
+   ★ 기존 tr:hover td{background:#FFF6DD66} 를 «대신» 한다.  둘 다 두면 두 겹으로 뜬다 */
+tbody tr:hover td{background:transparent}
+tbody tr td{position:relative;z-index:0}
+tbody tr td::before{content:"";position:absolute;left:0;right:0;top:50%;height:22px;
+  margin-top:-11px;z-index:-1;background:#FFE98A;border-radius:2px;
+  transform:scaleX(0) rotate(-.35deg);transform-origin:left center;opacity:.72;
+  transition:transform .22s cubic-bezier(.3,.9,.4,1)}
+tbody tr:hover td::before{transform:scaleX(1) rotate(-.35deg)}
+/* 칸마다 아주 조금씩 늦게 — 왼쪽부터 «그어지는» 것처럼 보인다 */
+tbody tr td:nth-child(2)::before{transition-delay:.02s}
+tbody tr td:nth-child(3)::before{transition-delay:.04s}
+tbody tr td:nth-child(4)::before{transition-delay:.06s}
+tbody tr td:nth-child(5)::before{transition-delay:.08s}
+tbody tr td:nth-child(6)::before{transition-delay:.1s}
+tbody tr td:nth-child(7)::before{transition-delay:.12s}
+tbody tr td:nth-child(8)::before{transition-delay:.14s}
+tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
+@media (prefers-reduced-motion:reduce){
+  tbody tr td::before{transition:none}
+}
+
+/* ═══ 모눈종이 테트리스 ═══════════════════════════════════════════
+   ★ 「네모 블록은 디지털 게임기로 읽힌다」 가 걱정이었다.
+     그래서 칸을 «연필로 그린 네모» 로 만들고 모눈 위에 얹는다 — 칸마다 기울기가 다르다 */
+.ttshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:22px;
+  background:#231f1ad9;animation:oxin .18s ease-out}
+.ttshow[hidden]{display:none !important}
+.ttwin{position:relative;width:min(640px,100%);font-family:var(--hand);
+  transform:rotate(-.3deg);filter:drop-shadow(0 22px 38px #00000073)}
+.ttwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
+  filter:url(#pkTorn)}
+.ttwin>*{position:relative;z-index:1}
+.ttbar{display:flex;align-items:center;gap:9px;padding:14px 18px 11px;flex-wrap:nowrap}
+.ttbar b{font-size:21px;letter-spacing:1.5px;color:var(--ink);white-space:nowrap}
+.ttbar s{text-decoration:none;font-size:12.5px;color:#00000059;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ttsc,.ttln,.ttlv{font-size:12.5px;color:var(--ink3);white-space:nowrap;flex:none}
+.ttsc{margin-left:auto}
+.ttsc b,.ttln b,.ttlv b{font-size:18px;color:var(--ink)}
+.ttx{flex:none;font-family:var(--hand);font-size:19px;line-height:1;cursor:pointer;
+  border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:3px 10px 5px}
+.ttx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.ttbody{display:flex;gap:16px;padding:0 18px 18px;align-items:flex-start}
+.ttgridw{position:relative;flex:none}
+.ttgrid{display:grid;grid-template-columns:repeat(10,26px);grid-auto-rows:26px;gap:0;
+  background:repeating-linear-gradient(90deg,#33302B14 0 1px,transparent 1px 26px),
+             repeating-linear-gradient(180deg,#33302B14 0 1px,transparent 1px 26px);
+  border:1.6px solid #33302B44;border-radius:3px}
+.ttgrid i{display:block;width:26px;height:26px}
+.ttgrid i.on{position:relative}
+.ttgrid i.on::before{content:"";position:absolute;inset:3px;border-radius:3px;
+  border:2px solid var(--pc,#33302B);background:var(--pf,#33302B14);
+  transform:rotate(var(--r,0deg))}
+.ttgrid i.on::after{content:"";position:absolute;inset:7px;border-radius:2px;
+  border-top:1.4px solid var(--pc,#33302B);opacity:.4;
+  transform:rotate(calc(var(--r,0deg) * -1.6))}
+/* 조각 색 — 우리 팔레트 안에서만 */
+.pI{--pc:#3C4A5C;--pf:#3C4A5C1f}
+.pO{--pc:#C8AE5A;--pf:#FFE98A66}
+.pT{--pc:#C2543F;--pf:#C2543F1c}
+.pS{--pc:#2F7A4F;--pf:#2F7A4F1c}
+.pZ{--pc:#8B5E3C;--pf:#8B5E3C1c}
+.pJ{--pc:#4A6B8A;--pf:#4A6B8A1c}
+.pL{--pc:#B07C2E;--pf:#B07C2E1c}
+.ttover{position:absolute;inset:0;display:grid;place-content:center;text-align:center;
+  background:#FFFDF4ee;border-radius:3px}
+.ttover[hidden]{display:none !important}
+.ttbig{font-size:60px;line-height:1;color:var(--ink);letter-spacing:-2px}
+.ttgr{font-size:22px;color:#C2543F;margin-top:4px}
+.ttcmp{font-size:14px;color:var(--ink2);margin:10px 0 2px}
+.ttover button{margin:12px 4px 0;font-family:var(--hand);font-size:15px;cursor:pointer;
+  border:1.6px dashed #00000038;border-radius:11px;background:#FFFDF4;padding:7px 16px 8px;
+  color:var(--ink)}
+.ttover button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.ttside{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
+.ttnextw em{font-style:normal;font-size:13px;color:var(--ink3);display:block;margin-bottom:5px}
+.ttnext{display:grid;grid-template-columns:repeat(4,20px);grid-auto-rows:20px;
+  border:1.4px dashed #00000026;border-radius:6px;padding:5px;width:max-content}
+.ttnext i{display:block;width:20px;height:20px;position:relative}
+.ttnext i.on::before{content:"";position:absolute;inset:2px;border-radius:2px;
+  border:1.8px solid var(--pc,#33302B);background:var(--pf,#33302B14)}
+.ttpad{display:grid;grid-template-columns:repeat(3,42px);gap:6px}
+.ttpad button{font-family:var(--hand);font-size:17px;cursor:pointer;height:40px;
+  border:1.5px dashed #00000030;border-radius:11px;background:#FFFDF4;color:var(--ink)}
+.ttpad button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.ttL{grid-column:1}
+.ttRot{grid-column:2}
+.ttR{grid-column:3}
+.ttD{grid-column:2}
+.ttDrop{grid-column:1/-1;font-size:15px}
+@media (max-width:600px){
+  .ttbar s{display:none}
+  .ttbar b{font-size:18px}
+  .ttgrid{grid-template-columns:repeat(10,22px);grid-auto-rows:22px}
+  .ttgrid i{width:22px;height:22px}
+  .ttbody{gap:10px;padding:0 12px 14px}
+  .ttpad{grid-template-columns:repeat(3,36px)}
+}
+@media (prefers-reduced-motion:reduce){.ttshow{animation:none}}
 </style>
 </head>
 <body>
@@ -1147,7 +1249,7 @@ html,body,.page,.pane{overflow-anchor:none}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:16<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:23<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1282,6 +1384,27 @@ html,body,.page,.pane{overflow-anchor:none}
   <div class="memoh">메모<span>이 브라우저에만 남아요</span><button type="button" id="memox" aria-label="접기">×</button></div>
   <div class="memob" id="memob" contenteditable="true" spellcheck="false" data-ph="여기에 적어요…"></div>
 </div>
+<div class="ttshow" hidden role="dialog" aria-label="모눈종이 테트리스">
+  <div class="ttwin">
+    <div class="ttbar"><b>모눈 테트리스</b><s>&#8592;&#8594; 옮기고 &#8593; 돌리고 스페이스로 뚝</s>
+      <span class="ttsc">점수 <b>0</b></span><span class="ttln">줄 <b>0</b></span>
+      <span class="ttlv">단계 <b>1</b></span>
+      <button type="button" class="ttx" aria-label="닫기">&#215;</button></div>
+    <div class="ttbody">
+      <div class="ttgridw"><div class="ttgrid"></div><div class="ttover" hidden></div></div>
+      <div class="ttside">
+        <div class="ttnextw"><em>다음</em><div class="ttnext"></div></div>
+        <div class="ttpad">
+          <button type="button" class="ttRot" aria-label="돌리기">&#8635;</button>
+          <button type="button" class="ttL" aria-label="왼쪽">&#8592;</button>
+          <button type="button" class="ttD" aria-label="아래">&#8595;</button>
+          <button type="button" class="ttR" aria-label="오른쪽">&#8594;</button>
+          <button type="button" class="ttDrop" aria-label="뚝 떨구기">뚝</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="bbshow" hidden role="dialog" aria-label="종이 농구">
   <div class="bbwin">
     <div class="bbbar"><b>종이 농구</b><s>구겨서 휴지통에 넣어요 · 뒤로 당겼다 놓기</s>
@@ -1331,6 +1454,7 @@ html,body,.page,.pane{overflow-anchor:none}
 <div class="toys">
   <button type="button" id="oxopen" class="toyox" title="OX 퀴즈">OX 퀴즈</button>
   <button type="button" id="bbopen" class="toyox" title="종이 농구">농구</button>
+  <button type="button" id="ttopen" class="toyox" title="모눈 테트리스">테트리스</button>
   <button type="button" id="memobtn" title="메모  (M)">메모</button>
   <button type="button" id="doodbtn" title="연필로 낙서  (D)">낙서</button>
   <button type="button" id="doodclr" title="낙서 지우기" hidden>지우기</button>
@@ -2173,6 +2297,185 @@ html,body,.page,.pane{overflow-anchor:none}
     if(e.key==="Escape") close_();
   });
   addEventListener("resize",function(){ if(!shell.hidden) sizes() });
+})();
+
+/* ═══ 모눈종이 테트리스 ═══════════════════════════════════════════════
+   ★ 캔버스를 안 쓴다.  10x18 칸을 div 로 두고 class 만 갈아 끼운다.
+   ★ 「네모 블록은 디지털 게임기로 읽힌다」 가 걱정이었다 —
+     그래서 칸을 «연필로 그린 네모» 로 만들고 모눈 위에 얹는다.
+     칸마다 기울기가 조금씩 다르다 (씨앗 고정 — 다시 그려도 같다). */
+(function(){
+  var shell=document.querySelector(".ttshow"); if(!shell) return;
+  var $=function(s){return shell.querySelector(s)};
+  var W=10, H=18;
+  var grid=$(".ttgrid"), nextEl=$(".ttnext"), scEl=$(".ttsc b"),
+      lnEl=$(".ttln b"), lvEl=$(".ttlv b"), overEl=$(".ttover");
+  var cells=[], board=[], cur=null, nxt=null, score=0, lines=0, level=1,
+      timer=null, over=false, paused=false;
+
+  function rnd(s,i){var x=Math.sin(s*12.9898+i*78.233)*43758.5453;return x-Math.floor(x)}
+
+  /* 조각 — 회전은 배열을 돌린다 */
+  var P={
+    I:[[1,1,1,1]], O:[[1,1],[1,1]], T:[[0,1,0],[1,1,1]],
+    S:[[0,1,1],[1,1,0]], Z:[[1,1,0],[0,1,1]],
+    J:[[1,0,0],[1,1,1]], L:[[0,0,1],[1,1,1]]
+  };
+  var KEYS=Object.keys(P);
+
+  function build(){
+    grid.innerHTML="";
+    cells=[]; board=[];
+    for(var r=0;r<H;r++){
+      board.push(new Array(W).fill(""));
+      for(var c=0;c<W;c++){
+        var d=document.createElement("i");
+        /* ★ 칸마다 기울기를 조금씩 — 손으로 그린 티가 난다 */
+        d.style.setProperty("--r", ((rnd(r*W+c,3)-.5)*4).toFixed(1)+"deg");
+        grid.appendChild(d); cells.push(d);
+      }
+    }
+    nextEl.innerHTML="";
+    for(var k=0;k<16;k++){ var e=document.createElement("i"); nextEl.appendChild(e) }
+  }
+  function paint(){
+    for(var r=0;r<H;r++) for(var c=0;c<W;c++)
+      cells[r*W+c].className = board[r][c] ? ("on p"+board[r][c]) : "";
+    if(cur) shape(cur).forEach(function(p){
+      var r=cur.r+p[0], c=cur.c+p[1];
+      if(r>=0&&r<H&&c>=0&&c<W) cells[r*W+c].className="on p"+cur.k;
+    });
+    /* 다음 조각 */
+    var nn=nextEl.children;
+    for(var i=0;i<16;i++) nn[i].className="";
+    if(nxt) shape({k:nxt.k,rot:0}).forEach(function(p){
+      var idx=(p[0]+1)*4+(p[1]);
+      if(idx>=0&&idx<16) nn[idx].className="on p"+nxt.k;
+    });
+    scEl.textContent=score; lnEl.textContent=lines; lvEl.textContent=level;
+  }
+  function shape(o){
+    var m=P[o.k], out=[];
+    for(var t=0;t<(o.rot||0);t++){
+      var n=[];
+      for(var c=0;c<m[0].length;c++){
+        var row=[];
+        for(var r=m.length-1;r>=0;r--) row.push(m[r][c]);
+        n.push(row);
+      }
+      m=n;
+    }
+    for(var r2=0;r2<m.length;r2++) for(var c2=0;c2<m[r2].length;c2++)
+      if(m[r2][c2]) out.push([r2,c2]);
+    return out;
+  }
+  function fits(o){
+    return shape(o).every(function(p){
+      var r=o.r+p[0], c=o.c+p[1];
+      return c>=0 && c<W && r<H && (r<0 || !board[r][c]);
+    });
+  }
+  function spawn(){
+    cur = nxt || {k:KEYS[Math.floor(Math.random()*KEYS.length)], rot:0, r:-1, c:4};
+    cur.r=-1; cur.c=4; cur.rot=0;
+    nxt = {k:KEYS[Math.floor(Math.random()*KEYS.length)], rot:0, r:-1, c:4};
+    if(!fits(cur)) gameOver();
+  }
+  function lock(){
+    shape(cur).forEach(function(p){
+      var r=cur.r+p[0], c=cur.c+p[1];
+      if(r>=0&&r<H) board[r][c]=cur.k;
+    });
+    /* 줄 지우기 */
+    var got=0;
+    for(var r=H-1;r>=0;r--){
+      if(board[r].every(function(v){return v})){
+        board.splice(r,1); board.unshift(new Array(W).fill("")); got++; r++;
+      }
+    }
+    if(got){
+      lines+=got;
+      score += [0,100,300,500,800][got] * level;
+      var nl=Math.floor(lines/6)+1;
+      if(nl!==level){ level=nl; restartTimer() }
+      grid.classList.add("clear");
+      setTimeout(function(){ grid.classList.remove("clear") },220);
+    }
+    spawn();
+  }
+  function down(){
+    if(over||paused||!cur) return;
+    var t={k:cur.k,rot:cur.rot,r:cur.r+1,c:cur.c};
+    if(fits(t)){ cur=t } else { lock() }
+    paint();
+  }
+  function move(dc){
+    if(over||paused||!cur) return;
+    var t={k:cur.k,rot:cur.rot,r:cur.r,c:cur.c+dc};
+    if(fits(t)){ cur=t; paint() }
+  }
+  function rotate(){
+    if(over||paused||!cur) return;
+    for(var k=0;k<3;k++){
+      var t={k:cur.k,rot:(cur.rot+1)%4,r:cur.r,c:cur.c+[0,-1,1][k]};
+      if(fits(t)){ cur=t; paint(); return }
+    }
+  }
+  function drop(){
+    if(over||paused||!cur) return;
+    while(true){
+      var t={k:cur.k,rot:cur.rot,r:cur.r+1,c:cur.c};
+      if(fits(t)) cur=t; else break;
+    }
+    lock(); paint();
+  }
+  function restartTimer(){
+    if(timer) clearInterval(timer);
+    timer=setInterval(down, Math.max(110, 620 - (level-1)*70));
+  }
+  function gameOver(){
+    over=true; if(timer){clearInterval(timer);timer=null}
+    overEl.hidden=false;
+    overEl.innerHTML='<div class="ttbig">'+score+'</div>'
+      +'<div class="ttgr">'+(lines>=20?"고수":lines>=10?"제법":lines>=4?"보통":"연습 좀 더")+'</div>'
+      +'<div class="ttcmp">지운 줄 <b>'+lines+'</b> · 단계 <b>'+level+'</b></div>'
+      +'<div><button type="button" class="ttagain">한 판 더</button>'
+      +'<button type="button" class="ttclose2">닫기</button></div>';
+    $(".ttagain").onclick=start;
+    $(".ttclose2").onclick=close_;
+  }
+  function start(){
+    build(); score=0; lines=0; level=1; over=false; paused=false;
+    nxt=null; overEl.hidden=true;
+    spawn(); paint(); restartTimer();
+  }
+  function open_(){ shell.hidden=false; document.body.style.overflow="hidden"; start() }
+  function close_(){
+    if(timer){clearInterval(timer);timer=null}
+    shell.hidden=true; document.body.style.overflow="";
+  }
+  document.getElementById("ttopen").onclick=open_;
+  $(".ttx").onclick=close_;
+  shell.addEventListener("click",function(e){ if(e.target===shell) close_() });
+
+  /* 단추 (손가락용) */
+  [["ttL",function(){move(-1)}],["ttR",function(){move(1)}],
+   ["ttD",down],["ttRot",rotate],["ttDrop",drop]].forEach(function(a){
+    var b=$("."+a[0]); if(b) b.onclick=a[1];
+  });
+
+  document.addEventListener("keydown",function(e){
+    if(shell.hidden) return;
+    var t=document.activeElement;
+    if(t&&(t.tagName==="INPUT"||t.isContentEditable)) return;
+    var k=e.key;
+    if(k==="Escape"){ close_(); return }
+    if(k==="ArrowLeft"){ e.preventDefault(); move(-1) }
+    else if(k==="ArrowRight"){ e.preventDefault(); move(1) }
+    else if(k==="ArrowDown"){ e.preventDefault(); down() }
+    else if(k==="ArrowUp"||k===" "){ e.preventDefault(); k===" "?drop():rotate() }
+    else if(k.toLowerCase()==="p"){ paused=!paused }
+  });
 })();
 </script>
 </body>
