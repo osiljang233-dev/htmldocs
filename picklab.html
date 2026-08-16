@@ -1406,6 +1406,12 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
 .spot-oxm svg{width:44px;height:20px;fill:none;stroke:#C8AE5A;stroke-width:2.2;
   stroke-linecap:round;opacity:.9}
 .spot-oxm:hover svg{stroke:#9C7F2E}
+/* ★ 테트리스는 접힌 귀퉁이(.spot-fold)뿐이라 안 보였다 — 10.5px · 검정 32% 다.
+   같은 줄의 다른 둘처럼 «글자» 를 준다.  귀퉁이는 장식으로 그대로 둔다 */
+.spot-ttm{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#5C6B7F}
+.spot-ttm svg{width:44px;height:21px;fill:none;stroke:#8494A8;stroke-width:2.2;
+  stroke-linejoin:round;opacity:.95;transform:rotate(-2deg)}
+.spot-ttm:hover svg{stroke:#5C6B7F}
 .spot-marg .spot-doodle{margin-left:0}
 @media (max-width:600px){
   .spot-marg{justify-content:flex-start;gap:14px;flex-wrap:wrap;margin:-2px 2px 14px}
@@ -1466,7 +1472,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 20:19<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 21:08<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1482,6 +1488,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     <div class="spot-marg">
       <button type="button" id="ox2open" class="spot spot-oxm" title="OX 퀴즈 하기"><svg viewBox="0 0 46 22" aria-hidden="true"><path d="M11 4 Q4 5 4 11 Q4 18 11 18 Q18 18 18 11 Q18 5 11 4"/><path d="M29 5 L42 17 M42 5 L29 17"/></svg>맞혀볼래요?</button>
       <button type="button" id="br2open" class="spot spot-doodle" title="빗나간 픽 부수기"><svg viewBox="0 0 38 17" aria-hidden="true"><path d="M2 12 Q9 4 18 7 Q27 10 34 5"/><path d="M28 2 Q33 4 35 5 Q32 7 30 10"/></svg>빗나간 거 부수기</button>
+      <button type="button" id="tt3open" class="spot spot-ttm" title="모눈 테트리스"><svg viewBox="0 0 46 22" aria-hidden="true"><path d="M4 12 L15 12 L15 20 L4 20 Z"/><path d="M15 12 L26 12 L26 20 L15 20 Z"/><path d="M15 3 L26 3 L26 12 L15 12 Z"/><path d="M26 3 L37 3 L37 12 L26 12 Z"/></svg>블록도 쌓아요</button>
     </div>
     <div class="box pn"><svg class="hb" viewBox="0 0 900 150" preserveAspectRatio="none" aria-hidden="true" style="--bf:#FFFDF4"><defs><path id="hb10" d="M5 1 Q31 0 43 1 Q54 2 67 1 Q80 0 92 1 Q104 2 117 1 Q129 0 141 0 Q153 0 166 0 Q178 0 191 1 Q204 1 215 1 Q227 2 239 1 Q252 1 264 1 Q277 1 289 0 Q301 0 314 1 Q327 1 339 1 Q352 2 363 1 Q375 0 388 0 Q400 1 412 1 Q424 1 437 1 Q449 1 462 1 Q474 1 487 1 Q500 0 512 0 Q524 0 536 0 Q549 1 561 1 Q572 1 585 1 Q599 1 611 1 Q622 1 635 1 Q647 1 659 1 Q671 1 683 0 Q695 0 708 0 Q720 0 733 0 Q746 1 757 1 Q769 2 781 1 Q794 1 807 0 Q819 0 832 0 Q844 0 857 1 Q869 1 881 1 Q893 1 893 1 Q893 1 895 1 Q897 2 898 4 Q899 5 899 6 Q899 6 899 20 Q899 33 898 47 Q898 61 898 75 Q898 89 898 102 Q898 116 898 130 Q899 143 898 143 Q897 143 898 144 Q898 146 895 148 Q893 149 894 149 Q894 148 881 149 Q868 149 856 149 Q844 149 831 148 Q819 147 807 148 Q794 148 782 148 Q769 148 757 148 Q745 148 732 148 Q720 148 708 148 Q696 148 683 149 Q671 149 659 148 Q647 148 634 148 Q621 149 610 149 Q598 149 586 149 Q573 148 560 148 Q548 149 535 148 Q523 148 511 148 Q499 148 487 148 Q475 149 463 149 Q450 149 438 148 Q426 148 413 148 Q400 148 388 148 Q377 148 364 148 Q351 148 339 148 Q327 149 314 148 Q302 147 290 147 Q278 148 265 148 Q252 149 240 149 Q228 149 216 148 Q204 148 191 148 Q179 147 166 147 Q153 147 141 148 Q130 148 118 148 Q105 147 93 148 Q81 148 68 148 Q55 147 43 147 Q31 147 18 148 Q6 148 5 148 Q5 148 4 148 Q3 147 1 145 Q0 144 0 144 Q1 144 1 131 Q1 117 1 103 Q1 88 1 75 Q1 61 1 47 Q1 33 1 19 Q1 5 0 6 Q0 6 1 4 Q2 2 4 1 L6 1 Z" vector-effect="non-scaling-stroke"/></defs><use class="bf" href="#hb10"/><use href="#hb10"/><path class="s2" d="M6 1 Q30 2 42 1 Q55 1 67 0 Q80 0 92 0 Q104 0 117 0 Q129 0 142 0 Q155 0 166 0 Q177 0 190 1 Q202 1 215 1 Q228 1 240 2 Q252 2 265 1 Q278 1 289 1 Q301 1 314 1 Q327 1 338 1 Q350 1 363 1 Q376 0 389 1 Q401 1 413 1 Q424 1 437 1 Q450 2 462 2 Q474 2 487 2 Q500 1 512 1 Q524 1 536 1 Q549 1 560 1 Q572 0 585 0 Q598 0 610 0 Q622 1 635 0 Q647 0 660 0 Q672 -0 684 0 Q697 0 709 0 Q721 1 733 1 Q744 2 757 2 Q771 2 783 1 Q795 0 807 0 Q818 0 831 1 Q844 1 856 1 Q868 2 881 1 Q895 0 894 0 Q894 0 896 1 Q897 1 898 4 Q898 6 898 6 Q898 5 898 19 Q898 34 898 47 Q898 60 899 74 Q899 87 899 102 Q900 116 899 130 Q898 143 898 144 Q897 144 897 146 Q897 148 895 147 Q893 147 893 148 Q894 150 882 149 Q869 148 857 148 Q844 147 832 148 Q820 149 807 149 Q795 149 783 149 Q770 149 757 149 Q744 149 732 149 Q720 149 708 149 Q695 149 684 149 Q672 149 659 148 Q646 147 635 148 Q623 149 610 149 Q596 149 585 148 Q573 148 560 149 Q548 149 536 149 Q525 149 512 149 Q500 150 488 149 Q475 148 462 149 Q449 149 437 149 Q425 148 413 148 Q401 147 388 148 Q375 149 363 148 Q350 148 339 148 Q327 148 314 148 Q301 149 289 149 Q277 148 265 149 Q253 149 240 149 Q228 149 215 149 Q202 149 190 149 Q179 149 167 149 Q154 150 141 149 Q128 148 117 148 Q105 148 92 148 Q79 147 67 148 Q56 150 44 149 Q32 148 18 148 Q5 149 5 149 Q5 148 4 147 Q3 146 2 145 Q1 144 1 144 Q1 144 0 130 Q0 115 0 102 Q0 88 0 74 Q0 60 0 47 Q0 34 1 20 Q2 5 2 6 Q2 6 2 4 Q2 3 4 1 L5 0 Z"/></svg><button type="button" id="tt2open" class="spot spot-fold" title="모눈 테트리스"><em>테트리스</em></button><div class="in">
       <div class="dates"><span class="dl">날짜 골라 보세요</span><label for="d0816"><b class="nm">08-16</b><i>채점 <b class="nm">13</b> · <b class="nm">4</b> 맞음</i></label><label for="d0815"><b class="nm">08-15</b><i>채점 <b class="nm">11</b> · <b class="nm">5</b> 맞음</i></label><label for="d0814"><b class="nm">08-14</b><i>채점 <b class="nm">14</b> · <b class="nm">5</b> 맞음</i></label><label for="d0813"><b class="nm">08-13</b><i>채점 <b class="nm">14</b> · <b class="nm">7</b> 맞음</i></label><label for="d0812"><b class="nm">08-12</b><i>채점 <b class="nm">9</b> · <b class="nm">3</b> 맞음</i></label><label for="d0811"><b class="nm">08-11</b><i>채점 <b class="nm">14</b> · <b class="nm">9</b> 맞음</i></label><label for="d0810"><b class="nm">08-10</b><i>채점 <b class="nm">14</b> · <b class="nm">10</b> 맞음</i></label><label for="d0808"><b class="nm">08-08</b><i>채점 <b class="nm">3</b> · <b class="nm">0</b> 맞음</i></label><label for="d0807"><b class="nm">08-07</b><i>채점 <b class="nm">9</b> · <b class="nm">7</b> 맞음</i></label></div>
@@ -3016,7 +3023,8 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
 
 /* 첫 탭의 놀이 입구 — 원래 버튼(숨은 탭 안)을 대신 눌러준다.
    ★ 숨은 탭 안이라도 element.click() 은 그대로 먹는다. 화면에 안 보일 뿐이다. */
-[['ox2open','oxopen'],['br2open','bropen'],['tt2open','ttopen']].forEach(function(p){
+[['ox2open','oxopen'],['br2open','bropen'],['tt2open','ttopen'],
+ ['tt3open','ttopen']].forEach(function(p){
   var a=document.getElementById(p[0]), b=document.getElementById(p[1]);
   if(a&&b) a.addEventListener('click',function(){ b.click(); });
 });
