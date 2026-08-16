@@ -417,6 +417,58 @@ tbody tr.capoff{display:none}
   .oxpick button b{font-size:17px}
   .oxbig{font-size:62px}
 }
+
+/* ── 좁은 화면에서 «잘리던» 것 세 가지 ───────────────────────────────────
+   ① 제목줄 내용이 430px 인데 창이 345px 이라 닫기(×) 가 통째로 화면 밖이었다
+   ② 답을 고르면 내용이 683px 이 된다.  667 짜리 화면 창(600)에 아래가 잘렸다
+   ③ 「내 답」·「정답」 꼬리표가 좁은 카드(133px)에서 서로 겹쳐 글자가 잘렸다
+   ★ 뒤가 이긴다.  위 600px 블록 «뒤» 에 둬야 한다 — 앞에 두면 위가 덮는다 */
+@media (max-width:600px){
+  .oxshow{padding:14px}                    /* 26 → 14.  창을 그만큼 넓게·높게 쓴다 */
+  .oxwin{max-height:94vh}
+  .oxclip{left:14px;top:-11px;height:44px} /* 클립이 「O」 를 2px 물고 있었다 */
+  .oxbar{gap:7px;padding:13px 13px 12px}
+  .oxbar b{font-size:19px;letter-spacing:2px;margin-left:34px;
+    flex:0 1 auto;min-width:0;overflow:hidden}
+  #oxmute{margin-left:auto;padding:5px 10px 6px}
+  #oxmute s{display:none}                  /* 「눌러서 켜요」 는 뺀다.  아이콘+글자는 남긴다 */
+  .oxmym{font-size:12px;padding:5px 9px 6px;max-width:78px}
+  .oxclose{flex:none;padding:4px 9px 6px}
+  .oxpick button>.oxtag{font-size:11.5px;padding:4px 8px 5px;top:-15px}
+  .oxpick button>.oxtag.me{left:6px}
+  .oxpick button>.oxtag.ans{right:6px}
+}
+@media (max-width:420px){
+  .oxmym{display:none}                     /* 내 음악 — 여기부터는 × 를 밀어낸다.  폰에선 뺀다 */
+}
+/* ── 짧은 화면 ── 답을 고르면 「맞은 것 · 다음 문제」 줄이 창 밑으로 잘렸다.
+   폭이 아니라 «높이» 가 모자란 것이라 max-width 로는 안 잡힌다 */
+@media (max-height:800px){
+  .oxin{padding:12px 15px 14px}
+  .oxtimew{height:9px;margin-bottom:12px}
+  .oxq{font-size:16px;margin-bottom:14px;line-height:1.5}
+  .oxq b{font-size:21px;margin-top:6px}
+  .oxq span{margin-top:8px;font-size:15px}
+  .oxq em{font-size:12.5px}
+  .oxpick{gap:12px;padding-top:15px}
+  .oxpick button{padding:10px 8px 9px}
+  .oxpick button .mk{width:84px;height:38px}
+  .oxpick button b{font-size:16px}
+  .oxpick button s{font-size:11.5px}
+  .oxr{margin-top:12px;line-height:1.7;font-size:15.5px}
+  .oxr .ok,.oxr .no{font-size:21px}
+  .oxv{font-size:27px}
+  .oxwhy{font-size:15.5px}.oxwhy b{font-size:17px}
+  .oxsub{font-size:13px}
+  .oxnext{margin-top:12px !important;font-size:16.5px !important;
+    padding:9px 26px 10px !important}
+  .oxr button,#oxend button{margin-top:10px;font-size:15px;padding:7px 18px 8px}
+  .oxfoot{margin-top:12px;padding-top:10px}
+  .oxdots i{width:11px;height:11px}
+  .oxsc{font-size:14px}.oxsc b{font-size:20px}
+  .oxbig{font-size:56px}
+  #oxend{padding:8px 0 4px}
+}
 @media (prefers-reduced-motion:reduce){
   .oxshow,.oxbig,.oxr .ok,.oxr .no,.oxtime.hot{animation:none}
   .oxpick button,.oxpick button::before{transition:none}
@@ -1513,7 +1565,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-17 00:10<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-17 00:51<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
