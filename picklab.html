@@ -1217,6 +1217,63 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   .ttpad{grid-template-columns:repeat(3,36px)}
 }
 @media (prefers-reduced-motion:reduce){.ttshow{animation:none}}
+
+/* ═══ 픽 벽돌깨기 ═══ 벽돌 하나가 «빗나간 픽» 한 건이다 ═══════════════ */
+.brshow{position:fixed;inset:0;z-index:600;display:grid;place-items:center;padding:22px;
+  background:#231f1ad9;animation:oxin .18s ease-out}
+.brshow[hidden]{display:none !important}
+.brwin{position:relative;width:min(660px,100%);font-family:var(--hand);
+  transform:rotate(-.3deg);filter:drop-shadow(0 22px 38px #00000073)}
+.brwin::before{content:"";position:absolute;inset:0;z-index:0;background:#FFFDF4;
+  filter:url(#pkTorn)}
+.brwin>*{position:relative;z-index:1}
+.brbar{display:flex;align-items:center;gap:9px;padding:14px 18px 11px;flex-wrap:nowrap}
+.brbar b{font-size:21px;letter-spacing:1.5px;color:var(--ink);white-space:nowrap}
+.brbar s{text-decoration:none;font-size:12.5px;color:#00000059;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0}
+.brsc,.brlf{font-size:12.5px;color:var(--ink3);white-space:nowrap;flex:none}
+.brsc{margin-left:auto}
+.brsc b,.brlf b{font-size:18px;color:var(--ink)}
+.brx{flex:none;font-family:var(--hand);font-size:19px;line-height:1;cursor:pointer;
+  border:1.5px dashed #00000038;border-radius:10px;background:#FFFDF4;color:var(--ink2);
+  padding:3px 10px 5px}
+.brx:hover{background:#FBF0EE;border-color:#C2543F88;color:var(--bad)}
+.brfield{position:relative;height:min(58vh,420px);margin:0 18px;overflow:hidden;
+  border:1.6px solid #33302B33;border-radius:4px;touch-action:none;cursor:none;
+  background:repeating-linear-gradient(180deg,transparent 0 29px,#33302B0a 29px 30px)}
+.brbricks{position:absolute;inset:0;pointer-events:none}
+.brb{position:absolute;display:grid;place-items:center;font-style:normal;
+  font-family:var(--hand);font-size:12.5px;color:var(--ink2);
+  border:1.8px solid #C2543F88;border-radius:5px;background:#C2543F12;
+  transform:rotate(var(--r,0deg));transition:opacity .18s,transform .18s;
+  overflow:hidden;white-space:nowrap;padding:0 3px}
+.brb.gone{opacity:0;transform:rotate(var(--r,0deg)) scale(.55)}
+.brball{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;
+  border:2.2px solid #33302B;background:#FFFDF4;pointer-events:none}
+.brpad{position:absolute;left:0;bottom:14px;width:104px;height:13px;border-radius:7px;
+  border:2px solid #3C4A5C;background:#3C4A5C1f;pointer-events:none}
+.brnote{position:absolute;left:0;right:0;bottom:34px;text-align:center;font-size:15px;
+  color:var(--ink3);pointer-events:none;padding:0 10px}
+.brnote.no{color:#D97742;font-size:18px;font-weight:800}
+.brnote.sm{font-size:13px;color:var(--ink2)}
+.brover{position:absolute;inset:0;display:grid;place-content:center;text-align:center;
+  background:#FFFDF4ee}
+.brover[hidden]{display:none !important}
+.brbig{font-size:62px;line-height:1;color:var(--ink);letter-spacing:-2px}
+.brgr{font-size:22px;color:#C2543F;margin-top:4px}
+.brcmp{font-size:15px;color:var(--ink2);margin:10px 0 2px}
+.brover button{margin:12px 4px 0;font-family:var(--hand);font-size:15px;cursor:pointer;
+  border:1.6px dashed #00000038;border-radius:11px;background:#FFFDF4;padding:7px 16px 8px;
+  color:var(--ink)}
+.brover button:hover{background:#FFF0A8cc;border-color:#C8AE5A;border-style:solid}
+.brfoot{font-size:12.5px;color:var(--ink3);padding:10px 18px 16px;text-align:center}
+@media (max-width:600px){
+  .brbar s{display:none}
+  .brbar b{font-size:18px}
+  .brfield{height:52vh;margin:0 12px}
+  .brbig{font-size:50px}
+}
+@media (prefers-reduced-motion:reduce){.brshow{animation:none}.brb{transition:none}}
 </style>
 </head>
 <body>
@@ -1249,7 +1306,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
       <h1>픽랩 · 오늘의픽 채점</h1>
       <div class="ul"><svg class="hu" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M1.6 5.5 Q13.9 5.5 21.4 6.3 Q28.8 7.0 35.0 6.9 Q41.1 6.8 48.2 5.9 Q55.2 5.0 60.5 5.2 Q65.8 5.4 72.4 5.5 Q79.0 5.6 87.0 5.9 Q95.0 6.1 100.2 6.5 Q105.3 6.9 111.9 6.9 Q118.6 7.0 125.1 7.0 Q131.6 7.1 138.4 5.8 Q145.1 4.5 152.4 4.9 Q159.8 5.2 165.5 5.3 Q171.3 5.3 178.8 5.0 Q186.3 4.7 192.5 4.7 L198.8 4.8"/><path class="s2" d="M2.0 6.8 Q13.3 7.2 20.4 5.9 Q27.5 4.6 35.2 4.8 Q42.9 5.1 49.4 5.0 Q55.9 5.0 62.2 5.3 Q68.5 5.6 73.8 6.2 Q79.0 6.9 85.5 6.2 Q92.1 5.5 99.6 5.7 Q107.1 5.9 112.5 6.6 Q118.0 7.3 124.5 7.2 Q131.0 7.1 137.6 6.0 Q144.3 5.0 151.3 6.1 Q158.2 7.2 166.0 6.9 Q173.7 6.6 179.2 6.3 Q184.7 5.9 191.0 5.1 L197.2 4.2"/></svg></div>
       <div class="sub">우리 픽이 진짜 실력인지 그냥 운이었는지, 여기서 같이 들여다봐요.</div>
-      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:23<!--/--></div>
+      <div class="stamp">우리끼리만 보는 거예요 · 버저비터.com 에는 안 올라가요 · 만든 시각 <!--PICKLAB:generated-->2026-08-16 16:27<!--/--></div>
     </div>
     <div class="why">숫자 하나만 보면 속기 쉬워요.<br>«어디로 가고 있는지»를 봐 주세요.</div>
   </div>
@@ -1384,6 +1441,19 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   <div class="memoh">메모<span>이 브라우저에만 남아요</span><button type="button" id="memox" aria-label="접기">×</button></div>
   <div class="memob" id="memob" contenteditable="true" spellcheck="false" data-ph="여기에 적어요…"></div>
 </div>
+<div class="brshow" hidden role="dialog" aria-label="픽 벽돌깨기">
+  <div class="brwin">
+    <div class="brbar"><b>픽 벽돌깨기</b><s>벽돌 하나가 «빗나간 픽» 한 건이에요</s>
+      <span class="brsc">점수 <b>0</b></span><span class="brlf">남은 공 <b>3</b></span>
+      <button type="button" class="brx" aria-label="닫기">&#215;</button></div>
+    <div class="brfield">
+      <div class="brbricks"></div>
+      <div class="brball"></div><div class="brpad"></div>
+      <div class="brnote"></div><div class="brover" hidden></div>
+    </div>
+    <div class="brfoot">마우스로 막대를 옮겨요 · 눌러서 시작 · &#8592;&#8594; 도 돼요</div>
+  </div>
+</div>
 <div class="ttshow" hidden role="dialog" aria-label="모눈종이 테트리스">
   <div class="ttwin">
     <div class="ttbar"><b>모눈 테트리스</b><s>&#8592;&#8594; 옮기고 &#8593; 돌리고 스페이스로 뚝</s>
@@ -1455,6 +1525,7 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
   <button type="button" id="oxopen" class="toyox" title="OX 퀴즈">OX 퀴즈</button>
   <button type="button" id="bbopen" class="toyox" title="종이 농구">농구</button>
   <button type="button" id="ttopen" class="toyox" title="모눈 테트리스">테트리스</button>
+  <button type="button" id="bropen" class="toyox" title="픽 벽돌깨기">벽돌깨기</button>
   <button type="button" id="memobtn" title="메모  (M)">메모</button>
   <button type="button" id="doodbtn" title="연필로 낙서  (D)">낙서</button>
   <button type="button" id="doodclr" title="낙서 지우기" hidden>지우기</button>
@@ -2476,6 +2547,150 @@ tbody tr:hover td.d{box-shadow:inset 3px 0 0 -1px #C8AE5A}
     else if(k==="ArrowUp"||k===" "){ e.preventDefault(); k===" "?drop():rotate() }
     else if(k.toLowerCase()==="p"){ paused=!paused }
   });
+})();
+
+/* ═══ 픽 벽돌깨기 ═══ 벽돌 하나가 «빗나간 픽» 한 건이다 ══════════════════
+   ★ 캔버스를 안 쓴다.  공·막대는 transform, 벽돌은 div 다.
+   ★ 스토리 — 오늘 빗나간 픽을 공으로 하나씩 지운다.  깨면 무슨 픽이었는지 뜬다. */
+(function(){
+  var shell=document.querySelector(".brshow"); if(!shell) return;
+  var $=function(s){return shell.querySelector(s)};
+  var field=$(".brfield"), ball=$(".brball"), pad=$(".brpad"),
+      wrap=$(".brbricks"), overEl=$(".brover"),
+      scEl=$(".brsc b"), lfEl=$(".brlf b"), noteEl=$(".brnote");
+  var W=0,H=0, bx=0,by=0, vx=0,vy=0, px=0, PW=104, PH=13, R=9;
+  var raf=null, bricks=[], score=0, lives=3, running=false, picks=[];
+
+  function rnd(s,i){var x=Math.sin(s*12.9898+i*78.233)*43758.5453;return x-Math.floor(x)}
+
+  function collect(){
+    /* 빗나간 픽에서 «팀 약칭» 을 뽑아 벽돌 이름으로 쓴다 */
+    picks=[].slice.call(document.querySelectorAll("tbody tr.miss")).map(function(r){
+      var p=(r.cells[2].textContent||"").replace(/\s*승\s*$/,"").trim();
+      return {name:p, game:(r.cells[1].textContent||"").trim(),
+              sc:(r.cells[4].textContent||"").trim(), win:(r.cells[5].textContent||"").trim()};
+    });
+  }
+  function short(s){
+    /* 「샌디에고 파드리스」 → 「파드리스」 · 길면 자른다 */
+    var t=s.split(/\s+/); var last=t[t.length-1]||s;
+    return last.length>5 ? last.slice(0,5) : last;
+  }
+  function build(){
+    var r=field.getBoundingClientRect(); W=r.width; H=r.height;
+    wrap.innerHTML=""; bricks=[];
+    var COLS=6, ROWS=Math.min(4, Math.max(2, Math.ceil(picks.length/6)));
+    var bw=(W-24-(COLS-1)*8)/COLS, bh=26;
+    for(var i=0;i<COLS*ROWS;i++){
+      var pk=picks[i % Math.max(1,picks.length)] || {name:"픽",game:"",sc:"",win:""};
+      var b=document.createElement("i");
+      b.className="brb";
+      b.textContent=short(pk.name);
+      b.style.left=(12+(i%COLS)*(bw+8))+"px";
+      b.style.top=(14+Math.floor(i/COLS)*(bh+8))+"px";
+      b.style.width=bw+"px"; b.style.height=bh+"px";
+      b.style.setProperty("--r", ((rnd(i,5)-.5)*3).toFixed(1)+"deg");
+      wrap.appendChild(b);
+      bricks.push({el:b, x:12+(i%COLS)*(bw+8), y:14+Math.floor(i/COLS)*(bh+8),
+                   w:bw, h:bh, alive:true, pk:pk});
+    }
+    lfEl.textContent=lives; scEl.textContent=score;
+  }
+  function serve(){
+    px=(W-PW)/2; bx=W/2; by=H-46;
+    var a=(rnd(Date.now()%997,7)-.5)*1.1;
+    vx=Math.sin(a)*4.6; vy=-4.6;
+    running=false;
+    draw();
+    noteEl.textContent="아무 데나 눌러서 시작"; noteEl.className="brnote";
+  }
+  function draw(){
+    ball.style.transform="translate("+(bx-R)+"px,"+(by-R)+"px)";
+    pad.style.transform="translateX("+px+"px)";
+  }
+  function hit(b){
+    b.alive=false; b.el.classList.add("gone");
+    score+=10; scEl.textContent=score;
+    noteEl.textContent=b.pk.game ? (b.pk.game+" · 우리 픽 "+b.pk.name+" · 실제 "+b.pk.sc) : "";
+    noteEl.className="brnote sm";
+    if(bricks.every(function(x){return !x.alive})) win();
+  }
+  function tick(){
+    if(running){
+      bx+=vx; by+=vy;
+      if(bx<R){bx=R;vx=-vx} if(bx>W-R){bx=W-R;vx=-vx}
+      if(by<R){by=R;vy=-vy}
+      /* 막대 */
+      if(vy>0 && by>H-PH-14-R && by<H-14 && bx>px-R && bx<px+PW+R){
+        by=H-PH-14-R; vy=-Math.abs(vy);
+        vx += ((bx-(px+PW/2))/(PW/2))*2.1;      /* 맞은 자리로 각도가 바뀐다 */
+        vx=Math.max(-7,Math.min(7,vx));
+      }
+      /* 벽돌 */
+      for(var i=0;i<bricks.length;i++){
+        var b=bricks[i]; if(!b.alive) continue;
+        if(bx>b.x-R && bx<b.x+b.w+R && by>b.y-R && by<b.y+b.h+R){
+          var ox=Math.min(bx-(b.x-R), (b.x+b.w+R)-bx);
+          var oy=Math.min(by-(b.y-R), (b.y+b.h+R)-by);
+          if(ox<oy) vx=-vx; else vy=-vy;
+          hit(b); break;
+        }
+      }
+      if(by>H+20){ lose(); return }
+    }
+    draw(); raf=requestAnimationFrame(tick);
+  }
+  function lose(){
+    lives--; lfEl.textContent=lives;
+    if(lives<=0){ over(false); return }
+    noteEl.textContent="놓쳤어요"; noteEl.className="brnote no";
+    setTimeout(serve,520);
+  }
+  function win(){ over(true) }
+  function over(ok){
+    cancelAnimationFrame(raf); raf=null; running=false;
+    var left=bricks.filter(function(b){return b.alive}).length;
+    overEl.hidden=false;
+    overEl.innerHTML='<div class="brbig">'+score+'</div>'
+      +'<div class="brgr">'+(ok?"다 지웠어요":"아쉽네요")+'</div>'
+      +'<div class="brcmp">'+(ok?'빗나간 픽을 <b>'+bricks.length+'</b>개 다 깼어요'
+                               :'<b>'+left+'</b>개가 남았어요')+'</div>'
+      +'<div><button type="button" class="bragain">한 판 더</button>'
+      +'<button type="button" class="brclose2">닫기</button></div>';
+    $(".bragain").onclick=start;
+    $(".brclose2").onclick=close_;
+  }
+  function start(){
+    collect(); score=0; lives=3; overEl.hidden=true;
+    build(); serve();
+    if(!raf) raf=requestAnimationFrame(tick);
+  }
+  function open_(){ shell.hidden=false; document.body.style.overflow="hidden"; start() }
+  function close_(){
+    if(raf){cancelAnimationFrame(raf);raf=null}
+    shell.hidden=true; document.body.style.overflow="";
+  }
+
+  field.addEventListener("pointermove",function(e){
+    var r=field.getBoundingClientRect();
+    px=Math.max(0,Math.min(W-PW, e.clientX-r.left-PW/2));
+    if(!running){ bx=px+PW/2; by=H-46 }
+    draw();
+  });
+  field.addEventListener("pointerdown",function(){
+    if(!running){ running=true; noteEl.textContent=""; }
+  });
+  document.getElementById("bropen").onclick=open_;
+  $(".brx").onclick=close_;
+  shell.addEventListener("click",function(e){ if(e.target===shell) close_() });
+  document.addEventListener("keydown",function(e){
+    if(shell.hidden) return;
+    if(e.key==="Escape"){ close_(); return }
+    if(e.key==="ArrowLeft"){ e.preventDefault(); px=Math.max(0,px-26); if(!running){bx=px+PW/2} draw() }
+    if(e.key==="ArrowRight"){ e.preventDefault(); px=Math.min(W-PW,px+26); if(!running){bx=px+PW/2} draw() }
+    if(e.key===" "){ e.preventDefault(); running=true; noteEl.textContent="" }
+  });
+  addEventListener("resize",function(){ if(!shell.hidden){ var r=field.getBoundingClientRect(); W=r.width; H=r.height } });
 })();
 </script>
 </body>
