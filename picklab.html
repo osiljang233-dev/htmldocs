@@ -481,7 +481,7 @@ tbody tr:hover td.p::after{content:"";position:absolute;left:10px;bottom:4px;hei
   tbody tr:hover td.p::after{animation:none}
 }
 .kpis>.box.kpi{flex:1 1 220px;min-width:0}
-.kpis>.box.kpi:first-child{display:none}
+.kpis>div.box.kpi:first-of-type{display:none}   /* ★ :first-child 는 포스트잇(button)을 가리킨다.  div 중 첫째로 집어야 「픽」 상자가 잡힌다 */
 .kpi:nth-child(2){transform:rotate(.3deg)}
 .kpi:nth-child(3){transform:rotate(-.34deg)}
 .kpi>.in{padding:13px 17px 14px;min-height:104px}
