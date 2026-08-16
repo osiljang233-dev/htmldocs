@@ -110,7 +110,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--hand);
      더한 값을 옆에 또 보여주고 있었다.  잃는 정보가 없다.
    ★ 마크업을 «안» 지운다 — PICKLAB:total 슬롯이 그 상자 안에 있어서
      지우면 굽는 쪽 채우기가 깨진다.  숨기면 슬롯이 살아 있어 되살리기도 쉽다 */
-.kpis{grid-template-columns:repeat(3,1fr)}
+.kpis{display:flex;flex-wrap:wrap}
+.kpis>.box.kpi{flex:1 1 220px;min-width:0}
 .kpis>.box.kpi:first-child{display:none}
 .kpi:nth-child(2){transform:rotate(.3deg)}
 .kpi:nth-child(3){transform:rotate(-.34deg)}
