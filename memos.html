@@ -1,0 +1,36 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BB 메모판</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet"><style>
+:root{--ink:#33312b;--paper:#f4efe1;--card:#fffdf5;--line:#d8cfb4;--accent:#c8792f}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Gaegu',system-ui,sans-serif;color:var(--ink);
+ background:var(--paper);
+ background-image:radial-gradient(#e7dfc7 1px,transparent 1px);background-size:22px 22px;
+ min-height:100vh;padding:18px 14px 60px}
+header{max-width:1100px;margin:0 auto 18px;display:flex;align-items:baseline;gap:12px;
+ border-bottom:2px dashed var(--line);padding-bottom:10px}
+header h1{font-size:30px;margin:0}
+header .sub{color:#8a7f63;font-size:16px}
+header .add{margin-left:auto;font-size:15px;color:#8a7f63}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.col{flex:1 1 240px;min-width:230px}
+.col h2{font-size:21px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.col h2 s{margin-left:auto;text-decoration:none;color:#fff;background:var(--accent);
+ font-size:14px;border-radius:11px;padding:1px 9px}
+.pin{width:11px;height:11px;border-radius:50%;background:var(--accent);
+ box-shadow:0 0 0 3px #f0d9bf}
+.notes{display:flex;flex-direction:column;gap:14px}
+.note{position:relative;background:var(--card);border:1px solid var(--line);
+ border-radius:5px;padding:16px 14px 10px;transform:rotate(var(--t));
+ box-shadow:2px 4px 9px rgba(0,0,0,.09)}
+.tape{position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(-2deg);
+ width:52px;height:16px;background:rgba(200,180,120,.45);border:1px solid rgba(160,140,90,.4)}
+.mtxt{margin:4px 0 10px;font-size:18px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
+.mfoot{display:flex;align-items:center;gap:8px;font-size:13px;color:#9a8f72;
+ border-top:1px dotted var(--line);padding-top:6px}
+.mfoot .who{font-weight:700;color:#7a6f52}
+.mfoot .when{margin-left:auto}
+.mfoot .del{color:#b45; text-decoration:none;border:1px solid #e3b9b9;border-radius:9px;
+ padding:0 7px;background:#fbeeee}
+.mfoot .del:hover{background:#f3d9d9}
+.empty{color:#b3a988;font-size:15px;padding:10px 4px}
+footer{max-width:1100px;margin:26px auto 0;color:#a99e80;font-size:13px;text-align:center}
+</style></head><body><header><h1>📌 BB 메모판</h1><span class="sub">직원 한줄메모 · 카테고리별</span><span class="add">2026.08.21 19:40 기준</span></header><div class="wrap"><section class="col"><h2><span class="pin"></span>버저비터 <s>1</s></h2><div class="notes"><div class="note" style="--t:-1.4deg"><div class="tape"></div><p class="mtxt">버저비터 홈 개막시계 EPL로 잘 바뀐거 확인</p><div class="mfoot"><span class="who">현</span><span class="when">2026-08-21 17:50</span><a class="del" href="https://t.me/linkteam_report_bot?start=del-3" target="_blank" rel="noopener">삭제</a></div></div></div></section><section class="col"><h2><span class="pin"></span>SNS/마케팅 <s>2</s></h2><div class="notes"><div class="note" style="--t:-1.4deg"><div class="tape"></div><p class="mtxt">틱톡은 첫 3초가 전부다. 훅 세게</p><div class="mfoot"><span class="who">지영</span><span class="when">2026-08-21 17:20</span><a class="del" href="https://t.me/linkteam_report_bot?start=del-2" target="_blank" rel="noopener">삭제</a></div></div><div class="note" style="--t:0.8deg"><div class="tape"></div><p class="mtxt">인스타그램 릴스는 무조건 엔터테이너한 내용이 좋은거같음</p><div class="mfoot"><span class="who">민수</span><span class="when">2026-08-21 16:55</span><a class="del" href="https://t.me/linkteam_report_bot?start=del-1" target="_blank" rel="noopener">삭제</a></div></div></div></section><section class="col"><h2><span class="pin"></span>아이디어 <s>1</s></h2><div class="notes"><div class="note" style="--t:-1.4deg"><div class="tape"></div><p class="mtxt">픽 카드 공유할때 og 이미지 있으면 좋겠다</p><div class="mfoot"><span class="who">민수</span><span class="when">2026-08-21 18:05</span><a class="del" href="https://t.me/linkteam_report_bot?start=del-4" target="_blank" rel="noopener">삭제</a></div></div></div></section><section class="col"><h2><span class="pin"></span>개선점 <s>1</s></h2><div class="notes"><div class="note" style="--t:-1.4deg"><div class="tape"></div><p class="mtxt">nba 순위 탭 404 나는거 확인 부탁</p><div class="mfoot"><span class="who">지영</span><span class="when">2026-08-21 18:18</span><a class="del" href="https://t.me/linkteam_report_bot?start=del-5" target="_blank" rel="noopener">삭제</a></div></div></div></section></div><footer>메모는 방에 한 줄 쓰면 봇이 카테고리를 물어봅니다 · 삭제는 각 메모의 [삭제]</footer></body></html>
