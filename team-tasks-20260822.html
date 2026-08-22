@@ -184,8 +184,10 @@ code{font-family:Consolas,monospace;font-size:12.5px;background:#4A443C12;paddin
   새 리그·종목 픽이 오늘의픽 카드에 잡히는지 확인해요.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">리그 데이터 반입 확인</b>
-  <div class="prd">담당자 zip 도착 시 임포터 반입을 확인하고, 안 뜨면 <span class="hl">「안 왔다 / 안 들어갔다」</span> 를 DevFS로 가려요.</div>
+  <b class="t">JSON 데이터 매일 도착 점검 <span class="chip c-wait">매일</span></b>
+  <div class="prd">담당자(배달부) zip이 매일 들어오는지 확인해요 — DevFS로 <code>assets/data</code> JSON의
+  <code>collected_at</code>·results 최신 날짜를 보고 오늘 치가 들어왔나 대조.
+  안 뜨면 <span class="hl">「안 왔다(담당자) / 안 들어갔다(임포터)」</span> 를 가려서 짚어요.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
   <b class="t">서버 보수 — 봇 지시·검증</b>
