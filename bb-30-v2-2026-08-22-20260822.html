@@ -1,0 +1,153 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1a17;--ink2:#4A443C;--ink3:#8a7f6e;--paper:#FDF8F6;--card:#fffdfb;
+  --red:#e03131;--vio:#7048e8;--org:#e8590c;--teal:#1098ad;--gray:#5c5650;--green:#2f9e44;--warn:#d9820b;--guess:#9c36b5;
+  --hand:'Gaegu','Nanum Pen Script',system-ui,sans-serif;
+  --sans:'Pretendard Variable',Pretendard,'Malgun Gothic',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(#0000000a 1px,transparent 1px),linear-gradient(90deg,#0000000a 1px,transparent 1px);background-size:30px 30px}
+.wrap{position:relative;z-index:1;width:1280px;padding:40px 44px 36px}
+.hd{display:flex;align-items:flex-start;gap:16px;padding-bottom:14px}
+.hd h1{font-family:var(--hand);font-size:46px;font-weight:700;line-height:.95;letter-spacing:-1px}
+.hd .ul{width:520px;height:11px;margin-top:3px;background:repeating-linear-gradient(-2deg,#f7d94e 0 22px,#ffe98a 22px 44px);opacity:.85;border-radius:6px;transform:rotate(-.6deg)}
+.hd .sub{font-family:var(--hand);font-size:20px;color:var(--ink2);margin-top:9px}
+.hd .sub b{color:var(--red)}
+.tape{margin-left:auto;font-family:var(--hand);font-size:19px;color:#7a6a3a;background:#FFF0A8dd;padding:9px 18px;transform:rotate(2deg);box-shadow:0 2px 6px #0000001a;clip-path:polygon(2% 0,100% 3%,98% 100%,0 96%);text-align:center;line-height:1.3}
+.tape b{display:block;font-size:24px;color:#5a4a1a}
+.notes{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;margin:20px 0 6px}
+.note{position:relative;background:var(--card);border:1px solid #eadfd6;border-radius:4px;padding:16px 20px 16px 28px;box-shadow:0 3px 10px #0000000d}
+.note.n1{transform:rotate(-.5deg)} .note.n2{transform:rotate(.5deg)}
+.note .pin{position:absolute;left:13px;top:15px;width:11px;height:11px;border-radius:50%;background:#C2543F;box-shadow:0 1px 3px #00000040}
+.note h2{font-family:var(--hand);font-size:25px;font-weight:700;color:#8a5a1e;margin-bottom:8px}
+.note .li{font-size:14.5px;line-height:1.62;color:var(--ink)}
+.note .li b{color:var(--red)} .note .li .g{color:var(--green);font-weight:700} .note .li .p{color:var(--guess);font-weight:700}
+.note .vo{font-size:14.5px;line-height:1.72}
+.note .vo .k{font-family:var(--hand);font-size:17px;color:var(--teal);font-weight:700}
+.note .vo .sig{font-family:var(--hand);background:#f3ede6;border:1px dashed #cdbfb0;border-radius:5px;padding:0 8px;font-size:15px;color:var(--ink2)}
+.sec{font-family:var(--hand);font-size:26px;font-weight:700;color:var(--ink);margin:22px 0 12px;display:flex;align-items:center;gap:12px}
+.sec .cnt{font-family:var(--sans);font-size:13px;font-weight:700;color:#fff;background:var(--ink);border-radius:20px;padding:3px 12px}
+.sec .ln{flex:1;height:2px;background:repeating-linear-gradient(90deg,#00000020 0 7px,transparent 7px 14px)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{position:relative;background:var(--card);border:1px solid #ece2d9;border-radius:5px;padding:11px 14px 12px 16px;box-shadow:0 2px 6px #0000000a;display:flex;gap:12px;align-items:flex-start}
+.card .bar{position:absolute;left:0;top:8px;bottom:8px;width:4px;border-radius:3px}
+.card .d{font-family:var(--hand);font-weight:700;font-size:22px;color:var(--ink3);flex:0 0 40px;line-height:1.1;padding-left:6px;padding-top:2px}
+.card .bd{flex:1}
+.st{font-family:var(--hand);font-size:13px;font-weight:700;color:#fff;border-radius:6px;padding:0 7px;margin-right:6px;vertical-align:2px}
+.st-s{background:#adb5bd}.st-t{background:#e8590c}.st-q{background:#1098ad}
+.card .hook{font-size:16px;line-height:1.34;font-weight:800;color:var(--ink);letter-spacing:-.2px;display:inline}
+.card .desc{font-size:12.8px;line-height:1.38;color:var(--ink3);margin-top:5px;font-weight:400}
+.card .meta{margin-top:7px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;font-family:var(--hand)}
+.tag{font-size:14px;font-weight:700;padding:0 9px;border-radius:11px;color:#fff;line-height:1.55}
+.t-red{background:var(--red)}.t-vio{background:var(--vio)}.t-org{background:var(--org)}
+.t-teal{background:var(--teal)}.t-gray{background:var(--gray)}.t-green{background:var(--green)}
+.sf{font-size:14px;color:var(--ink3)} .sf.ju{color:var(--warn);font-weight:700}
+.kr{font-size:13px;font-weight:700;color:#1864ab;background:#e7f0fb;border-radius:10px;padding:0 8px}
+.guess{font-size:13px;font-weight:700;color:#fff;background:var(--guess);border-radius:10px;padding:0 9px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-family:var(--hand);font-size:16px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:13px;height:13px;border-radius:3px;display:inline-block}
+.foot{margin-top:16px;font-size:13.5px;line-height:1.65;color:var(--ink2);border-top:2px dashed #d8cabb;padding-top:13px}
+.foot b{color:var(--ink)} .foot .r{color:var(--red);font-weight:700} .foot .p{color:var(--guess);font-weight:700}
+</style></head>
+<body><div class="grid-bg"></div><div class="wrap">
+
+<div class="hd">
+  <div>
+    <h1>스포츠 블랙박스 · 30일 콘텐츠 플랜</h1>
+    <div class="ul"></div>
+    <div class="sub">@sportsdblackbox · 인스타 릴스 하루 1개 · <b>훅 + 사건 개요 · 2026년 실제 사건 30건</b></div>
+  </div>
+  <div class="tape">작성 2026.08.22<b>확정 30 / 30</b></div>
+</div>
+
+<div class="notes">
+  <div class="note n1"><span class="pin"></span>
+    <h2>소재 & 표기 규칙</h2>
+    <div class="li">
+      ① <b>올해(2026년)</b> · <b>충격도 × 낯섦</b>("이게 실화? 처음 듣는데?")<br>
+      ② <b>경기 밖</b> 사건만 — 폭행·약물·치정·남녀·돈. 부상·복귀 미담은 <span style="color:var(--red)">뺀다</span><br>
+      ③ <b>보도·판결로 확인된 사실만</b> · 루머 X · [주의]건은 "혐의/기소"로만<br>
+      ④ ★ <span class="p">인스타 알고스피크</span> — 마약·살해·총 등 금칙어는 순화("보약"·"XX"·"위험한 것"). 안 그럼 도달 눌림<br>
+      ⑤ 이름은 훅에서 <b>가림(***)</b> → 개요·영상 후반에 공개. <span class="p">실명비공개 = "누구게?"</span>
+    </div>
+  </div>
+  <div class="note n2"><span class="pin"></span>
+    <h2>말투 — 블랙박스 보이스</h2>
+    <div class="vo">
+      감정 빼고 <span class="k">사실만 툭툭</span>, <span class="k">마지막 한 줄에서 반전</span>.<br>
+      매 편 <span class="sig">▶ 블랙박스 열어봅니다</span> → <span class="sig">▪ 기록 종료</span>. 담담해서 오히려 섬뜩.<br>
+      훅 결 3종 <span class="st st-s">서술</span><span class="st st-t">제목</span><span class="st st-q">질문</span> 을 섞어 템플릿 티 안 나게.<br>
+      끝은 <b>항상 2줄 고정</b> — <span class="sig">당신의 생각을 댓글로</span> + <span class="sig">다뤘으면 하는 사건 제보</span> ("~다는데?!"·"ㄱㄱ" <span style="color:var(--red)">금지</span>)
+    </div>
+  </div>
+</div>
+
+<div class="note" style="margin:14px 0 4px;transform:rotate(-.2deg)"><span class="pin"></span>
+  <h2>훅은 이렇게 건다 — 6원칙</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px 26px;font-size:13.5px;line-height:1.48;color:var(--ink)">
+    <div><b style="color:var(--org)">① 이름을 가린다</b> — "그 남자·***·EPL 스타"로 낚고, 정체는 개요·영상 후반에 공개</div>
+    <div><b style="color:var(--org)">② 궁금증 갭</b> — 결말을 반만. "…무슨 일이 있었나"에서 멈춘다</div>
+    <div><b style="color:var(--org)">③ 반전 구조</b> — 평범한 앞 + 충격 뒤. "담배 한 개비가 → 팀을 삼켰다"</div>
+    <div><b style="color:var(--org)">④ 결 3종 섞기</b> — 서술·제목·질문 돌려써 «템플릿 티» 제거</div>
+    <div><b style="color:var(--org)">⑤ 알고스피크</b> — 금칙어 순화(보약·XX·위험한 것)로 도달 방어</div>
+    <div><b style="color:var(--org)">⑥ 숫자로 못박기</b> — "780명·61번·8년6개월" 구체 숫자가 충격+신뢰</div>
+  </div>
+</div>
+
+<div class="sec">30일 캘린더 <span class="cnt">최종 훅 · 30건</span><span class="ln"></span></div>
+<div class="grid">
+  <div class="card"><div class="bar t-red"></div><div class="d">D1</div><div class="bd"><div><span class="st st-q">질문</span><span class="hook">"이강인의 동료였던 그 남자에게, 무슨 일이 있었나"</span></div><div class="desc">세비야 공격수 라파 미르, 자택 성폭행·상해로 징역 8년6개월 유죄 확정</div><div class="meta"><span class="tag t-red">형사</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-red"></div><div class="d">D2</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"딸에게 손을 댄 그날, 감독 인생도 끝났다"</span></div><div class="desc">요미우리 감독 아베, 딸 폭행 현행범 체포 직후 사임</div><div class="meta"><span class="tag t-red">폭력</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-red"></div><div class="d">D3</div><div class="bd"><div><span class="st st-t">제목</span><span class="hook">"마운드에서 태국 교도소까지 — '보약' 1.9kg의 전말"</span></div><div class="desc">前 프로야구 투수, 태국서 케타민 1.9kg 밀수 총책으로 징역 10년</div><div class="meta"><span class="tag t-red">형사</span><span class="guess">누구게?</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-vio"></div><div class="d">D4</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"억대 슈퍼카가 벽을 뚫었다. 운전석엔 EPL 스타가 있었다"</span></div><div class="desc">라힘 스털링, 람보르기니로 방호벽 충돌·약물운전 혐의 현장 체포</div><div class="meta"><span class="tag t-vio">약물</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-vio"></div><div class="d">D5</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"한 잔의 대가는, 국가대표 유니폼이었다"</span></div><div class="desc">이용규, 음주운전 사고로 KBO 2년 실격·불명예 은퇴</div><div class="meta"><span class="tag t-vio">음주</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-vio"></div><div class="d">D6</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"담배 한 개비가, 프로야구 한 팀을 통째로 삼켰다"</span></div><div class="desc">NPB 히로시마, 지정약물 '좀비담배' 파문으로 팀 최하위 추락</div><div class="meta"><span class="tag t-vio">약물</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-org"></div><div class="d">D7</div><div class="bd"><div><span class="st st-t">제목</span><span class="hook">"가르치던 학생의 엄마를 사랑한, 어느 코치의 몰락"</span></div><div class="desc">前 KBO 스타 레슨코치, 학부모와 불륜·배상 약정 후 재발 폭로</div><div class="meta"><span class="tag t-org">치정</span><span class="guess">누구게?</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-teal"></div><div class="d">D8</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"*** 한 명에게 쏟아진 한마디에, 프리미어리그가 전부 입을 닫았다"</span></div><div class="desc">손흥민 향한 SNS 인종차별 테러 후 PL 전체 SNS 보이콧 (개요서 손흥민 공개)</div><div class="meta"><span class="tag t-teal">논란</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-teal"></div><div class="d">D9</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"한 번 졌을 뿐인데, 그의 폰은 'XX버리겠다'로 가득 찼다"</span></div><div class="desc">선덜랜드 먼들, 패배 후 SNS 악성메시지 폭탄받고 계정 삭제</div><div class="meta"><span class="tag t-teal">논란</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-teal"></div><div class="d">D10</div><div class="bd"><div><span class="st st-q">질문</span><span class="hook">"'니 아기부터…' 이 협박을 받은 게 누군지 알아? 현역 MLB 선수야"</span></div><div class="desc">MLB 스캇·채프먼, 가족 살해협박 받아 아내가 직접 공개</div><div class="meta"><span class="tag t-teal">논란</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-gray"></div><div class="d">D11</div><div class="bd"><div><span class="st st-t">제목</span><span class="hook">"우승의 밤, 불타는 파리 — 그리고 끌려간 780명"</span></div><div class="desc">PSG 첫 챔스 우승 직후 파리 도심 폭동, 780명 체포</div><div class="meta"><span class="tag t-gray">사건</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-gray"></div><div class="d">D12</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"월드컵에서 진 그 순간, 감독은 스스로 목을 잘랐다"</span></div><div class="desc">홍명보, 월드컵 조별 3위 탈락 책임지고 전격 사임</div><div class="meta"><span class="tag t-gray">구단</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-gray"></div><div class="d">D13</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"시즌 한복판, 감독들이 하나씩 소리 없이 사라졌다"</span></div><div class="desc">K리그2 복수 구단, 시즌 중 감독 잇단 경질</div><div class="meta"><span class="tag t-gray">구단</span><span class="sf">보통</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D14</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"그가 던진 공은, 누군가의 베팅 결과였다"</span></div><div class="desc">가디언스 투수, 투구를 조작해 베팅한 혐의로 기소</div><div class="meta"><span class="tag t-green">돈</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D15</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"같은 날 아침, 前 NBA 여섯 명이 나란히 수갑을 찼다"</span></div><div class="desc">前 NBA 선수 6명, 경기조작 혐의로 무더기 연방 기소</div><div class="meta"><span class="tag t-green">돈</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D16</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"원정 버스가 그들을 내려준 곳은, *** 앞이었다"</span></div><div class="desc">롯데 선수 4명, 원정 중 대만 도박장 방문으로 출장정지 (개요서 도박장 공개)</div><div class="meta"><span class="tag t-green">돈</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D17</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"우승 반지를 낀 그 손으로, 그는 팀의 비밀을 팔았다"</span></div><div class="desc">前 NBA 데이먼 존스, 내부정보 팔아 도박한 혐의 유죄 인정</div><div class="meta"><span class="tag t-green">돈</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D18</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"데뷔도 전에, 스무 살은 자기 경기에 돈을 걸었다 — 61번"</span></div><div class="desc">에버턴 20세 유망주, 16개월간 61차례 베팅 적발·FA 조사</div><div class="meta"><span class="tag t-green">돈</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D19</div><div class="bd"><div><span class="st st-t">제목</span><span class="hook">"한 테이블에 앉은 NBA 감독과 마피아"</span></div><div class="desc">빌럽스·로지어, 마피아 연루 불법도박으로 FBI 체포·기소</div><div class="meta"><span class="tag t-green">돈</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-red"></div><div class="d">D20</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"카메라 앞에선 웃던 그가, 여자친구에겐 손을 올렸다"</span></div><div class="desc">前 프로야구선수 출신 BJ, 여친 상습폭행 징역 4년6개월 확정</div><div class="meta"><span class="tag t-red">폭력</span><span class="guess">누구게?</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D21</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"은퇴한 농구 스타가 노린 건, 남의 회사 통째였다"</span></div><div class="desc">前 KBL 김승현, 재활센터 경영권 탈취로 3억3500만원 배상 판결</div><div class="meta"><span class="tag t-green">돈</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-org"></div><div class="d">D22</div><div class="bd"><div><span class="st st-q">질문</span><span class="hook">"그가 라켓을 놓은 진짜 이유, 코트 안엔 없었다"</span></div><div class="desc">니시코리 케이, 모델과 불륜 인정하고 현역 은퇴 선언</div><div class="meta"><span class="tag t-org">치정</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-red"></div><div class="d">D23</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"하루아침에 19명이 사라졌다 — 그 리그, 경기가 팔리고 있었다"</span></div><div class="desc">홍콩 축구 선수·코치 등 19명, 승부조작·불법베팅으로 체포</div><div class="meta"><span class="tag t-red">형사</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-org"></div><div class="d">D24</div><div class="bd"><div><span class="st st-t">제목</span><span class="hook">"온 나라가 축하한 결혼, 그 끝은 아이를 건 전쟁"</span></div><div class="desc">롯데 정철원, 인플루언서 배우자와 이혼소송·양육권 다툼</div><div class="meta"><span class="tag t-org">남녀</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-green"></div><div class="d">D25</div><div class="bd"><div><span class="st st-t">제목</span><span class="hook">"1억을 빌려주면 안 되는 남자"</span></div><div class="desc">前 KBO 송승준, 1억 빌리고 미상환해 법원 지급명령 패소</div><div class="meta"><span class="tag t-green">돈</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-vio"></div><div class="d">D26</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"벌써 세 번째. 이번 그 수치는 0.149였다"</span></div><div class="desc">롯데 박기혁, 혈중 0.149 음주운전 통산 3번째 적발</div><div class="meta"><span class="tag t-vio">음주</span><span class="kr">한국</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-red"></div><div class="d">D27</div><div class="bd"><div><span class="st st-q">질문</span><span class="hook">"이별 통보에 돌아온 대답은, 돌진하는 자동차였다"</span></div><div class="desc">NFL 제임스 피어스 Jr, 전여친 차량 고의충돌 혐의로 체포</div><div class="meta"><span class="tag t-red">폭력</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-org"></div><div class="d">D28</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"前 NFL 스타가 볼링장에서 붙잡혔다 — 그것도 벌거벗은 채로"</span></div><div class="desc">前 NFL 베일리, 쇼핑몰 볼링장 공개 성행위로 여성과 함께 체포</div><div class="meta"><span class="tag t-org">사생활</span><span class="sf">안전</span></div></div></div>
+  <div class="card"><div class="bar t-org"></div><div class="d">D29</div><div class="bd"><div><span class="st st-s">서술</span><span class="hook">"은퇴한 파이터의 통장엔, 양육비도 빚도 남지 않았다"</span></div><div class="desc">격투기 배명호, 전처가 양육비 미지급·채무회피 폭로전</div><div class="meta"><span class="tag t-org">남녀</span><span class="sf ju">주의</span></div></div></div>
+  <div class="card"><div class="bar t-red"></div><div class="d">D30</div><div class="bd"><div><span class="st st-q">질문</span><span class="hook">"공항 검색대에서 그의 가방이 멈췄다. 안엔 '위험한 것'이 있었다"</span></div><div class="desc">NFL 라시드 워커, 공항 수하물서 총기 발견돼 불법소지 체포</div><div class="meta"><span class="tag t-red">형사</span><span class="sf">안전</span></div></div></div>
+</div>
+
+<div class="legend">
+  <span><i style="background:var(--red)"></i>폭력·형사</span>
+  <span><i style="background:var(--vio)"></i>약물·음주</span>
+  <span><i style="background:var(--org)"></i>치정·남녀·사생활</span>
+  <span><i style="background:var(--teal)"></i>논란·설화</span>
+  <span><i style="background:var(--gray)"></i>구단·사건</span>
+  <span><i style="background:var(--green)"></i>돈·조직범죄</span>
+  <span><span class="st st-s" style="margin:0">서술</span> <span class="st st-t" style="margin:0">제목</span> <span class="st st-q" style="margin:0">질문</span> 결 섞음</span>
+</div>
+
+<div class="foot">
+  <b>운영:</b> 인스타 릴스 매일 1편. 훅으로 낚고 → 개요로 이해시키고 → 블랙박스 보이스로 담담하게 → 마지막 담백한 질문. 새 사건 터지면 최신 건으로 교체.<br>
+  <b>안전장치:</b> 발행 전 팩트·숫자 재확인 · <span class="r">[주의]</span>건 "혐의/기소"로만 · 금칙어 <span class="p">알고스피크</span> 순화 · <span class="p">실명비공개</span>는 실명 안 씀 · 확인 안 된 루머 X.
+</div>
+
+</div></body></html>
