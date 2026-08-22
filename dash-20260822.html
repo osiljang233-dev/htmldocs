@@ -1,0 +1,97 @@
+<!doctype html><html lang=ko><head><meta charset=utf-8>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>버저비터 대시보드 — 픽랩 · 보고서 · 메모 · 업무분담</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#151515;--ink2:#4A443C;--ink3:#766E63;--paper:#FDF8F6;
+  --warn:#fab005;--ok:#40c057;--blue:#4c6ef5;--bad:#fa5252;
+  --hand:'Pretendard Variable',Pretendard,'Malgun Gothic','맑은 고딕',system-ui,sans-serif}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--hand);
+  font-size:14.5px;display:flex;flex-direction:column;overflow:hidden}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(#0000000a 1px,transparent 1px),
+                   linear-gradient(90deg,#0000000a 1px,transparent 1px);
+  background-size:28px 28px}
+
+/* 머리 */
+.top{position:relative;z-index:2;display:flex;align-items:center;gap:14px;
+  padding:14px 22px 0;flex:none}
+.top h1{font-size:20px;font-weight:800;letter-spacing:-.5px;line-height:1}
+.top .sub{font-size:12.5px;color:var(--ink3);margin-top:3px}
+.tape{margin-left:auto;font-size:12px;color:#7a6a3a;background:#FFF0A8cc;
+  padding:4px 12px;transform:rotate(-1.4deg);box-shadow:0 1px 0 #0000000f;
+  clip-path:polygon(2% 0,100% 3%,98% 100%,0 96%)}
+
+/* 탭 — 폴더 견출지 */
+input[name=tab]{display:none}
+.tabs{position:relative;z-index:2;display:flex;gap:8px;padding:14px 22px 0;flex:none}
+.tabs label{font-size:14.5px;font-weight:700;color:var(--ink3);cursor:pointer;
+  padding:8px 20px 10px;border:1.6px solid #4A443C55;border-bottom:none;
+  border-radius:13px 15px 0 0/17px 13px 0 0;background:#F4EDE8;
+  display:flex;align-items:center;gap:7px;transform:rotate(-.4deg)}
+.tabs label:nth-child(2){transform:rotate(.35deg)}
+.tabs label:nth-child(3){transform:rotate(-.25deg)}
+.tabs label:nth-child(4){transform:rotate(.3deg)}
+.tabs label i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.i-pick{background:var(--warn)}.i-rep{background:var(--blue)}.i-memo{background:var(--ok)}.i-team{background:var(--bad)}
+#t1:checked~.tabs label[for=t1],#t2:checked~.tabs label[for=t2],
+#t3:checked~.tabs label[for=t3],#t4:checked~.tabs label[for=t4]{
+  background:var(--paper);color:var(--ink);border-color:var(--ink2)}
+
+/* 본문 — iframe 무대 */
+.stage{position:relative;z-index:1;flex:1;margin:0 22px 18px;
+  border:1.6px solid var(--ink2);border-top:none;
+  border-radius:0 0 13px 12px/0 0 11px 15px;background:#fff;overflow:hidden}
+.pane{position:absolute;inset:0;display:none}
+.pane iframe{width:100%;height:100%;border:0;display:block}
+#t1:checked~.stage #p1,#t2:checked~.stage #p2,
+#t3:checked~.stage #p3,#t4:checked~.stage #p4{display:block}
+
+/* 각 탭 iframe 은 «보일 때만» src 를 채우는 대신, 항상 로드해도 되지만
+   보고서/메모/픽랩은 원격이라 처음부터 로드. 팀분담은 로컬. */
+.open{position:absolute;right:12px;top:10px;z-index:3;font-size:12px;font-weight:700;
+  color:var(--ink2);background:#FFF0A8cc;border:1.4px solid #4A443C55;
+  border-radius:8px 3px 9px 4px/4px 9px 3px 8px;padding:4px 10px;text-decoration:none}
+</style></head><body>
+<div class="grid"></div>
+
+<div class="top">
+  <div>
+    <h1>버저비터 대시보드</h1>
+    <div class="sub">픽랩 · 보고서 · 메모 · 팀 업무분담 — 한자리에서 탭으로</div>
+  </div>
+  <div class="tape">2026-08-22</div>
+</div>
+
+<input type=radio name=tab id=t1 checked><input type=radio name=tab id=t2>
+<input type=radio name=tab id=t3><input type=radio name=tab id=t4>
+
+<div class="tabs">
+  <label for=t1><i class="i-pick"></i>픽랩</label>
+  <label for=t2><i class="i-rep"></i>보고서</label>
+  <label for=t3><i class="i-memo"></i>메모</label>
+  <label for=t4><i class="i-team"></i>팀 업무분담</label>
+</div>
+
+<div class="stage">
+  <div class="pane" id="p1">
+    <a class="open" href="https://osiljang233-dev.github.io/htmldocs/picklab.html" target="_blank">새 창 ↗</a>
+    <iframe src="https://osiljang233-dev.github.io/htmldocs/picklab.html" title="픽랩"></iframe>
+  </div>
+  <div class="pane" id="p2">
+    <a class="open" href="https://osiljang233-dev.github.io/htmldocs/" target="_blank">새 창 ↗</a>
+    <iframe src="https://osiljang233-dev.github.io/htmldocs/" title="보고서"></iframe>
+  </div>
+  <div class="pane" id="p3">
+    <a class="open" href="https://osiljang233-dev.github.io/htmldocs/memos.html" target="_blank">새 창 ↗</a>
+    <iframe src="https://osiljang233-dev.github.io/htmldocs/memos.html" title="메모"></iframe>
+  </div>
+  <div class="pane" id="p4">
+    <a class="open" href="https://osiljang233-dev.github.io/htmldocs/team-tasks-20260822.html" target="_blank">새 창 ↗</a>
+    <iframe src="https://osiljang233-dev.github.io/htmldocs/team-tasks-20260822.html" title="팀 업무분담"></iframe>
+  </div>
+</div>
+
+</body></html>
