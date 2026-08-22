@@ -107,7 +107,7 @@ function parseDate(filename) {
 
 const groups = {};
 docs.forEach(d => { const c = d.cat || 'ETC'; (groups[c] = groups[c] || []).push(d); });
-const order = CAT_ORDER.filter(c => groups[c])
+const order = CAT_ORDER
   .concat(Object.keys(groups).filter(c => !CAT_ORDER.includes(c)));
 
 const tabsRoot = document.getElementById('tabs');
@@ -119,11 +119,12 @@ function selectTab(cat) {
 }
 
 order.forEach(cat => {
+  const items = groups[cat] || [];
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'tab-btn';
   btn.dataset.cat = cat;
-  btn.innerHTML = `${cat}<span class="tab-count">${groups[cat].length}</span>`;
+  btn.innerHTML = `${cat}<span class="tab-count">${items.length}</span>`;
   btn.addEventListener('click', () => selectTab(cat));
   tabsRoot.appendChild(btn);
 
@@ -132,11 +133,11 @@ order.forEach(cat => {
   section.dataset.cat = cat;
   const title = document.createElement('div');
   title.className = 'section-title';
-  title.textContent = `${cat} (${groups[cat].length})`;
+  title.textContent = `${cat} (${items.length})`;
   section.appendChild(title);
   const ul = document.createElement('ul');
   ul.className = 'doc-list';
-  groups[cat].forEach(doc => {
+  items.forEach(doc => {
     const date = parseDate(doc.file);
     const li = document.createElement('li');
     li.innerHTML = `
