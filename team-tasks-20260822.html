@@ -98,7 +98,7 @@ code{font-family:Consolas,monospace;font-size:12.5px;background:#4A443C12;paddin
 
 <!-- ═══ 무빈 ═══ -->
 <section id=s1>
-<div class="role">인스타 계정 운영 · 확산</div>
+<div class="role">계정 운영 · 확산</div>
 
 <h3>방향성</h3>
 <div class="card"><span class="pin p-moo"></span>
@@ -148,58 +148,76 @@ code{font-family:Consolas,monospace;font-size:12.5px;background:#4A443C12;paddin
 
 <!-- ═══ 다니엘 ═══ -->
 <section id=s3>
-<div class="role">웹 SEO/보수 · 인스타 콘텐츠 제작</div>
+<div class="role">웹 SEO/보수 · 인스타 콘텐츠 제작 — 걸어놓은 루틴</div>
+
+<h3>🔵 구글 관련 — 검색 노출</h3>
+<div class="card"><span class="pin p-dan"></span>
+  <b class="t">GSC 일일 점검 <span class="chip c-wait">매일 10:00</span></b>
+  <div class="prd">색인 수·클릭·노출·검색어를 <code>docs/gsc/</code> 에 저장하고, 어제 대비 변화·급락을 확인해요.</div>
+</div>
+<div class="card"><span class="pin p-dan"></span>
+  <b class="t">GSC 주간 트렌드 <span class="chip c-wait">매주 월 10:30</span></b>
+  <div class="prd">한 주 검색 실적 추세를 뽑아 어느 검색어·페이지가 오르고 내렸는지 봐요.</div>
+</div>
+<div class="card"><span class="pin p-dan"></span>
+  <b class="t">사이트맵 점검 (Sitemap sweep) <span class="chip c-wait">매주 수 14:00</span></b>
+  <div class="prd">사이트맵 등재 건수와 실제 색인 대상을 대조해 빠지거나 남는 URL을 잡아요.</div>
+</div>
+<div class="card"><span class="pin p-dan"></span>
+  <b class="t">색인 신호 검증 — 배포 전후</b>
+  <div class="prd"><code>seocheck.py</code> 로 대표 6화면 + 사이트맵을 <code>_snap</code> 기준값과 대조해요 —
+  meta robots·canonical·description 고유성·건수·HTTP 상태. is_indexable 단일 창구 유지, 301 중복정리.</div>
+</div>
 
 <h3>🟢 버저비터 관련 — 사이트 운영·보수</h3>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">웹 보수 — 서버 수정 지시·검증</b>
-  <div class="prd">DevFS로 서버 소스 진단 → 텔레그램 봇 지시문 작성 → 배포 후 실서버 검증. (봇 경유)</div>
+  <b class="t">아침 데이터 점검 (Morning) <span class="chip c-wait">매일 11:00</span></b>
+  <div class="prd"><code>docs/morning/{날짜}.md</code> 를 읽어 어제 대비 달라진 데이터부터 봐요. 그다음 GSC·우편함.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">디자인 세션 협업</b>
-  <div class="prd">같은 서버 만지는 디자인 세션과 우편함으로 조율. News.php 충돌 방지, 배포 전후 검증 나눠 봄.</div>
+  <b class="t">저녁 배달 점검 (Evening) <span class="chip c-wait">매일 21:00</span></b>
+  <div class="prd"><code>docs/evening/{날짜}.md</code> 로 오후 배달에서 빠진 리그가 있나 확인하고 봇 답장도 봐요.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">픽 데이터 파이프라인 — 오늘의픽 · 리그 픽 탭</b>
-  <div class="prd">픽랩 수집·채점·발행 배관 관리. 새 리그·종목 픽이 화면에 제대로 들어가는지 챙김.</div>
+  <b class="t">픽 발행 배관</b>
+  <div class="prd">매일 <code>collect.py → webdates.py → fill.py</code> 순으로 구워 발행 루프가 picklab에 올려요.
+  새 리그·종목 픽이 오늘의픽 카드에 잡히는지 확인해요.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">순위표 탭 · 리그 데이터 반입</b>
-  <div class="prd">담당자 zip → 임포터 반입 확인, 「안 왔다/안 들어갔다」 가름. 순위·라인업·결과 데이터.</div>
+  <b class="t">리그 데이터 반입 확인</b>
+  <div class="prd">담당자 zip 도착 시 임포터 반입을 확인하고, 안 뜨면 <span class="hl">「안 왔다 / 안 들어갔다」</span> 를 DevFS로 가려요.</div>
+</div>
+<div class="card"><span class="pin p-dan"></span>
+  <b class="t">서버 보수 — 봇 지시·검증</b>
+  <div class="prd">DevFS로 원인 특정 → 텔레봇 지시문 → 배포 후 실서버 검증. 디자인 세션 우편함(<code>design-req/</code>) 확인, News.php 충돌 조율.</div>
 </div>
 
 <h3>🟠 인스타 관련</h3>
 <div class="card"><span class="pin p-dan"></span>
   <b class="t">인스타 콘텐츠 제작</b>
-  <div class="prd">데이터로 만드는 카드뉴스·릴스·스토리. 무빈의 운영/확산과 나눠 — <span class="hl">다니엘이 만들고, 무빈이 굴려요.</span></div>
+  <div class="prd">데이터 카드뉴스·릴스·스토리 제작 (논쟁·비교 / 랭킹·저장 / 반전수치 / 한방). 금지선 걸러 넘겨요.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">인스타 콘텐츠 계획 · 캘린더 운영</b>
+  <b class="t">콘텐츠 캘린더 운영</b>
   <div class="prd">매일 게시 소재 배치, 릴스 목업·제작명세(딜레마·컨셉·퍼널·소재) 관리.</div>
 </div>
 
-<h3>🔵 구글 관련 — 검색 노출</h3>
+<h3>⚪ 기타 — 매일 마감·상시</h3>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">웹 SEO — 색인 늘리기</b>
-  <div class="prd">색인 판정·robots·canonical·사이트맵·301 중복정리·구조화 데이터·시즌 키워드·내부링크·선수 허브.</div>
+  <b class="t">마감 업무보고 <span class="chip c-wait">매일 23:50</span></b>
+  <div class="prd"><code>board_done</code> 의 그날 완료 카드를 팀별로 취합해 개인방으로 보내요 (<code>daily_report.py</code>).</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">GSC 모니터링</b>
-  <div class="prd">검색 실적·색인 상태 추적. 검색 의도(순위·로스터·경기시각) 파악해 콘텐츠 방향 잡음.</div>
+  <b class="t">상태판·부서 칸반 게시 <span class="chip c-wait">상시 30초</span></b>
+  <div class="prd">상태판을 30초마다 갱신해 게시해요.</div>
 </div>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">Ahrefs 키워드</b>
-  <div class="prd">키워드 실측·갭 분석·경쟁사 백링크. <span class="hl">뽑은 키워드를 웹·인스타 캡션에 같이 씀.</span></div>
+  <b class="t">감시 셋 <span class="chip c-wait">상시</span></b>
+  <div class="prd">우편함 도착 · 봇 답장 · 루틴 시계(11시/21시) 세 개를 항상 띄워둬요.</div>
 </div>
-
-<h3>⚪ 기타</h3>
 <div class="card"><span class="pin p-dan"></span>
-  <b class="t">docbot 운영 · 메모보드</b>
+  <b class="t">docbot · 메모보드 운영</b>
   <div class="prd">문서봇·자연어 층·메모보드 유지보수.</div>
-</div>
-<div class="card"><span class="pin p-dan"></span>
-  <b class="t">일일 업무보고 · 예약 루틴</b>
-  <div class="prd">매일 23:50 팀 업무보고 취합·발송. 아침(11시)·저녁(21시) 점검, 예약 작업 이행 관리.</div>
 </div>
 </section>
 
