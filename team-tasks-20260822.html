@@ -1,0 +1,237 @@
+<!doctype html><html lang=ko><head><meta charset=utf-8>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>버저비터 팀 업무 분담 — 누가 뭘 하나</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#151515;--ink2:#4A443C;--ink3:#766E63;--paper:#FDF8F6;
+  --bad:#fa5252;--warn:#fab005;--ok:#40c057;--hold:#868E96;--blue:#4c6ef5;
+  --hand:'Pretendard Variable',Pretendard,'Malgun Gothic','맑은 고딕',system-ui,sans-serif}
+body{background:var(--paper);color:var(--ink);font-family:var(--hand);
+  font-size:14.5px;line-height:1.6;
+  font-variant-numeric:lining-nums tabular-nums slashed-zero;text-rendering:optimizeLegibility}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(#0000000a 1px,transparent 1px),
+                   linear-gradient(90deg,#0000000a 1px,transparent 1px);
+  background-size:28px 28px}
+.page{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:26px 20px 60px}
+
+/* 머리 */
+.hd{display:flex;align-items:flex-start;gap:16px;margin-bottom:14px}
+.hd h1{font-size:25px;font-weight:800;line-height:1;letter-spacing:-.5px}
+.hd .sub{font-size:13.5px;color:var(--ink2);margin-top:6px}
+.ul{width:250px;height:10px;margin-top:3px}
+.tape{margin-left:auto;font-size:13px;color:#7a6a3a;background:#FFF0A8cc;
+  padding:5px 14px;transform:rotate(-1.4deg);box-shadow:0 1px 0 #0000000f;
+  clip-path:polygon(2% 0,100% 3%,98% 100%,0 96%);flex:none}
+
+.one{font-size:14px;color:var(--ink2);background:#FFF0A855;padding:7px 12px;
+  border-radius:8px;transform:rotate(-.2deg);display:inline-block;margin:10px 0 4px}
+
+/* 사람 블록 */
+h2{font-size:18px;font-weight:800;margin:26px 0 4px;letter-spacing:-.3px;
+  display:flex;align-items:center;gap:10px}
+h2 .who{border:1.6px solid var(--ink2);border-radius:11px 15px 13px 12px/14px 11px 15px 13px;
+  padding:3px 14px;background:#fff}
+h2 .role{font-size:13px;font-weight:700;color:var(--ink3)}
+h3{font-size:14px;color:var(--ink2);margin:14px 0 5px;font-weight:700}
+.person{border:1.6px solid var(--ink2);border-radius:11px 15px 13px 12px/14px 11px 15px 13px;
+  background:var(--paper);padding:6px 22px 20px;margin-top:6px}
+
+.card{position:relative;border:1.5px solid #4A443C88;background:#fff;
+  border-radius:255px 12px 225px 12px/12px 225px 12px 255px;
+  padding:11px 16px 12px 30px;margin:9px 0}
+.card:nth-child(even){transform:rotate(.2deg)}
+.card:nth-child(odd){transform:rotate(-.2deg)}
+.pin{position:absolute;left:12px;top:14px;width:9px;height:9px;border-radius:50%;
+  box-shadow:0 1px 2px #00000033}
+.p-moo{background:var(--warn)}.p-dec{background:var(--blue)}.p-dan{background:var(--ok)}.p-late{background:var(--hold)}
+.card b.t{font-size:14px;font-weight:700}
+.prd{font-size:13px;color:var(--ink3);margin-top:3px}
+.act{font-size:13.5px;margin-top:5px;padding-left:10px;border-left:3px solid var(--warn)}
+.card.d .act{border-left-color:var(--ok)}
+.card.m .act{border-left-color:var(--warn)}
+
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:9px 0}
+td,th{border:1.3px solid #4A443C44;padding:7px 10px;text-align:left;vertical-align:top}
+th{font-weight:700;background:#F4EDE8;font-size:13px}
+.chip{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;
+  border:1.4px solid;white-space:nowrap;display:inline-block}
+.c-moo{color:#8a6603;border-color:var(--warn);background:#fab00522}
+.c-dec{color:#2b3f9e;border-color:var(--blue);background:#4c6ef522}
+.c-dan{color:#1d7a35;border-color:var(--ok);background:#40c05722}
+.c-wait{color:var(--hold);border-color:var(--hold);background:#868E9618}
+.hl{background:#FFF0A8;padding:0 3px}
+.warnbox{border:1.5px solid var(--bad);border-radius:12px 200px 12px 220px/200px 12px 230px 12px;
+  background:#fa525208;padding:9px 14px;margin:10px 0;font-size:13.5px}
+.warnbox b{color:var(--bad)}
+code{font-family:Consolas,monospace;font-size:12.5px;background:#4A443C12;
+  padding:1px 6px;border-radius:4px}
+ul.ls{margin:6px 0;padding-left:22px}ul.ls li{margin:3px 0}
+.foot{color:var(--ink3);font-size:13px;margin-top:22px;border-top:2px dashed #4A443C44;padding-top:9px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink3);margin:6px 0 4px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.loop{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.loop span{border:1.4px solid #4A443C66;background:#fff;border-radius:8px 3px 9px 4px/4px 9px 3px 8px;
+  padding:7px 11px;font-size:13px}
+.loop i{font-style:normal;color:var(--ink3);font-weight:700}
+</style></head><body>
+<div class="grid"></div>
+<div class="page">
+
+<div class="hd">
+  <div>
+    <h1>팀 업무 분담</h1>
+    <svg class="ul" viewBox="0 0 250 10"><path d="M3 6 C 60 2, 120 9, 170 5 S 235 4, 247 6"
+      fill="none" stroke="#fab005" stroke-width="3.2" stroke-linecap="round" opacity=".85"/></svg>
+    <div class="sub">누가 어떤 일을 맡고 있나 — 무빈 · 데카르트 센터 · 다니엘</div>
+  </div>
+  <div class="tape">2026-08-22 정리</div>
+</div>
+
+<span class="one">겹치면 낭비고, 비면 구멍이에요. 세 명이 서로 다른 축을 잡아요 — 계정 운영 · 유튜브+자동화 연구 · 웹/인스타 콘텐츠.</span>
+<div class="legend">
+  <span><i style="background:var(--warn)"></i>무빈</span>
+  <span><i style="background:var(--blue)"></i>데카르트 센터</span>
+  <span><i style="background:var(--ok)"></i>다니엘 (나)</span>
+  <span><i style="background:var(--hold)"></i>나중에·조건부</span>
+</div>
+
+<h2><span style="background:var(--warn);width:12px;height:12px;border-radius:50%;display:inline-block"></span>
+  <span class="who">무빈</span> <span class="role">인스타 계정 운영 · 확산</span></h2>
+<div class="person">
+  <h3>방향성</h3>
+  <div class="card m"><span class="pin p-moo"></span>
+    <b class="t">자극적 어그로 + 진짜 재밌는 유머 병행</b>
+    <div class="prd">눈길 끄는 어그로로 도달을 열되, 유머로 저장·공유를 만들어요. 둘을 같이 굴려요.</div>
+  </div>
+
+  <h3>운영 방식</h3>
+  <div class="card m"><span class="pin p-moo"></span>
+    <b class="t">5계정씩 하루 텀 두고 교차 업데이트</b>
+    <div class="prd">계정 5개를 하루씩 번갈아 올려요. <span class="hl">스프레드시트로 계정·업로드 현황을 관리</span>해요.</div>
+  </div>
+  <div class="card m"><span class="pin p-moo"></span>
+    <b class="t">2주차 도달하면 → 노골적 CTA 삽입</b>
+    <div class="prd">계정이 업데이트 2주차에 오면 전파(도달) 상태를 파악해요. 그 뒤 노골적 CTA를 바로 넣어요 —
+    <span class="hl">「적중률 높은 픽?」 류 멘트 + 버저비터.com</span>.</div>
+    <div class="act"><b>멘트 보강 필요</b> — 「적중률」은 우리 금지선(YMYL)이라 그대로 못 써요. 다니엘이 대체 문구 대줄게요 (아래 협업 참고).</div>
+  </div>
+  <div class="card m"><span class="pin p-moo"></span>
+    <b class="t">삽입 후 → 미노출 or 계정 정지 시까지 사용</b>
+    <div class="prd">CTA 넣은 계정은 미노출되거나 정지될 때까지 굴려요.</div>
+  </div>
+  <div class="card m"><span class="pin p-moo"></span>
+    <b class="t">공백은 다른 계정으로 대체 · 루프 점검</b>
+    <div class="prd">정지·미노출로 빈 자리는 다른 계정으로 메워요. 전체 루프가 안 끊기는지 점검해요.</div>
+    <div class="loop">
+      <span>① 5계정 교차 업로드</span><i>→</i>
+      <span>② 2주차 도달 파악</span><i>→</i>
+      <span>③ CTA 삽입</span><i>→</i>
+      <span>④ 미노출/정지까지 사용</span><i>→</i>
+      <span>⑤ 공백 대체</span><i>↺</i>
+    </div>
+  </div>
+</div>
+
+<h2><span style="background:var(--blue);width:12px;height:12px;border-radius:50%;display:inline-block"></span>
+  <span class="who">데카르트 센터</span> <span class="role">유튜브 · 자동화 연구</span></h2>
+<div class="person">
+  <div class="card"><span class="pin p-dec"></span>
+    <b class="t">유튜브 담당</b>
+    <div class="prd">유튜브 채널 운영·콘텐츠를 맡아요.</div>
+  </div>
+  <div class="card"><span class="pin p-dec"></span>
+    <b class="t">팀원 업무 AI 자동화 연구 → 방향 선택 제시</b>
+    <div class="prd">팀원들 업무를 AI 자동화로 분담할 수 있는지 연구하고, 어느 쪽으로 갈지 선택지를 제시해요.</div>
+    <div class="act" style="border-left-color:var(--blue)">다니엘 쪽 자동화(봇 지시·데이터 파이프라인)와 겹칠 수 있어요 — 연구 결과 나오면 맞춰봐요.</div>
+  </div>
+</div>
+
+<h2><span style="background:var(--ok);width:12px;height:12px;border-radius:50%;display:inline-block"></span>
+  <span class="who">다니엘 (나)</span> <span class="role">인스타 콘텐츠 · 웹 SEO/보수</span></h2>
+<div class="person">
+  <span class="one" style="margin:4px 0 6px">카테고리로 나눴어요 — 버저비터 · 인스타 · 구글 · 기타.</span>
+
+  <h3>🟢 버저비터 관련 — 사이트 운영·보수</h3>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">웹 보수 — 서버 수정 지시·검증</b>
+    <div class="prd">DevFS로 서버 소스 진단 → 텔레그램 봇 지시문 작성 → 배포 후 실서버 검증. (직접 수정 권한 없음, 봇 경유)</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">디자인 세션 협업</b>
+    <div class="prd">같은 서버 만지는 디자인 세션과 우편함으로 조율. News.php 파일 충돌 방지, 배포 전후 검증 나눠 봄.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">픽 데이터 파이프라인 — 오늘의픽 · 리그 픽 탭</b>
+    <div class="prd">픽랩 수집·채점·발행 배관 관리(collect→webdates→fill). 새 리그·종목 픽이 화면에 제대로 들어가는지 챙김.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">순위표 탭 · 리그 데이터 반입</b>
+    <div class="prd">담당자(배달부) zip → 임포터 반입 확인, 안 들어가면 「안 왔다/안 들어갔다」 가름. 순위·라인업·결과 데이터.</div>
+  </div>
+
+  <h3>🟠 인스타 관련</h3>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">인스타 콘텐츠 제작</b>
+    <div class="prd">데이터로 만드는 카드뉴스·릴스·스토리 제작. 논쟁·비교 / 랭킹·저장 / 반전수치 / 한방 소재.
+    무빈의 «운영/확산»과 나눠 — <span class="hl">나는 만들고, 무빈은 굴려요.</span> 금지선 걸러서 넘김.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">인스타 제작명세 · 목업 · 콘텐츠 계획</b>
+    <div class="prd">릴스 목업, 제작명세(딜레마·컨셉·퍼널·소재·제작), 콘텐츠 캘린더 설계.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">Lovart 테스트 <span class="chip c-wait">테스트 중</span></b>
+    <div class="prd">인스타 카드·릴스 생성 도구. 품질·비용 확인 중.</div>
+  </div>
+
+  <h3>🔵 구글 관련 — 검색 노출</h3>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">웹 SEO — 색인 늘리기</b>
+    <div class="prd">색인 판정·robots·canonical·사이트맵·301 중복정리·구조화 데이터(브레드크럼·SportsEvent·FAQ)·시즌 키워드·내부링크·선수 허브 페이지.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">GSC 모니터링</b>
+    <div class="prd">검색 실적·색인 상태 추적. 검색 의도(순위·로스터·경기시각) 파악해 콘텐츠 방향 잡음.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">Ahrefs 키워드</b>
+    <div class="prd">키워드 실측·갭 분석·경쟁사 백링크. <span class="hl">뽑은 키워드를 웹 문구랑 인스타 캡션에 같이 씀.</span></div>
+  </div>
+
+  <h3>⚪ 기타</h3>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">docbot 운영 · 메모보드</b>
+    <div class="prd">문서봇·자연어 층·메모보드 유지보수.</div>
+  </div>
+  <div class="card d"><span class="pin p-dan"></span>
+    <b class="t">일일 업무보고 · 예약 루틴</b>
+    <div class="prd">매일 23:50 팀 업무보고 취합·발송. 아침(11시)·저녁(21시) 점검, 예약 작업 14개 이행 관리.</div>
+  </div>
+</div>
+
+<h2 style="font-size:16.5px">한눈에 — 축이 안 겹쳐요</h2>
+<table>
+<tr><th style="width:18%">사람</th><th style="width:20%">핵심 축</th><th>맡는 것</th></tr>
+<tr><td><span class="chip c-moo">무빈</span></td><td>인스타 <b>운영·확산</b></td>
+    <td>5계정 교차 업로드 · 도달 관리(스프레드시트) · CTA 삽입 · 계정 정지 대체 · 루프 점검</td></tr>
+<tr><td><span class="chip c-dec">데카르트 센터</span></td><td><b>유튜브</b> · 자동화</td>
+    <td>유튜브 운영 · 팀 업무 AI 자동화 연구 → 방향 제시</td></tr>
+<tr><td><span class="chip c-dan">다니엘 (나)</span></td><td>웹 + 인스타 <b>제작</b></td>
+    <td>인스타 콘텐츠 제작 · 웹 SEO/보수 · GSC/Ahrefs · 픽 데이터 · 순위표 반입 · docbot/메모 · 일일보고</td></tr>
+</table>
+
+<h3>맞물리는 지점 (여기만 서로 알려주면 돼요)</h3>
+<ul class="ls">
+<li><span class="chip c-moo">무빈</span>↔<span class="chip c-dan">다니엘</span> — 나는 <b>카드·릴스를 만들고</b>, 무빈이 <b>올려요</b>. CTA 멘트는 내가 금지선 통과한 문구로 대줄게요.</li>
+<li><span class="chip c-dec">데카센</span>↔<span class="chip c-dan">다니엘</span> — 자동화 연구가 내 봇 지시·데이터 파이프라인이랑 겹칠 수 있어요. 결과 나오면 맞춰요.</li>
+</ul>
+
+<div class="warnbox"><b>공통 금지선 (YMYL)</b> — 계정이든 유튜브든 인스타든, <b>적중률·수익률·보장·확실 숫자는 안 내보내요.</b>
+무빈의 「적중률 높은 픽?」 CTA도 이 선에 걸려요 — 문구를 바꿔서 써요. 팀의 실제 기록(홈 승률 같은 것)은 괜찮아요.</div>
+
+<div class="foot">이건 «누가 뭘 하나» 를 적어두는 문서예요. 빠졌거나 바뀐 게 있으면 채워 넣어요. — 2026-08-22</div>
+
+</div>
+</body></html>
