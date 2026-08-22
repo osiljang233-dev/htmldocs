@@ -35,6 +35,12 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
 .assignee-다니엘  { background: rgba(74,158,255,0.15);  color: #7dc4ff; border: 1px solid rgba(74,158,255,0.3); }
 .assignee-데카르트 { background: rgba(245,200,66,0.15); color: #f5c842; border: 1px solid rgba(245,200,66,0.3); }
 .footer { font-size: 12px; color: var(--text3); border-top: 1px solid var(--border); padding-top: 20px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.tab-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text3); font-size: 12px; font-weight: 700; letter-spacing: 0.3px; padding: 8px 14px; border-radius: 20px; cursor: pointer; transition: border-color 0.15s, background 0.15s, color 0.15s; }
+.tab-btn:hover { border-color: var(--accent); color: var(--text); }
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tab-count { opacity: 0.7; margin-left: 4px; }
+.cat-section.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -45,6 +51,7 @@ h1 { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; 
   </div>
   <h1>문서 목록</h1>
   <p class="sub">업무 진행 내용 및 회의 결과 · 최신순</p>
+  <div id="tabs" class="tabs"></div>
   <div id="cats"></div>
   <div class="footer">HTML Docs · 2026 · CONFIDENTIAL</div>
 </div>
@@ -103,12 +110,30 @@ docs.forEach(d => { const c = d.cat || 'ETC'; (groups[c] = groups[c] || []).push
 const order = CAT_ORDER.filter(c => groups[c])
   .concat(Object.keys(groups).filter(c => !CAT_ORDER.includes(c)));
 
+const tabsRoot = document.getElementById('tabs');
 const root = document.getElementById('cats');
+
+function selectTab(cat) {
+  tabsRoot.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  root.querySelectorAll('.cat-section').forEach(s => s.classList.toggle('hidden', s.dataset.cat !== cat));
+}
+
 order.forEach(cat => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tab-btn';
+  btn.dataset.cat = cat;
+  btn.innerHTML = `${cat}<span class="tab-count">${groups[cat].length}</span>`;
+  btn.addEventListener('click', () => selectTab(cat));
+  tabsRoot.appendChild(btn);
+
+  const section = document.createElement('div');
+  section.className = 'cat-section';
+  section.dataset.cat = cat;
   const title = document.createElement('div');
   title.className = 'section-title';
   title.textContent = `${cat} (${groups[cat].length})`;
-  root.appendChild(title);
+  section.appendChild(title);
   const ul = document.createElement('ul');
   ul.className = 'doc-list';
   groups[cat].forEach(doc => {
@@ -125,8 +150,11 @@ order.forEach(cat => {
       </a>`;
     ul.appendChild(li);
   });
-  root.appendChild(ul);
+  section.appendChild(ul);
+  root.appendChild(section);
 });
+
+selectTab(order.includes('Season 1') ? 'Season 1' : order[0]);
 
 </script>
 </body>
