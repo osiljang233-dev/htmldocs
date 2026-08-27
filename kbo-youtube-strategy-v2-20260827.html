@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오늘의 KBO — 운용 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C1826;
+  --ink-2:#16293D;
+  --ink-3:#1E3550;
+  --paper:#EDE6D3;
+  --pen:#4A7FC1;
+  --run:#C1272D;
+  --bulb:#E8A317;
+  --live:#3FBF6E;
+  --line:rgba(237,230,211,.12);
+  --line-2:rgba(237,230,211,.2);
+  --dim:rgba(237,230,211,.62);
+  --faint:rgba(237,230,211,.34);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--paper);
+  font-family:'Noto Sans KR',sans-serif;font-weight:300;
+  line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.wrap{max-width:840px;margin:0 auto;padding:0 22px}
+
+/* header */
+.board{
+  background:radial-gradient(ellipse at 50% -10%, rgba(232,163,23,.13), transparent 62%),var(--ink-2);
+  border-bottom:3px solid var(--bulb);padding:48px 0 36px;position:relative;overflow:hidden;
+}
+.board::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle, rgba(237,230,211,.16) 1px, transparent 1px);
+  background-size:13px 13px;opacity:.4;pointer-events:none;
+}
+.bi{position:relative;z-index:1}
+.eyebrow{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.34em;color:var(--bulb);margin-bottom:14px}
+.chan{font-family:'Black Han Sans',sans-serif;font-size:clamp(38px,10.5vw,70px);line-height:.98;
+  text-shadow:0 0 26px rgba(232,163,23,.28)}
+.chan em{font-style:normal;color:var(--bulb)}
+.sub{margin-top:18px;font-size:15px;color:var(--dim);max-width:46ch;line-height:1.8}
+.stamps{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.stamp{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;
+  border:1.5px solid rgba(232,163,23,.45);font-family:'Bebas Neue',sans-serif;
+  font-size:12.5px;letter-spacing:.16em;color:var(--bulb)}
+.stamp.on{border-color:rgba(63,191,110,.5);color:var(--live)}
+.dot{width:7px;height:7px;background:var(--run);border-radius:50%;animation:blink 2.4s ease-in-out infinite}
+.stamp.on .dot{background:var(--live)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+section{padding:58px 0}
+section + section{border-top:1px solid var(--line)}
+.tag{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--bulb);display:block;margin-bottom:11px}
+h2{font-family:'Black Han Sans',sans-serif;font-size:clamp(24px,5.6vw,34px);line-height:1.25;font-weight:400;margin-bottom:13px}
+h3{font-family:'Black Han Sans',sans-serif;font-size:18px;font-weight:400;margin:30px 0 12px}
+.lede{color:var(--dim);font-size:15px;max-width:56ch;margin-bottom:30px}
+p{margin-bottom:13px}
+strong{font-weight:700;color:var(--paper)}
+
+/* status strip */
+.strip{display:grid;gap:2px;background:var(--line-2);border:1px solid var(--line-2);margin-bottom:34px}
+@media(min-width:600px){.strip{grid-template-columns:repeat(4,1fr)}}
+.sc{background:var(--ink);padding:16px 15px;text-align:center}
+.sc-v{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;color:var(--bulb)}
+.sc-k{font-size:11.5px;color:var(--faint);letter-spacing:.06em;margin-top:6px}
+
+/* pipeline */
+.pipe{display:grid;gap:2px;background:var(--line-2);border:1px solid var(--line-2)}
+@media(min-width:640px){.pipe{grid-template-columns:1fr 1fr}}
+.pc{background:var(--ink);padding:24px 21px}
+.pc-h{font-family:'Black Han Sans',sans-serif;font-size:20px;font-weight:400;margin-bottom:3px}
+.pc-r{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:.2em;display:block;margin-bottom:16px}
+.pc.a .pc-r{color:var(--live)}
+.pc.b .pc-r{color:var(--pen)}
+.pc p{font-size:13.8px;color:var(--dim);line-height:1.7;margin-bottom:11px}
+.pc ul{list-style:none}
+.pc li{font-size:13.3px;color:var(--dim);padding-left:16px;position:relative;margin-bottom:6px;line-height:1.65}
+.pc li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--pen);transform:rotate(45deg)}
+.pc.a li::before{background:var(--live)}
+
+/* inventory */
+.inv{border:1px solid var(--line-2)}
+.inv-row{display:grid;gap:2px;background:var(--line-2)}
+@media(min-width:620px){.inv-row{grid-template-columns:200px 1fr}}
+.inv-f,.inv-u{background:var(--ink);padding:13px 16px}
+.inv-f{font-family:'Bebas Neue',sans-serif;font-size:14.5px;letter-spacing:.08em;color:var(--bulb);
+  display:flex;align-items:center}
+.inv-u{font-size:13.5px;color:var(--dim);line-height:1.65}
+.inv-u b{color:var(--paper);font-weight:500}
+
+/* diamond */
+.dw{display:flex;justify-content:center;margin:6px 0 42px}
+svg.diamond{width:100%;max-width:380px;height:auto}
+.bs{fill:var(--ink-2);stroke:var(--faint);stroke-width:2;transition:fill .35s,stroke .35s}
+.bs.lit{fill:var(--bulb);stroke:var(--bulb)}
+.pl{stroke:var(--faint);stroke-width:2;stroke-dasharray:5 6;fill:none}
+.bn{font-family:'Bebas Neue',sans-serif;font-size:17px;fill:var(--paper);transition:fill .35s}
+.bn.lit{fill:var(--ink)}
+.bc{font-family:'Noto Sans KR',sans-serif;font-weight:500;font-size:12px;fill:var(--dim)}
+
+.stage{border-left:3px solid var(--line-2);padding-left:19px;margin-bottom:30px;transition:border-color .3s}
+.stage:hover{border-left-color:var(--bulb)}
+.st-t{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:5px}
+.st-b{font-family:'Bebas Neue',sans-serif;font-size:14.5px;letter-spacing:.14em;color:var(--bulb)}
+.st-n{font-family:'Black Han Sans',sans-serif;font-size:19px;font-weight:400}
+.st-w{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:.1em;color:var(--faint);margin-left:auto}
+.stage p{font-size:14.2px;color:var(--dim);margin-bottom:9px}
+.stage ul{list-style:none;margin-top:9px}
+.stage li{font-size:13.8px;color:var(--dim);padding-left:16px;position:relative;margin-bottom:6px;line-height:1.68}
+.stage li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--pen);transform:rotate(45deg)}
+
+/* split */
+.split{display:grid;gap:2px;background:var(--line-2);border:1px solid var(--line-2)}
+@media(min-width:640px){.split{grid-template-columns:1fr 1fr}}
+.col{background:var(--ink);padding:24px 21px}
+.col-h{font-family:'Black Han Sans',sans-serif;font-size:20px;font-weight:400;margin-bottom:3px}
+.col-r{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:.2em;margin-bottom:16px;display:block}
+.col.s .col-r{color:var(--run)}
+.col.l .col-r{color:var(--pen)}
+.row{display:flex;gap:11px;padding:8px 0;border-top:1px solid var(--line);font-size:13.3px}
+.row:first-of-type{border-top:none}
+.row dt{color:var(--faint);flex:0 0 70px}
+.row dd{color:var(--dim);flex:1}
+
+/* titles */
+.tt{margin-bottom:13px;padding:14px 16px;border:1px solid var(--line-2);background:rgba(22,41,61,.5)}
+.tt-m{font-family:'Bebas Neue',sans-serif;font-size:11.5px;letter-spacing:.2em;display:block;margin-bottom:6px}
+.tt.bad{border-left:3px solid var(--run)}
+.tt.bad .tt-m{color:var(--run)}
+.tt.good{border-left:3px solid var(--bulb)}
+.tt.good .tt-m{color:var(--bulb)}
+.tt-h{font-family:'Noto Serif KR',serif;font-weight:600;font-size:16px;color:var(--paper);margin-bottom:5px;line-height:1.5}
+.tt-w{font-size:13.3px;color:var(--dim);line-height:1.65}
+
+/* auto pick */
+.auto{border:1px solid rgba(63,191,110,.35);background:rgba(63,191,110,.06);padding:22px 20px;margin-bottom:28px}
+.auto-h{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:.2em;color:var(--live);margin-bottom:9px}
+.auto p{font-size:14.2px;color:var(--dim);margin-bottom:0}
+.auto code{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.06em;color:var(--bulb)}
+
+.rank{display:flex;gap:15px;padding:14px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.rank-n{font-family:'Bebas Neue',sans-serif;font-size:27px;line-height:1;color:var(--bulb);flex:0 0 28px}
+.rank-b{font-family:'Black Han Sans',sans-serif;font-size:15.5px;font-weight:400;margin-bottom:3px}
+.rank-d{font-size:13.3px;color:var(--dim);line-height:1.65}
+.rank-e{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:.08em;color:var(--run);margin-top:4px;display:block}
+
+/* timeline */
+.tl{position:relative;padding-left:25px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:20px;width:1px;background:var(--line-2)}
+.tl-i{position:relative;padding-bottom:22px}
+.tl-i::before{content:"";position:absolute;left:-22px;top:7px;width:9px;height:9px;background:var(--ink);
+  border:2px solid var(--bulb);border-radius:50%}
+.tl-i.hot::before{background:var(--run);border-color:var(--run)}
+.tl-i.auto::before{background:var(--live);border-color:var(--live)}
+.tl-t{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.06em;color:var(--bulb);line-height:1.2}
+.tl-i.auto .tl-t{color:var(--live)}
+.tl-w{font-size:14.2px;font-weight:500;color:var(--paper);margin:2px 0 3px}
+.tl-d{font-size:13.3px;color:var(--dim);line-height:1.65}
+.tl-b{display:inline-block;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.14em;
+  padding:1px 7px;border:1px solid var(--live);color:var(--live);margin-left:7px;vertical-align:2px}
+
+/* metrics */
+.met{display:grid;gap:2px;background:var(--line-2);border:1px solid var(--line-2)}
+@media(min-width:560px){.met{grid-template-columns:repeat(3,1fr)}}
+.met-c{background:var(--ink);padding:19px 17px}
+.met-k{font-family:'Bebas Neue',sans-serif;font-size:11.5px;letter-spacing:.18em;color:var(--faint);display:block;margin-bottom:7px}
+.met-v{font-family:'Black Han Sans',sans-serif;font-size:16.5px;font-weight:400;color:var(--bulb);line-height:1.35;margin-bottom:6px}
+.met-n{font-size:12.8px;color:var(--dim);line-height:1.6}
+
+/* dont */
+.dont{border:1px solid rgba(193,39,45,.4);padding:22px 20px;background:rgba(193,39,45,.07)}
+.dont li{list-style:none;font-size:14.2px;color:var(--dim);padding-left:21px;position:relative;margin-bottom:10px;line-height:1.7}
+.dont li:last-child{margin-bottom:0}
+.dont li::before{content:"×";position:absolute;left:2px;top:-1px;color:var(--run);font-size:17px;font-weight:700}
+
+/* open */
+.open{border:1px solid var(--line-2);padding:22px 20px;background:rgba(22,41,61,.45)}
+.open li{list-style:none;font-size:14px;color:var(--dim);padding-left:21px;position:relative;margin-bottom:10px;line-height:1.7}
+.open li:last-child{margin-bottom:0}
+.open li::before{content:"?";position:absolute;left:3px;top:0;color:var(--bulb);font-family:'Bebas Neue',sans-serif;font-size:16px}
+
+footer{background:var(--ink-2);border-top:3px solid var(--bulb);padding:32px 0;margin-top:18px}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:12.5px;letter-spacing:.24em;color:var(--faint)}
+.fm{font-size:13.8px;color:var(--dim);margin-top:8px;max-width:52ch}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="board">
+  <div class="wrap bi">
+    <span class="eyebrow">OPERATIONS DASHBOARD · REV 2</span>
+    <h1 class="chan">오늘의 <em>KBO</em></h1>
+    <p class="sub">수집기가 살아 있다. 경기가 끝나면 데이터가 먼저 도착하고, 무엇을 만들지는 시스템이 알려준다.</p>
+    <div class="stamps">
+      <div class="stamp on"><span class="dot"></span>수집기 가동</div>
+      <div class="stamp"><span class="dot"></span>채널 개설 전</div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <span class="tag">SYSTEM STATUS</span>
+    <h2>지금 갖고 있는 것</h2>
+    <div class="strip">
+      <div class="sc"><div class="sc-v">565</div><div class="sc-k">백필 경기</div></div>
+      <div class="sc"><div class="sc-v">330</div><div class="sc-k">타자 누적</div></div>
+      <div class="sc"><div class="sc-v">279</div><div class="sc-k">투수 누적</div></div>
+      <div class="sc"><div class="sc-v">3/28</div><div class="sc-k">개막일부터</div></div>
+    </div>
+    <p>시즌 개막부터 어제까지 전 경기가 쌓여 있다. 여기서부터는 <strong>단일 경기로는 나올 수 없는 것</strong>이 계산된다. 연속 기록, 시리즈 전적, 시즌 첫 기록, 이정표 근접. 이게 다른 채널이 손으로 찾는 것들이다.</p>
+    <p>매일 밤 경기가 끝나면 이 값들이 자동으로 갱신되고, 그날의 콘텐츠 소재가 함께 계산돼 나온다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">TWO INPUTS</span>
+    <h2>경기는 수집기가,<br>이슈는 리서치가</h2>
+    <p class="lede">성격이 다른 두 소재를 각각 다른 방식으로 확보한다. 섞으면 매일 경기 결과만 나온다.</p>
+    <div class="pipe">
+      <div class="pc a">
+        <div class="pc-h">수집기</div>
+        <span class="pc-r">AUTOMATED · NIGHTLY</span>
+        <p>KBO 공식 기록을 직접 파싱한다. 사람이 개입할 여지가 없고, 그래서 틀릴 여지도 적다.</p>
+        <ul>
+          <li>경기 결과와 이닝별 득점</li>
+          <li>타자·투수 개인 기록 전체</li>
+          <li>결승타·홈런·도루·실책·병살</li>
+          <li>시즌 누적과 이정표 근접</li>
+          <li>연속 기록과 시리즈 전적</li>
+        </ul>
+      </div>
+      <div class="pc b">
+        <div class="pc-h">리서치</div>
+        <span class="pc-r">DAILY BRIEF</span>
+        <p>경기장 밖에서 벌어지는 일. 기록으로는 절대 안 잡히는 소재를 매일 아침 받는다.</p>
+        <ul>
+          <li>트레이드와 방출과 영입</li>
+          <li>부상과 복귀와 엔트리 변동</li>
+          <li>감독·선수 발언</li>
+          <li>순위 싸움과 일정 변경</li>
+          <li>매체별 보도 밀도와 검색어</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">DATA INVENTORY</span>
+    <h2>필드가 곧 기획안</h2>
+    <p class="lede">수집되는 값 하나하나가 어떤 콘텐츠로 이어지는지 미리 매핑해두면, 매일 소재를 고민할 일이 없다.</p>
+    <div class="inv">
+      <div class="inv-row">
+        <div class="inv-f">MILESTONE</div>
+        <div class="inv-u"><b>최우선 소재.</b> 40홈런까지 1개, 50안타까지 1개. 이정표 직전은 검색이 몰리는데 기사는 아직 안 나온 구간이다. 선점이 가능한 유일한 지점.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">HOME RUNS</div>
+        <div class="inv-u"><b>모아보기 블록.</b> 그날 나온 전 구단 홈런을 한 화면에. 개별 경기로 흩어지면 안 잡히는 검색어를 잡는다.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">STREAK</div>
+        <div class="inv-u"><b>서사 재료.</b> 연속 경기 홈런, 연속 QS, 팀 연승. 오늘 하루가 아니라 흐름을 보여줄 때 쓴다.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">SERIES</div>
+        <div class="inv-u"><b>주 3회 소재.</b> 위닝시리즈·스윕은 3연전이 끝나는 날마다 나온다. 순위 싸움과 엮으면 롱폼 챕터가 된다.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">QS / QS+</div>
+        <div class="inv-u"><b>투수 콘텐츠 축.</b> 타자에 비해 투수 소재가 늘 부족하다. 퀄리티스타트 시즌 몇 번째인지가 기준점이 된다.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">FIRST RECORD</div>
+        <div class="inv-u"><b>희소 소재.</b> 시즌 첫 홈런·첫 승·첫 세이브. 자주 안 나오지만 나오면 반드시 쓴다.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">INNING SCORE</div>
+        <div class="inv-u"><b>흐름 시각화.</b> 롱폼에서 경기 전개를 차트로 보여줄 때. 역전 경기일수록 값어치가 높다.</div>
+      </div>
+      <div class="inv-row">
+        <div class="inv-f">CANCELED</div>
+        <div class="inv-u"><b>완결성.</b> 취소 경기도 카드에 넣는다. 5경기 중 2경기가 취소면 그 사실 자체가 그날의 정보다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">RUNNING THE BASES</span>
+    <h2>진루 전략</h2>
+    <p class="lede">단계마다 이겨야 하는 것이 다르다. 1루를 밟기 전에 홈을 노리면 아웃이다.</p>
+
+    <div class="dw">
+      <svg class="diamond" viewBox="0 0 340 300" role="img" aria-label="1루 발견, 2루 습관, 3루 확장, 홈 정착으로 이어지는 4단계 도식">
+        <path class="pl" d="M170 250 L285 150 L170 50 L55 150 Z"/>
+        <g id="b-home">
+          <rect class="bs" x="152" y="232" width="36" height="36" rx="3" transform="rotate(45 170 250)"/>
+          <text class="bn" x="170" y="256" text-anchor="middle">H</text>
+          <text class="bc" x="170" y="290" text-anchor="middle">타석 · 시작</text>
+        </g>
+        <g id="b-1">
+          <rect class="bs lit" x="267" y="132" width="36" height="36" rx="3"/>
+          <text class="bn lit" x="285" y="156" text-anchor="middle">1</text>
+          <text class="bc" x="285" y="188" text-anchor="middle">발견</text>
+        </g>
+        <g id="b-2">
+          <rect class="bs" x="152" y="32" width="36" height="36" rx="3"/>
+          <text class="bn" x="170" y="56" text-anchor="middle">2</text>
+          <text class="bc" x="170" y="24" text-anchor="middle">습관</text>
+        </g>
+        <g id="b-3">
+          <rect class="bs" x="37" y="132" width="36" height="36" rx="3"/>
+          <text class="bn" x="55" y="156" text-anchor="middle">3</text>
+          <text class="bc" x="55" y="188" text-anchor="middle">확장</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="stage">
+      <div class="st-t"><span class="st-b">1ST BASE</span><span class="st-n">발견</span><span class="st-w">~ 구독 1,000</span></div>
+      <p>구독자가 없으면 롱폼은 알림 갈 곳이 없다. 이 구간은 <strong>숏폼이 유일한 유입 경로</strong>다.</p>
+      <ul>
+        <li>하루 3~5개, 매번 다른 선수·다른 기록</li>
+        <li>이정표 감지가 그날 1번 소재를 자동으로 지정한다</li>
+        <li>60초 안에 숫자 하나만 명확히 전달</li>
+        <li>롱폼은 하루 1개, 아카이브 축적이 목적</li>
+      </ul>
+    </div>
+
+    <div class="stage">
+      <div class="st-t"><span class="st-b">2ND BASE</span><span class="st-n">습관</span><span class="st-w">1,000 ~ 5,000</span></div>
+      <p>알림이 도달하기 시작한다. 이제부터 <strong>업로드 시각이 자산</strong>이 된다.</p>
+      <ul>
+        <li>롱폼을 매일 같은 시각에 고정</li>
+        <li>제목 형식 통일 — "8/26 KBO 5경기 전체 정리"</li>
+        <li>재생목록으로 묶어 시리즈로 인식시킨다</li>
+        <li>시리즈 전적·순위 변동을 롱폼 챕터로 편성</li>
+      </ul>
+    </div>
+
+    <div class="stage">
+      <div class="st-t"><span class="st-b">3RD BASE</span><span class="st-n">확장</span><span class="st-w">5,000 ~ 20,000</span></div>
+      <p>매일 나오는 결과 정리만으로는 천장이 온다. <strong>고정 코너</strong>가 필요하다.</p>
+      <ul>
+        <li>주간 정리, 기록 레이스 추적 같은 반복 포맷</li>
+        <li>포스트시즌·트레이드 마감 등 시즌 이벤트 선점</li>
+        <li>웹 대시보드를 열어 영상 밖 트래픽 확보</li>
+        <li>비시즌 대비 포맷을 미리 설계</li>
+      </ul>
+    </div>
+
+    <div class="stage">
+      <div class="st-t"><span class="st-b">HOME</span><span class="st-n">정착</span><span class="st-w">20,000 ~</span></div>
+      <p>검색으로 오는 채널에서 <strong>이름으로 찾아오는 채널</strong>이 되는 지점이다.</p>
+      <ul>
+        <li>제목의 선수명 의존도를 낮춰도 조회수가 유지되는지 확인</li>
+        <li>구단 팬 커뮤니티와의 접점 확보</li>
+        <li>비시즌 이탈률이 진짜 시험대</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">FORMAT SPLIT</span>
+    <h2>둘은 경쟁하지 않는다</h2>
+    <p class="lede">같은 데이터로 만들지만 하는 일이 다르다. 역할을 섞으면 둘 다 망가진다.</p>
+    <div class="split">
+      <div class="col s">
+        <div class="col-h">숏폼</div><span class="col-r">DISCOVERY</span>
+        <dl>
+          <div class="row"><dt>목적</dt><dd>비구독자 노출</dd></div>
+          <div class="row"><dt>소재</dt><dd>이정표 · 홈런 · 결승타</dd></div>
+          <div class="row"><dt>제목</dt><dd>매번 변경 · 선수명 직격</dd></div>
+          <div class="row"><dt>분량</dt><dd>사실 하나, 60초 이내</dd></div>
+          <div class="row"><dt>빈도</dt><dd>하루 3~5개</dd></div>
+          <div class="row"><dt>성패</dt><dd>초반 이탈률</dd></div>
+        </dl>
+      </div>
+      <div class="col l">
+        <div class="col-h">롱폼</div><span class="col-r">RETENTION</span>
+        <dl>
+          <div class="row"><dt>목적</dt><dd>구독 전환 · 시청 시간</dd></div>
+          <div class="row"><dt>소재</dt><dd>전 경기 · 시리즈 · 순위</dd></div>
+          <div class="row"><dt>제목</dt><dd>형식 고정 · 날짜 기반</dd></div>
+          <div class="row"><dt>분량</dt><dd>그날 전 경기</dd></div>
+          <div class="row"><dt>빈도</dt><dd>하루 1개</dd></div>
+          <div class="row"><dt>성패</dt><dd>평균 시청 지속</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">SUBJECT SELECTION</span>
+    <h2>고르는 일은<br>끝났다</h2>
+
+    <div class="auto">
+      <div class="auto-h">AUTOMATED</div>
+      <p>이정표 감지가 매일 밤 <code>김도영 · 홈런 39 · 40까지 1개</code> 형태로 후보를 뽑아낸다. 사람은 그중 하나를 고르기만 하면 된다. 잘한 선수가 아니라 <strong>검색될 선수</strong>를 시스템이 판단한다.</p>
+    </div>
+
+    <div class="rank">
+      <div class="rank-n">01</div>
+      <div>
+        <div class="rank-b">기록 이정표 근접</div>
+        <p class="rank-d">39호는 40호 직전이라 검색이 몰린다. 같은 홈런이어도 5호와는 비교가 안 된다. 홈런 20 이상, 안타 100 이상 구간만 유효하다.</p>
+        <span class="rank-e">오늘 값이 오른 선수만 · 남은 3개 이하</span>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="rank-n">02</div>
+      <div>
+        <div class="rank-b">경기를 끝낸 사람</div>
+        <p class="rank-d">결승타와 끝내기는 그 경기의 이야기가 한 사람으로 압축된다. 60초에 담기 가장 쉽다.</p>
+        <span class="rank-e">결승타 · 끝내기 · 블론세이브</span>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="rank-n">03</div>
+      <div>
+        <div class="rank-b">이름값</div>
+        <p class="rank-d">같은 기록이라도 스타 선수의 검색량이 몇 배다. 기록이 평범해도 이름이 크면 올린다.</p>
+        <span class="rank-e">간판 선수 · 복귀 · 부상</span>
+      </div>
+    </div>
+    <div class="rank">
+      <div class="rank-n">04</div>
+      <div>
+        <div class="rank-b">이례적 기록</div>
+        <p class="rank-d">드물수록 좋다. 흔치 않다는 사실 자체가 콘텐츠가 된다.</p>
+        <span class="rank-e">다홈런 · 완봉 · 사이클링히트 · 최고령/최연소</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">TITLE INTENT</span>
+    <h2>검색어와 약속을<br>일치시켜라</h2>
+    <p class="lede">중계 화면이 없다는 것이 제약이자 방향이다. 데이터가 답할 수 있는 질문만 제목에 건다.</p>
+
+    <div class="tt bad">
+      <span class="tt-m">MISMATCH</span>
+      <div class="tt-h">김도영 홈런</div>
+      <p class="tt-w">장면을 기대하고 들어온다. 차트와 내레이션이 나오면 즉시 이탈한다. 알고리즘은 이걸 불만족으로 읽는다.</p>
+    </div>
+    <div class="tt good">
+      <span class="tt-m">MATCH</span>
+      <div class="tt-h">김도영 39호, 최연소 40홈런까지 1개</div>
+      <p class="tt-w">숫자와 계산을 기대하고 들어온다. 정확히 그걸 준다. 이정표 직전이라 검색량도 몰려 있다.</p>
+    </div>
+    <div class="tt good">
+      <span class="tt-m">MATCH</span>
+      <div class="tt-h">오늘 김도영이 깬 기록 3가지</div>
+      <p class="tt-w">숫자 나열을 예고한다. 데이터 채널이 줄 수 있는 것과 정확히 겹친다.</p>
+    </div>
+
+    <p style="margin-top:22px">채널명 <strong>오늘의 KBO</strong>가 카테고리 신호를 잠가둔다. 제목이 매일 바뀌어도 알고리즘은 혼란스러워하지 않는다. 시청자층이 같기 때문이다. 주제를 갈아타는 것과 같은 주제 안에서 소재를 바꾸는 것은 다른 얘기다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">GAME NIGHT</span>
+    <h2>하루 운영</h2>
+    <p class="lede">경기 종료부터 업로드까지가 이 채널의 경쟁력 전부다. 초록 표시는 자동으로 도는 구간이다.</p>
+    <div class="tl">
+      <div class="tl-i">
+        <div class="tl-t">AM</div>
+        <div class="tl-w">리서치 브리프 확인</div>
+        <p class="tl-d">밤사이 나온 이슈 소재를 받는다. 경기 외적 소재는 여기서만 나온다. 어제 영상 성과도 함께 확인.</p>
+      </div>
+      <div class="tl-i auto">
+        <div class="tl-t">18:30<span class="tl-b">AUTO</span></div>
+        <div class="tl-w">수집기 대기 진입</div>
+        <p class="tl-d">경기 시작을 감지하고 폴링 준비. 이 시간 이후로는 손댈 것이 없다.</p>
+      </div>
+      <div class="tl-i auto">
+        <div class="tl-t">21:30<span class="tl-b">AUTO</span></div>
+        <div class="tl-w">폴링 간격 단축</div>
+        <p class="tl-d">3시간이 지나면 10분에서 3분 간격으로 좁힌다. 종료 순간을 최대한 빨리 잡는다.</p>
+      </div>
+      <div class="tl-i hot">
+        <div class="tl-t">22:00</div>
+        <div class="tl-w">경기별 JSON 도착</div>
+        <p class="tl-d">전체 종료를 기다리지 않는다. 끝난 경기부터 개별 알림이 오고, 콘텐츠 블록에 이정표까지 계산돼 있다.</p>
+      </div>
+      <div class="tl-i">
+        <div class="tl-t">22:30</div>
+        <div class="tl-w">숏폼 업로드 시작</div>
+        <p class="tl-d">이정표 1순위 소재부터. 나머지는 순차로. 이 시점의 선점이 검색 순위를 만든다.</p>
+      </div>
+      <div class="tl-i">
+        <div class="tl-t">23:00</div>
+        <div class="tl-w">롱폼 업로드</div>
+        <p class="tl-d">전 경기 정리본. 취소 경기까지 포함해 그날의 완결성을 만든다.</p>
+      </div>
+      <div class="tl-i">
+        <div class="tl-t">D+1</div>
+        <div class="tl-w">아침 재점검</div>
+        <p class="tl-d">밤사이 성과를 보고 반응 좋은 소재의 후속을 만든다. 숏폼은 며칠 뒤 터지기도 한다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">WHAT TO WATCH</span>
+    <h2>볼 지표, 보지 말 지표</h2>
+    <p class="lede">조회수는 결과지 원인이 아니다. 초기에는 세 가지만 본다.</p>
+    <div class="met">
+      <div class="met-c">
+        <span class="met-k">SHORTS</span>
+        <div class="met-v">초반 이탈률</div>
+        <p class="met-n">첫 3초에서 얼마나 빠지는가. 확산 여부를 거의 결정한다. 훅을 바꿔가며 시험한다.</p>
+      </div>
+      <div class="met-c">
+        <span class="met-k">LONG-FORM</span>
+        <div class="met-v">평균 시청 지속</div>
+        <p class="met-n">몇 명이 봤는지보다 얼마나 봤는지. 5경기 중 몇 번째에서 이탈하는지 보고 순서를 조정한다.</p>
+      </div>
+      <div class="met-c">
+        <span class="met-k">TRAFFIC</span>
+        <div class="met-v">검색 유입 비율</div>
+        <p class="met-n">검색 비중이 오르면 제목 전략이 맞는 것이다. 어떤 검색어로 들어오는지 매일 기록한다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">HARD RULES</span>
+    <h2>하지 않을 것</h2>
+    <div class="dont">
+      <ul>
+        <li>중계 화면을 쓰지 않는다. 저작권 문제로 채널 자체가 날아간다.</li>
+        <li>승패 예측이나 승률 전망을 걸지 않는다. 한국에서 이 신호는 픽스터로 분류되고, 한번 그 클러스터에 들어가면 되돌리기 어렵다. 확률을 쓰려면 <strong>경기 후 승리확률</strong>만 쓴다. "7회 2사에 8%였는데 뒤집었다"는 베팅이 아니라 드라마다.</li>
+        <li>검증을 통과하지 못한 기록을 올리지 않는다. 수집기의 검증 관문을 통과한 값만 쓴다.</li>
+        <li>제목에 없는 내용을 영상에 넣지 않는다. 이탈이 알고리즘 신호로 남는다.</li>
+        <li>특정 구단에 치우치지 않는다. 팬덤 하나에 갇히면 나머지 아홉 구단을 잃는다.</li>
+        <li>완벽한 영상을 기다리지 않는다. 30분 늦으면 검색 선점을 잃는다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="tag">STILL OPEN</span>
+    <h2>남은 숙제</h2>
+    <p class="lede">시스템이 아니라 판단이 필요한 것들. 미뤄두면 나중에 비싸진다.</p>
+    <div class="open">
+      <ul>
+        <li>영상 포맷을 아직 안 정했다. 차트 중심인지 텍스트 카드 중심인지에 따라 렌더 파이프라인이 달라진다.</li>
+        <li>비시즌 4개월을 어떻게 넘길지. 10월 7일에 정규시즌이 끝나면 소재가 끊긴다. 포스트시즌 이후 계획이 필요하다.</li>
+        <li>웹 대시보드를 만들지 여부. 만든다면 영상에서 못 담은 전 경기 상세와 기록 레이스를 두는 쪽이 자연스럽다.</li>
+        <li>업로드 자동화 범위. 어디까지 사람이 확인하고 어디부터 자동으로 올릴 것인가.</li>
+        <li>첫 영상을 언제 올릴 것인가. 데이터는 준비됐고, 남은 건 결정이다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fl">오늘의 KBO · OPERATIONS PLAYBOOK · REV 2</div>
+    <p class="fm">이 문서는 초기 구간을 위한 것이다. 구독 1,000을 넘기면 롱폼 중심으로 다시 짠다.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var order=['b-1','b-2','b-3','b-home'],i=0;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  function step(){
+    order.forEach(function(id,idx){
+      var g=document.getElementById(id);if(!g)return;
+      var s=g.querySelector('.bs'),n=g.querySelector('.bn');
+      if(idx<=i){s.classList.add('lit');n.classList.add('lit');}
+      else{s.classList.remove('lit');n.classList.remove('lit');}
+    });
+    i=(i+1)%(order.length+1);
+  }
+  var svg=document.querySelector('.diamond'),started=false;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&!started){started=true;step();setInterval(step,1100);}
+    });
+  },{threshold:.4});
+  if(svg)io.observe(svg);
+})();
+</script>
+
+</body>
+</html>
