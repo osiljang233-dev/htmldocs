@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-09-19T14:30:56",
+ "collected_at": "2026-09-20T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -8,6 +8,16 @@
      "name": "엘링 홀란",
      "team": "맨체스터 시티 FC",
      "value": 4.0
+    },
+    {
+     "name": "케빈 샤데",
+     "team": "브렌트퍼드 FC",
+     "value": 3.0
+    },
+    {
+     "name": "모건 로저스",
+     "team": "첼시 FC",
+     "value": 3.0
     },
     {
      "name": "주앙 페드루",
@@ -20,18 +30,8 @@
      "value": 3.0
     },
     {
-     "name": "케빈 샤데",
-     "team": "브렌트퍼드 FC",
-     "value": 3.0
-    },
-    {
      "name": "Marcus Tavernier",
      "team": "AFC 본머스",
-     "value": 3.0
-    },
-    {
-     "name": "모건 로저스",
-     "team": "첼시 FC",
      "value": 3.0
     },
     {
@@ -45,13 +45,13 @@
      "value": 3.0
     },
     {
-     "name": "Leif Davis",
-     "team": "입스위치 타운 FC",
+     "name": "Vitaly Janelt",
+     "team": "브렌트퍼드 FC",
      "value": 2.0
     },
     {
-     "name": "브라이언 음뵈모",
-     "team": "맨체스터 유나이티드 FC",
+     "name": "콜 파머",
+     "team": "첼시 FC",
      "value": 2.0
     }
    ],
@@ -77,6 +77,11 @@
      "value": 3.0
     },
     {
+     "name": "콜 파머",
+     "team": "첼시 FC",
+     "value": 2.0
+    },
+    {
      "name": "앙투안 세메뇨",
      "team": "맨체스터 시티 FC",
      "value": 2.0
@@ -89,11 +94,6 @@
     {
      "name": "파스칼 그로스",
      "team": "브라이턴 앤 호브 앨비언 FC",
-     "value": 2.0
-    },
-    {
-     "name": "콜 파머",
-     "team": "첼시 FC",
      "value": 2.0
     },
     {
@@ -124,6 +124,11 @@
      "value": 8.0
     },
     {
+     "name": "케빈 샤데",
+     "team": "브렌트퍼드 FC",
+     "value": 6.0
+    },
+    {
      "name": "알렉산데르 이사크",
      "team": "리버풀 FC",
      "value": 6.0
@@ -134,6 +139,16 @@
      "value": 6.0
     },
     {
+     "name": "콜 파머",
+     "team": "첼시 FC",
+     "value": 5.0
+    },
+    {
+     "name": "모건 로저스",
+     "team": "첼시 FC",
+     "value": 5.0
+    },
+    {
      "name": "브라이언 음뵈모",
      "team": "맨체스터 유나이티드 FC",
      "value": 5.0
@@ -142,24 +157,14 @@
      "name": "소보슬러이 도미니크",
      "team": "리버풀 FC",
      "value": 5.0
-    },
-    {
-     "name": "브루누 페르난드스",
-     "team": "맨체스터 유나이티드 FC",
-     "value": 5.0
-    },
-    {
-     "name": "키어넌 듀스버리홀",
-     "team": "에버턴 FC",
-     "value": 5.0
-    },
-    {
-     "name": "케빈 샤데",
-     "team": "브렌트퍼드 FC",
-     "value": 5.0
     }
    ],
    "슈팅": [
+    {
+     "name": "콜 파머",
+     "team": "첼시 FC",
+     "value": 17.0
+    },
     {
      "name": "엘링 홀란",
      "team": "맨체스터 시티 FC",
@@ -171,7 +176,7 @@
      "value": 16.0
     },
     {
-     "name": "콜 파머",
+     "name": "모건 로저스",
      "team": "첼시 FC",
      "value": 15.0
     },
@@ -196,19 +201,14 @@
      "value": 14.0
     },
     {
-     "name": "Marcus Tavernier",
-     "team": "AFC 본머스",
+     "name": "케빈 샤데",
+     "team": "브렌트퍼드 FC",
      "value": 13.0
     },
     {
-     "name": "부카요 사카",
-     "team": "아스널 FC",
+     "name": "이고르 치아구",
+     "team": "브렌트퍼드 FC",
      "value": 13.0
-    },
-    {
-     "name": "키어넌 듀스버리홀",
-     "team": "에버턴 FC",
-     "value": 12.0
     }
    ],
    "경고": [
@@ -226,6 +226,16 @@
      "name": "도미닉 캘버트루인",
      "team": "리즈 유나이티드 FC",
      "value": 3.0
+    },
+    {
+     "name": "이고르 치아구",
+     "team": "브렌트퍼드 FC",
+     "value": 2.0
+    },
+    {
+     "name": "Mamadou Sangare",
+     "team": "브렌트퍼드 FC",
+     "value": 2.0
     },
     {
      "name": "Danny Ballard",
@@ -250,16 +260,6 @@
     {
      "name": "파스칼 그로스",
      "team": "브라이턴 앤 호브 앨비언 FC",
-     "value": 2.0
-    },
-    {
-     "name": "Marcus Tavernier",
-     "team": "AFC 본머스",
-     "value": 2.0
-    },
-    {
-     "name": "올리버 맥버니",
-     "team": "헐 시티 AFC",
      "value": 2.0
     }
    ]
@@ -297,6 +297,11 @@
      "value": 6.0
     },
     {
+     "name": "Fer Niño",
+     "team": "엘체 CF",
+     "value": 5.0
+    },
+    {
      "name": "피에르에메릭 아우바메양",
      "team": "데포르티보 라코루냐",
      "value": 5.0
@@ -310,11 +315,6 @@
      "name": "알렉스 바에나",
      "team": "아틀레티코 마드리드",
      "value": 4.0
-    },
-    {
-     "name": "루카스 보예",
-     "team": "데포르티보 알라베스",
-     "value": 4.0
     }
    ],
    "도움": [
@@ -327,6 +327,11 @@
      "name": "앤서니 고든",
      "team": "FC 바르셀로나",
      "value": 4.0
+    },
+    {
+     "name": "José Antonio Morente",
+     "team": "엘체 CF",
+     "value": 3.0
     },
     {
      "name": "비니시우스 주니어",
@@ -359,13 +364,8 @@
      "value": 3.0
     },
     {
-     "name": "킬리안 음바페",
-     "team": "레알 마드리드 CF",
-     "value": 2.0
-    },
-    {
-     "name": "피에르에메릭 아우바메양",
-     "team": "데포르티보 라코루냐",
+     "name": "Lucas Cepeda",
+     "team": "엘체 CF",
      "value": 2.0
     }
    ],
@@ -401,6 +401,11 @@
      "value": 10.0
     },
     {
+     "name": "Fer Niño",
+     "team": "엘체 CF",
+     "value": 9.0
+    },
+    {
      "name": "피에르에메릭 아우바메양",
      "team": "데포르티보 라코루냐",
      "value": 9.0
@@ -413,11 +418,6 @@
     {
      "name": "Yassir Zabiri",
      "team": "라싱 산탄데르",
-     "value": 8.0
-    },
-    {
-     "name": "마리아노 디아스 메히아",
-     "team": "데포르티보 알라베스",
      "value": 8.0
     }
    ],
@@ -458,18 +458,18 @@
      "value": 17.0
     },
     {
+     "name": "로베르토 페르난데스 보니요",
+     "team": "RCD 에스파뇰",
+     "value": 16.0
+    },
+    {
+     "name": "Edu Expósito",
+     "team": "RCD 에스파뇰",
+     "value": 16.0
+    },
+    {
      "name": "주드 벨링엄",
      "team": "레알 마드리드 CF",
-     "value": 16.0
-    },
-    {
-     "name": "안테 부디미르",
-     "team": "CA 오사수나",
-     "value": 16.0
-    },
-    {
-     "name": "루카스 보예",
-     "team": "데포르티보 알라베스",
      "value": 16.0
     }
    ],
@@ -478,6 +478,11 @@
      "name": "Isaac Romero",
      "team": "세비야 FC",
      "value": 4.0
+    },
+    {
+     "name": "Cala",
+     "team": "RCD 에스파뇰",
+     "value": 3.0
     },
     {
      "name": "Lorenzo Amatucci",
@@ -505,29 +510,34 @@
      "value": 3.0
     },
     {
-     "name": "혼 구리디",
-     "team": "세비야 FC",
+     "name": "Clemens Riedel",
+     "team": "RCD 에스파뇰",
      "value": 3.0
     },
     {
-     "name": "Cala",
-     "team": "RCD 에스파뇰",
+     "name": "혼 구리디",
+     "team": "세비야 FC",
      "value": 3.0
     },
     {
      "name": "Yassir Zabiri",
      "team": "라싱 산탄데르",
      "value": 3.0
-    },
-    {
-     "name": "Ramón Enríquez",
-     "team": "말라가 CF",
-     "value": 3.0
     }
    ]
   },
   "bundesliga": {
    "득점": [
+    {
+     "name": "마이클 올리세",
+     "team": "FC 바이에른 뮌헨",
+     "value": 4.0
+    },
+    {
+     "name": "해리 케인",
+     "team": "FC 바이에른 뮌헨",
+     "value": 3.0
+    },
     {
      "name": "Phillip Tietz",
      "team": "1. FSV 마인츠 05",
@@ -564,18 +574,8 @@
      "value": 3.0
     },
     {
-     "name": "막시밀리안 에게슈타인",
-     "team": "SC 프라이부르크",
-     "value": 2.0
-    },
-    {
-     "name": "세루 기라시",
-     "team": "보루시아 도르트문트",
-     "value": 2.0
-    },
-    {
-     "name": "Yannick Engelhardt",
-     "team": "SC 프라이부르크",
+     "name": "Tim Skarke",
+     "team": "1. FC 우니온 베를린",
      "value": 2.0
     }
    ],
@@ -584,6 +584,26 @@
      "name": "마티아스 긴터",
      "team": "SC 프라이부르크",
      "value": 3.0
+    },
+    {
+     "name": "요주아 키미히",
+     "team": "FC 바이에른 뮌헨",
+     "value": 2.0
+    },
+    {
+     "name": "알폰소 데이비스",
+     "team": "FC 바이에른 뮌헨",
+     "value": 2.0
+    },
+    {
+     "name": "이스마엘 사이바리",
+     "team": "FC 바이에른 뮌헨",
+     "value": 2.0
+    },
+    {
+     "name": "Tom Bischof",
+     "team": "FC 바이에른 뮌헨",
+     "value": 2.0
     },
     {
      "name": "Adam Daghim",
@@ -609,29 +629,14 @@
      "name": "Miguel Gutiérrez",
      "team": "바이어 04 레버쿠젠",
      "value": 2.0
-    },
-    {
-     "name": "요시프 유라노비치",
-     "team": "1. FC 우니온 베를린",
-     "value": 2.0
-    },
-    {
-     "name": "안토니오 누사",
-     "team": "RB 라이프치히",
-     "value": 2.0
-    },
-    {
-     "name": "블라디미르 초우팔",
-     "team": "TSG 1899 호펜하임",
-     "value": 2.0
-    },
-    {
-     "name": "셰랄도 베커르",
-     "team": "1. FSV 마인츠 05",
-     "value": 2.0
     }
    ],
    "유효슈팅": [
+    {
+     "name": "마이클 올리세",
+     "team": "FC 바이에른 뮌헨",
+     "value": 9.0
+    },
     {
      "name": "세루 기라시",
      "team": "보루시아 도르트문트",
@@ -648,6 +653,21 @@
      "value": 7.0
     },
     {
+     "name": "해리 케인",
+     "team": "FC 바이에른 뮌헨",
+     "value": 5.0
+    },
+    {
+     "name": "루이스 디아스",
+     "team": "FC 바이에른 뮌헨",
+     "value": 5.0
+    },
+    {
+     "name": "Tim Skarke",
+     "team": "1. FC 우니온 베를린",
+     "value": 5.0
+    },
+    {
      "name": "Phillip Tietz",
      "team": "1. FSV 마인츠 05",
      "value": 5.0
@@ -661,29 +681,19 @@
      "name": "안토니오 누사",
      "team": "RB 라이프치히",
      "value": 5.0
-    },
-    {
-     "name": "Maurice Krattenmacher",
-     "team": "SV 엘페르스베르크",
-     "value": 5.0
-    },
-    {
-     "name": "Tim Skarke",
-     "team": "1. FC 우니온 베를린",
-     "value": 5.0
-    },
-    {
-     "name": "파비안 리더",
-     "team": "FC 아우크스부르크",
-     "value": 4.0
-    },
-    {
-     "name": "스즈키 유이토",
-     "team": "SC 프라이부르크",
-     "value": 4.0
     }
    ],
    "슈팅": [
+    {
+     "name": "마이클 올리세",
+     "team": "FC 바이에른 뮌헨",
+     "value": 17.0
+    },
+    {
+     "name": "해리 케인",
+     "team": "FC 바이에른 뮌헨",
+     "value": 16.0
+    },
     {
      "name": "이브라힘 마자",
      "team": "바이어 04 레버쿠젠",
@@ -705,14 +715,9 @@
      "value": 13.0
     },
     {
-     "name": "해리 케인",
+     "name": "루이스 디아스",
      "team": "FC 바이에른 뮌헨",
-     "value": 11.0
-    },
-    {
-     "name": "마이클 올리세",
-     "team": "FC 바이에른 뮌헨",
-     "value": 11.0
+     "value": 12.0
     },
     {
      "name": "아담 흘로제크",
@@ -728,14 +733,19 @@
      "name": "Hugo Bolin",
      "team": "보루시아 묀헨글라트바흐",
      "value": 10.0
-    },
-    {
-     "name": "루이스 디아스",
-     "team": "FC 바이에른 뮌헨",
-     "value": 10.0
     }
    ],
    "경고": [
+    {
+     "name": "Felix Uduokhai",
+     "team": "1. FC 우니온 베를린",
+     "value": 3.0
+    },
+    {
+     "name": "다요 우파메카노",
+     "team": "FC 바이에른 뮌헨",
+     "value": 2.0
+    },
     {
      "name": "Noahkai Banks",
      "team": "FC 아우크스부르크",
@@ -775,16 +785,6 @@
      "name": "Zeno Van Den Bosch",
      "team": "1. FC 우니온 베를린",
      "value": 2.0
-    },
-    {
-     "name": "Felix Uduokhai",
-     "team": "1. FC 우니온 베를린",
-     "value": 2.0
-    },
-    {
-     "name": "Finn Jeltsch",
-     "team": "VfB 슈투트가르트",
-     "value": 1.0
     }
    ]
   },
@@ -796,9 +796,19 @@
      "value": 6.0
     },
     {
+     "name": "Gustavo Varela",
+     "team": "AC 몬차 브리안차",
+     "value": 4.0
+    },
+    {
      "name": "Antonio Raimondo",
      "team": "프로시노네 칼초",
      "value": 4.0
+    },
+    {
+     "name": "바실리예 아지치",
+     "team": "US 사수올로 칼초",
+     "value": 3.0
     },
     {
      "name": "다비데 프라테시",
@@ -829,16 +839,6 @@
      "name": "Jurgen Ekkelenkamp",
      "team": "우디네세 칼초",
      "value": 2.0
-    },
-    {
-     "name": "다니엘 말디니",
-     "team": "칼리아리 칼초",
-     "value": 2.0
-    },
-    {
-     "name": "라스무스 호일룬",
-     "team": "SSC 나폴리",
-     "value": 2.0
     }
    ],
    "도움": [
@@ -853,6 +853,16 @@
      "value": 3.0
     },
     {
+     "name": "Samuele Birindelli",
+     "team": "AC 몬차 브리안차",
+     "value": 2.0
+    },
+    {
+     "name": "Ricardo Mangas",
+     "team": "AC 몬차 브리안차",
+     "value": 2.0
+    },
+    {
      "name": "미셸 은다리 아도포",
      "team": "칼리아리 칼초",
      "value": 2.0
@@ -860,11 +870,6 @@
     {
      "name": "마티아 자카니",
      "team": "라치오",
-     "value": 2.0
-    },
-    {
-     "name": "Ricardo Mangas",
-     "team": "AC 몬차 브리안차",
      "value": 2.0
     },
     {
@@ -886,11 +891,6 @@
      "name": "Keinan Davis",
      "team": "우디네세 칼초",
      "value": 2.0
-    },
-    {
-     "name": "이반 일리치",
-     "team": "US 레체",
-     "value": 2.0
     }
    ],
    "유효슈팅": [
@@ -902,6 +902,11 @@
     {
      "name": "프랑코 마스탄투오노",
      "team": "ACF 피오렌티나",
+     "value": 7.0
+    },
+    {
+     "name": "도메니코 베라르디",
+     "team": "US 사수올로 칼초",
      "value": 7.0
     },
     {
@@ -920,32 +925,32 @@
      "value": 6.0
     },
     {
-     "name": "도메니코 베라르디",
-     "team": "US 사수올로 칼초",
-     "value": 6.0
-    },
-    {
      "name": "José Romero",
      "team": "파르마 칼초",
      "value": 6.0
     },
     {
+     "name": "아르망 로리엔테",
+     "team": "US 사수올로 칼초",
+     "value": 5.0
+    },
+    {
+     "name": "바실리예 아지치",
+     "team": "US 사수올로 칼초",
+     "value": 5.0
+    },
+    {
      "name": "니콜로 바렐라",
-     "team": "인테르 밀란",
-     "value": 5.0
-    },
-    {
-     "name": "하산 카마라",
-     "team": "우디네세 칼초",
-     "value": 5.0
-    },
-    {
-     "name": "프란체스코 피오 에스포지토",
      "team": "인테르 밀란",
      "value": 5.0
     }
    ],
    "슈팅": [
+    {
+     "name": "아르망 로리엔테",
+     "team": "US 사수올로 칼초",
+     "value": 19.0
+    },
     {
      "name": "프랑코 마스탄투오노",
      "team": "ACF 피오렌티나",
@@ -960,11 +965,6 @@
      "name": "도니얼 말런",
      "team": "AS 로마",
      "value": 17.0
-    },
-    {
-     "name": "아르망 로리엔테",
-     "team": "US 사수올로 칼초",
-     "value": 16.0
     },
     {
      "name": "라우타로 마르티네스",
@@ -1004,6 +1004,16 @@
      "value": 3.0
     },
     {
+     "name": "Eddy Kouadio",
+     "team": "AC 몬차 브리안차",
+     "value": 2.0
+    },
+    {
+     "name": "Lorenzo Lucchesi",
+     "team": "AC 몬차 브리안차",
+     "value": 2.0
+    },
+    {
      "name": "Joel Schingtienne",
      "team": "베네치아 FC",
      "value": 2.0
@@ -1037,21 +1047,16 @@
      "name": "마리오 에르모소",
      "team": "AS 로마",
      "value": 2.0
-    },
-    {
-     "name": "Gabriele Bracaglia",
-     "team": "프로시노네 칼초",
-     "value": 2.0
-    },
-    {
-     "name": "Lorenzo Lucchesi",
-     "team": "AC 몬차 브리안차",
-     "value": 2.0
     }
    ]
   },
   "ligue1": {
    "득점": [
+    {
+     "name": "Paris Brunner",
+     "team": "AS 모나코 FC",
+     "value": 4.0
+    },
     {
      "name": "아민 구이리",
      "team": "올랭피크 드 마르세유",
@@ -1083,11 +1088,6 @@
      "value": 3.0
     },
     {
-     "name": "Paris Brunner",
-     "team": "AS 모나코 FC",
-     "value": 3.0
-    },
-    {
      "name": "페란 토레스",
      "team": "파리 생제르맹 FC",
      "value": 3.0
@@ -1113,6 +1113,11 @@
      "name": "Panos Katseris",
      "team": "FC 로리앙",
      "value": 3.0
+    },
+    {
+     "name": "플로리앙 토뱅",
+     "team": "RC 랑스",
+     "value": 2.0
     },
     {
      "name": "알렉산드르 골로빈",
@@ -1148,17 +1153,17 @@
      "name": "파벨 슐츠",
      "team": "올랭피크 리오네",
      "value": 2.0
-    },
-    {
-     "name": "Ousmane Camara",
-     "team": "앙제 SCO",
-     "value": 1.0
     }
    ],
    "유효슈팅": [
     {
      "name": "플로리앙 토뱅",
      "team": "RC 랑스",
+     "value": 9.0
+    },
+    {
+     "name": "Paris Brunner",
+     "team": "AS 모나코 FC",
      "value": 9.0
     },
     {
@@ -1192,11 +1197,6 @@
      "value": 6.0
     },
     {
-     "name": "Paris Brunner",
-     "team": "AS 모나코 FC",
-     "value": 6.0
-    },
-    {
      "name": "에탕 음바페",
      "team": "릴 OSC",
      "value": 6.0
@@ -1214,6 +1214,16 @@
      "value": 17.0
     },
     {
+     "name": "플로리앙 토뱅",
+     "team": "RC 랑스",
+     "value": 16.0
+    },
+    {
+     "name": "Paris Brunner",
+     "team": "AS 모나코 FC",
+     "value": 16.0
+    },
+    {
      "name": "뤼도비크 아조르크",
      "team": "스타드 브레스트",
      "value": 16.0
@@ -1222,11 +1232,6 @@
      "name": "에스테반 레폴",
      "team": "스타드 렌 FC",
      "value": 16.0
-    },
-    {
-     "name": "플로리앙 토뱅",
-     "team": "RC 랑스",
-     "value": 14.0
     },
     {
      "name": "Pathé Mboup",
@@ -1241,11 +1246,6 @@
     {
      "name": "카모리 둠비아",
      "team": "스타드 브레스트",
-     "value": 13.0
-    },
-    {
-     "name": "Paris Brunner",
-     "team": "AS 모나코 FC",
      "value": 13.0
     },
     {
@@ -1266,6 +1266,21 @@
      "value": 3.0
     },
     {
+     "name": "플로리앙 토뱅",
+     "team": "RC 랑스",
+     "value": 2.0
+    },
+    {
+     "name": "라민 카마라",
+     "team": "AS 모나코 FC",
+     "value": 2.0
+    },
+    {
+     "name": "알렉산드르 골로빈",
+     "team": "AS 모나코 FC",
+     "value": 2.0
+    },
+    {
      "name": "Youssouf Ndayishimiye",
      "team": "OGC 니스",
      "value": 2.0
@@ -1273,11 +1288,6 @@
     {
      "name": "Michel Diaz",
      "team": "트루아 AC",
-     "value": 2.0
-    },
-    {
-     "name": "알렉산드르 골로빈",
-     "team": "AS 모나코 FC",
      "value": 2.0
     },
     {
@@ -1298,16 +1308,6 @@
     {
      "name": "Pape Diop",
      "team": "RC 스트라스부르",
-     "value": 2.0
-    },
-    {
-     "name": "Niklas Schmidt",
-     "team": "툴루즈 FC",
-     "value": 2.0
-    },
-    {
-     "name": "Fodé Doucouré",
-     "team": "르아브르 AC",
      "value": 2.0
     }
    ]
@@ -1543,13 +1543,13 @@
      "value": 8.0
     },
     {
-     "name": "브루클린 레인스",
-     "team": "뉴잉글랜드 레벌루션",
+     "name": "Ronald Donkor",
+     "team": "뉴욕 레드불스",
      "value": 8.0
     },
     {
-     "name": "Ronald Donkor",
-     "team": "뉴욕 레드불스",
+     "name": "브루클린 레인스",
+     "team": "뉴잉글랜드 레벌루션",
      "value": 8.0
     },
     {
@@ -1602,6 +1602,16 @@
      "value": 4.0
     },
     {
+     "name": "Amin Nabizada",
+     "team": "Watford",
+     "value": 3.0
+    },
+    {
+     "name": "Dominic Ballard",
+     "team": "브리스틀 시티 FC",
+     "value": 3.0
+    },
+    {
      "name": "Ethan Galbraith",
      "team": "스토크 시티 FC",
      "value": 3.0
@@ -1615,23 +1625,13 @@
      "name": "Finn Azaz",
      "team": "사우샘프턴 FC",
      "value": 3.0
-    },
-    {
-     "name": "Jimmy Morgan",
-     "team": "웨스트브로미치 앨비언 FC",
-     "value": 3.0
-    },
-    {
-     "name": "Callum Lang",
-     "team": "프레스턴 노스 엔드 FC",
-     "value": 3.0
     }
    ],
    "도움": [
     {
      "name": "Rio Cardines",
      "team": "브리스틀 시티 FC",
-     "value": 5.0
+     "value": 6.0
     },
     {
      "name": "Finn Azaz",
@@ -1726,8 +1726,8 @@
      "value": 7.0
     },
     {
-     "name": "Jack Moylan",
-     "team": "카디프 시티 FC",
+     "name": "Sam Greenwood",
+     "team": "브리스틀 시티 FC",
      "value": 6.0
     }
    ],
@@ -1743,6 +1743,11 @@
      "value": 27.0
     },
     {
+     "name": "Lorent Tolaj",
+     "team": "브리스틀 시티 FC",
+     "value": 26.0
+    },
+    {
      "name": "Will Lankshear",
      "team": "미들즈브러 FC",
      "value": 24.0
@@ -1750,11 +1755,6 @@
     {
      "name": "Jack Moylan",
      "team": "카디프 시티 FC",
-     "value": 23.0
-    },
-    {
-     "name": "Lorent Tolaj",
-     "team": "브리스틀 시티 FC",
      "value": 23.0
     },
     {
@@ -1805,6 +1805,16 @@
      "value": 4.0
     },
     {
+     "name": "Jason Knight",
+     "team": "브리스틀 시티 FC",
+     "value": 3.0
+    },
+    {
+     "name": "Amin Nabizada",
+     "team": "Watford",
+     "value": 3.0
+    },
+    {
      "name": "손드레 랑오스",
      "team": "더비 카운티 FC",
      "value": 3.0
@@ -1822,16 +1832,6 @@
     {
      "name": "Ethan Galbraith",
      "team": "스토크 시티 FC",
-     "value": 3.0
-    },
-    {
-     "name": "Alex Robertson",
-     "team": "카디프 시티 FC",
-     "value": 3.0
-    },
-    {
-     "name": "Conor McGrandles",
-     "team": "링컨 시티 FC",
      "value": 3.0
     }
    ]
@@ -2378,6 +2378,16 @@
      "value": 5.0
     },
     {
+     "name": "Thom Van Bergen",
+     "team": "FC 흐로닝언",
+     "value": 4.0
+    },
+    {
+     "name": "Brynjólfur Willumsson",
+     "team": "FC 흐로닝언",
+     "value": 4.0
+    },
+    {
      "name": "Rafik El Arguioui",
      "team": "SC 캄뷔르",
      "value": 4.0
@@ -2385,11 +2395,6 @@
     {
      "name": "Ro-Zangelo Daal",
      "team": "AZ 알크마르",
-     "value": 4.0
-    },
-    {
-     "name": "Brynjólfur Willumsson",
-     "team": "FC 흐로닝언",
      "value": 4.0
     },
     {
@@ -2403,13 +2408,8 @@
      "value": 4.0
     },
     {
-     "name": "Thom Van Bergen",
-     "team": "FC 흐로닝언",
-     "value": 3.0
-    },
-    {
-     "name": "Devin Haen",
-     "team": "빌럼 II 틸뷔르흐",
+     "name": "Koen Kostons",
+     "team": "PEC 즈볼러",
      "value": 3.0
     }
    ],
@@ -2418,6 +2418,16 @@
      "name": "Irakli Yegoian",
      "team": "SBV 엑셀시오르",
      "value": 4.0
+    },
+    {
+     "name": "David Van Der Werff",
+     "team": "FC 흐로닝언",
+     "value": 3.0
+    },
+    {
+     "name": "Dylan Mbayo",
+     "team": "PEC 즈볼러",
+     "value": 3.0
     },
     {
      "name": "Bas Kuipers",
@@ -2432,11 +2442,6 @@
     {
      "name": "Givairo Read",
      "team": "페예노르트",
-     "value": 3.0
-    },
-    {
-     "name": "Dylan Mbayo",
-     "team": "PEC 즈볼러",
      "value": 3.0
     },
     {
@@ -2455,11 +2460,6 @@
      "value": 3.0
     },
     {
-     "name": "Uriel Van Aalst",
-     "team": "빌럼 II 틸뷔르흐",
-     "value": 2.0
-    },
-    {
      "name": "Thom Van Bergen",
      "team": "FC 흐로닝언",
      "value": 2.0
@@ -2472,6 +2472,11 @@
      "value": 12.0
     },
     {
+     "name": "Thom Van Bergen",
+     "team": "FC 흐로닝언",
+     "value": 11.0
+    },
+    {
      "name": "Gjivai Zechiël",
      "team": "페예노르트",
      "value": 10.0
@@ -2480,6 +2485,11 @@
      "name": "Ro-Zangelo Daal",
      "team": "AZ 알크마르",
      "value": 10.0
+    },
+    {
+     "name": "Brynjólfur Willumsson",
+     "team": "FC 흐로닝언",
+     "value": 9.0
     },
     {
      "name": "Sören Tengstedt",
@@ -2492,19 +2502,9 @@
      "value": 9.0
     },
     {
-     "name": "Brynjólfur Willumsson",
-     "team": "FC 흐로닝언",
-     "value": 9.0
-    },
-    {
      "name": "Milan Zonneveld",
      "team": "스파르타 로테르담",
      "value": 9.0
-    },
-    {
-     "name": "Thom Van Bergen",
-     "team": "FC 흐로닝언",
-     "value": 8.0
     },
     {
      "name": "차론 헤리",
@@ -2512,8 +2512,8 @@
      "value": 8.0
     },
     {
-     "name": "Irakli Yegoian",
-     "team": "SBV 엑셀시오르",
+     "name": "David Van Der Werff",
+     "team": "FC 흐로닝언",
      "value": 7.0
     }
    ],
@@ -2521,7 +2521,7 @@
     {
      "name": "Thom Van Bergen",
      "team": "FC 흐로닝언",
-     "value": 23.0
+     "value": 28.0
     },
     {
      "name": "멕스 메이르딩크",
@@ -2537,6 +2537,11 @@
      "name": "리카도 페피",
      "team": "PSV 에인트호번",
      "value": 19.0
+    },
+    {
+     "name": "David Van Der Werff",
+     "team": "FC 흐로닝언",
+     "value": 18.0
     },
     {
      "name": "Gjivai Zechiël",
@@ -2562,14 +2567,14 @@
      "name": "Rafik El Arguioui",
      "team": "SC 캄뷔르",
      "value": 17.0
-    },
-    {
-     "name": "Devin Haen",
-     "team": "빌럼 II 틸뷔르흐",
-     "value": 17.0
     }
    ],
    "경고": [
+    {
+     "name": "Koen Kostons",
+     "team": "PEC 즈볼러",
+     "value": 3.0
+    },
     {
      "name": "Lequincio Zeefuik",
      "team": "포르튀나 시타르트",
@@ -2603,11 +2608,6 @@
     {
      "name": "아르만도 오비스포",
      "team": "PSV 에인트호번",
-     "value": 2.0
-    },
-    {
-     "name": "Koen Kostons",
-     "team": "PEC 즈볼러",
      "value": 2.0
     },
     {
