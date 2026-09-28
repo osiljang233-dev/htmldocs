@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-09-28T06:50:01",
+ "collected_at": "2026-09-29T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -1317,7 +1317,7 @@
     {
      "name": "리오넬 메시",
      "team": "인터 마이애미 CF",
-     "value": 20.0
+     "value": 21.0
     },
     {
      "name": "페타르 무사",
@@ -1421,7 +1421,7 @@
     {
      "name": "리오넬 메시",
      "team": "인터 마이애미 CF",
-     "value": 59.0
+     "value": 61.0
     },
     {
      "name": "Brian White",
@@ -1473,7 +1473,7 @@
     {
      "name": "리오넬 메시",
      "team": "인터 마이애미 CF",
-     "value": 146.0
+     "value": 149.0
     },
     {
      "name": "Milan Iloski",
