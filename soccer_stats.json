@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-09-29T06:50:02",
+ "collected_at": "2026-09-30T06:50:01",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -2000,7 +2000,7 @@
      "value": 28.0
     },
     {
-     "name": "Gustavo Silva",
+     "name": "Gustavo da Silva",
      "team": "비토리아 SC",
      "value": 25.0
     },
@@ -2087,7 +2087,7 @@
      "value": 3.0
     },
     {
-     "name": "Gustavo Silva",
+     "name": "Gustavo da Silva",
      "team": "비토리아 SC",
      "value": 3.0
     },
@@ -2153,7 +2153,7 @@
    ],
    "도움": [
     {
-     "name": "Andrea",
+     "name": "안드레아 페레이라",
      "team": "파우메이라스",
      "value": 10.0
     },
