@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-01T06:50:02",
+ "collected_at": "2026-10-02T06:50:01",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -1879,7 +1879,7 @@
      "value": 4.0
     },
     {
-     "name": "Iván Martínez",
+     "name": "Barbero",
      "team": "아로우카",
      "value": 4.0
     },
@@ -1963,7 +1963,7 @@
      "value": 10.0
     },
     {
-     "name": "Iván Martínez",
+     "name": "Barbero",
      "team": "아로우카",
      "value": 9.0
     },
@@ -2153,7 +2153,7 @@
    ],
    "도움": [
     {
-     "name": "안드레아 페레이라",
+     "name": "안드레아스 페레이라",
      "team": "파우메이라스",
      "value": 10.0
     },
