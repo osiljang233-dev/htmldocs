@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-02T06:50:01",
+ "collected_at": "2026-10-03T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -1387,6 +1387,11 @@
      "value": 13.0
     },
     {
+     "name": "Albert Rusnák",
+     "team": "시애틀 사운더스 FC",
+     "value": 12.0
+    },
+    {
      "name": "손흥민",
      "team": "로스앤젤레스 FC",
      "value": 12.0
@@ -1394,11 +1399,6 @@
     {
      "name": "Evander",
      "team": "FC 신시내티",
-     "value": 12.0
-    },
-    {
-     "name": "Albert Rusnák",
-     "team": "시애틀 사운더스 FC",
      "value": 12.0
     },
     {
