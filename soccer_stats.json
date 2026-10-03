@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-03T06:50:02",
+ "collected_at": "2026-10-04T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -2113,7 +2113,7 @@
     {
      "name": "가브리엘 바르보사",
      "team": "산투스 FC",
-     "value": 11.0
+     "value": 13.0
     },
     {
      "name": "카를루스 비니시우스",
@@ -2136,6 +2136,11 @@
      "value": 9.0
     },
     {
+     "name": "Luciano",
+     "team": "상파울루 FC",
+     "value": 9.0
+    },
+    {
      "name": "Danilo Santos",
      "team": "보타포구",
      "value": 9.0
@@ -2144,16 +2149,11 @@
      "name": "Renê",
      "team": "비토리아",
      "value": 9.0
-    },
-    {
-     "name": "John Kennedy",
-     "team": "플루미넨시 FC",
-     "value": 9.0
     }
    ],
    "도움": [
     {
-     "name": "안드레아스 페레이라",
+     "name": "안드레아 페레이라",
      "team": "파우메이라스",
      "value": 10.0
     },
