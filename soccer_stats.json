@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-04T06:50:02",
+ "collected_at": "2026-10-05T06:50:03",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -2242,7 +2242,7 @@
     {
      "name": "Lucas Barbosa",
      "team": "레드불 브라간치누",
-     "value": 23.0
+     "value": 24.0
     },
     {
      "name": "마테우스 페레이라",
@@ -2269,7 +2269,7 @@
     {
      "name": "Lucas Barbosa",
      "team": "레드불 브라간치누",
-     "value": 65.0
+     "value": 68.0
     },
     {
      "name": "마테우스 페레이라",
