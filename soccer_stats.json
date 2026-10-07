@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-07T06:50:03",
+ "collected_at": "2026-10-08T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -1486,6 +1486,11 @@
      "value": 91.0
     },
     {
+     "name": "Brian White",
+     "team": "밴쿠버 화이트캡스",
+     "value": 87.0
+    },
+    {
      "name": "Evander",
      "team": "FC 신시내티",
      "value": 84.0
@@ -1501,11 +1506,6 @@
      "value": 83.0
     },
     {
-     "name": "Brian White",
-     "team": "밴쿠버 화이트캡스",
-     "value": 83.0
-    },
-    {
      "name": "Mateusz Bogusz",
      "team": "휴스턴 다이너모",
      "value": 82.0
@@ -1516,9 +1516,9 @@
      "value": 81.0
     },
     {
-     "name": "드니 부앙가",
-     "team": "로스앤젤레스 FC",
-     "value": 79.0
+     "name": "Philip Zinckernagel",
+     "team": "시카고 파이어 FC",
+     "value": 81.0
     }
    ],
    "경고": [
