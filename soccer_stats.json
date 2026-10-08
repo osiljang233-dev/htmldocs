@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-08T06:50:02",
+ "collected_at": "2026-10-09T06:50:03",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -2188,6 +2188,11 @@
      "value": 5.0
     },
     {
+     "name": "마테우스 페레이라",
+     "team": "크루제이루 EC",
+     "value": 5.0
+    },
+    {
      "name": "Igor Marques",
      "team": "미라소우 FC",
      "value": 5.0
@@ -2195,11 +2200,6 @@
     {
      "name": "Álvaro Montoro",
      "team": "보타포구",
-     "value": 5.0
-    },
-    {
-     "name": "Luciano Acosta",
-     "team": "플루미넨시 FC",
      "value": 5.0
     }
    ],
@@ -2235,13 +2235,13 @@
      "value": 25.0
     },
     {
-     "name": "페드로 로차",
-     "team": "코리치바 FC",
-     "value": 24.0
-    },
-    {
      "name": "Lucas Barbosa",
      "team": "레드불 브라간치누",
+     "value": 25.0
+    },
+    {
+     "name": "페드로 로차",
+     "team": "코리치바 FC",
      "value": 24.0
     },
     {
@@ -2269,22 +2269,22 @@
     {
      "name": "Lucas Barbosa",
      "team": "레드불 브라간치누",
-     "value": 68.0
+     "value": 70.0
     },
     {
      "name": "마테우스 페레이라",
      "team": "크루제이루 EC",
-     "value": 65.0
+     "value": 69.0
+    },
+    {
+     "name": "Johan Carbonero",
+     "team": "SC 인테르나시오나우",
+     "value": 63.0
     },
     {
      "name": "페드로 로드리게스 레데스마",
      "team": "플라멩구",
      "value": 62.0
-    },
-    {
-     "name": "Johan Carbonero",
-     "team": "SC 인테르나시오나우",
-     "value": 61.0
     },
     {
      "name": "사무엘 리누",
@@ -2304,7 +2304,7 @@
     {
      "name": "Alexander Bernabei",
      "team": "SC 인테르나시오나우",
-     "value": 55.0
+     "value": 56.0
     }
    ],
    "경고": [
@@ -2316,6 +2316,11 @@
     {
      "name": "마테우스 페레이라",
      "team": "크루제이루 EC",
+     "value": 10.0
+    },
+    {
+     "name": "Rodrigo Garro",
+     "team": "SC 코린치앙스 알라고아누",
      "value": 9.0
     },
     {
@@ -2329,8 +2334,13 @@
      "value": 8.0
     },
     {
-     "name": "Rodrigo Garro",
-     "team": "SC 코린치앙스 알라고아누",
+     "name": "Thiago Mendes",
+     "team": "바스쿠 다 가마",
+     "value": 8.0
+    },
+    {
+     "name": "Camilo",
+     "team": "아소시아상 샤페코엔시 지 푸테보우",
      "value": 8.0
     },
     {
@@ -2339,24 +2349,14 @@
      "value": 8.0
     },
     {
-     "name": "Thiago Mendes",
-     "team": "바스쿠 다 가마",
-     "value": 8.0
-    },
-    {
      "name": "Emmanuel Martínez",
      "team": "비토리아",
      "value": 8.0
     },
     {
-     "name": "Arthur Dias",
-     "team": "아틀레치쿠 파라나엔시",
-     "value": 7.0
-    },
-    {
-     "name": "Camilo",
-     "team": "아소시아상 샤페코엔시 지 푸테보우",
-     "value": 7.0
+     "name": "파울리뉴",
+     "team": "SC 인테르나시오나우",
+     "value": 8.0
     }
    ]
   },
