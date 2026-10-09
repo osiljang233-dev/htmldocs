@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-09T06:50:03",
+ "collected_at": "2026-10-10T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -2103,7 +2103,7 @@
     {
      "name": "Kevin Viveros",
      "team": "아틀레치쿠 파라나엔시",
-     "value": 18.0
+     "value": 19.0
     },
     {
      "name": "페드로 로드리게스 레데스마",
@@ -2131,6 +2131,11 @@
      "value": 9.0
     },
     {
+     "name": "호세 마누엘 로페스",
+     "team": "파우메이라스",
+     "value": 9.0
+    },
+    {
      "name": "Luciano Juba",
      "team": "EC 바이아",
      "value": 9.0
@@ -2144,16 +2149,11 @@
      "name": "Danilo Santos",
      "team": "보타포구",
      "value": 9.0
-    },
-    {
-     "name": "Renê",
-     "team": "비토리아",
-     "value": 9.0
     }
    ],
    "도움": [
     {
-     "name": "안드레아 페레이라",
+     "name": "안드레아스 페레이라",
      "team": "파우메이라스",
      "value": 10.0
     },
@@ -2163,24 +2163,24 @@
      "value": 10.0
     },
     {
+     "name": "호르헤 카라스칼",
+     "team": "플라멩구",
+     "value": 8.0
+    },
+    {
      "name": "사무엘 리누",
      "team": "플라멩구",
      "value": 7.0
     },
     {
-     "name": "호르헤 카라스칼",
+     "name": "페드로 로드리게스 레데스마",
      "team": "플라멩구",
-     "value": 7.0
+     "value": 6.0
     },
     {
      "name": "Rodrigo Garro",
      "team": "SC 코린치앙스 알라고아누",
      "value": 6.0
-    },
-    {
-     "name": "페드로 로드리게스 레데스마",
-     "team": "플라멩구",
-     "value": 5.0
     },
     {
      "name": "Erick",
@@ -2207,12 +2207,12 @@
     {
      "name": "Kevin Viveros",
      "team": "아틀레치쿠 파라나엔시",
-     "value": 45.0
+     "value": 46.0
     },
     {
      "name": "페드로 로드리게스 레데스마",
      "team": "플라멩구",
-     "value": 35.0
+     "value": 36.0
     },
     {
      "name": "아르투르 카브라우",
@@ -2245,21 +2245,21 @@
      "value": 24.0
     },
     {
-     "name": "마테우스 페레이라",
-     "team": "크루제이루 EC",
-     "value": 22.0
+     "name": "사무엘 리누",
+     "team": "플라멩구",
+     "value": 23.0
     },
     {
      "name": "호세 마누엘 로페스",
      "team": "파우메이라스",
-     "value": 22.0
+     "value": 23.0
     }
    ],
    "슈팅": [
     {
      "name": "Kevin Viveros",
      "team": "아틀레치쿠 파라나엔시",
-     "value": 78.0
+     "value": 80.0
     },
     {
      "name": "Andrés Gómez",
@@ -2277,34 +2277,34 @@
      "value": 69.0
     },
     {
+     "name": "페드로 로드리게스 레데스마",
+     "team": "플라멩구",
+     "value": 64.0
+    },
+    {
      "name": "Johan Carbonero",
      "team": "SC 인테르나시오나우",
      "value": 63.0
     },
     {
-     "name": "페드로 로드리게스 레데스마",
-     "team": "플라멩구",
-     "value": 62.0
-    },
-    {
      "name": "사무엘 리누",
      "team": "플라멩구",
-     "value": 59.0
+     "value": 63.0
     },
     {
      "name": "호세 마누엘 로페스",
      "team": "파우메이라스",
-     "value": 57.0
+     "value": 60.0
     },
     {
      "name": "페드로 로차",
      "team": "코리치바 FC",
-     "value": 56.0
+     "value": 57.0
     },
     {
-     "name": "Alexander Bernabei",
-     "team": "SC 인테르나시오나우",
-     "value": 56.0
+     "name": "Tomás Cuello",
+     "team": "아틀레치쿠 미네이루",
+     "value": 57.0
     }
    ],
    "경고": [
@@ -2319,6 +2319,11 @@
      "value": 10.0
     },
     {
+     "name": "Nicolás Acevedo",
+     "team": "EC 바이아",
+     "value": 9.0
+    },
+    {
      "name": "Rodrigo Garro",
      "team": "SC 코린치앙스 알라고아누",
      "value": 9.0
@@ -2327,11 +2332,6 @@
      "name": "Andrés Gómez",
      "team": "바스쿠 다 가마",
      "value": 9.0
-    },
-    {
-     "name": "Nicolás Acevedo",
-     "team": "EC 바이아",
-     "value": 8.0
     },
     {
      "name": "Thiago Mendes",
@@ -2354,8 +2354,8 @@
      "value": 8.0
     },
     {
-     "name": "파울리뉴",
-     "team": "SC 인테르나시오나우",
+     "name": "Gonzalo Escobar",
+     "team": "산투스 FC",
      "value": 8.0
     }
    ]
