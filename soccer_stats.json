@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-15T06:50:02",
+ "collected_at": "2026-10-16T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -1327,6 +1327,11 @@
     {
      "name": "Milan Iloski",
      "team": "필라델피아 유니언",
+     "value": 18.0
+    },
+    {
+     "name": "드니 부앙가",
+     "team": "로스앤젤레스 FC",
      "value": 17.0
     },
     {
@@ -1337,31 +1342,26 @@
     {
      "name": "케뱅 뎅케이",
      "team": "FC 신시내티",
-     "value": 16.0
+     "value": 17.0
     },
     {
      "name": "Sam Surridge",
      "team": "내슈빌 SC",
+     "value": 17.0
+    },
+    {
+     "name": "Guilherme Augusto",
+     "team": "휴스턴 다이너모",
      "value": 16.0
-    },
-    {
-     "name": "Nicolás Fernández",
-     "team": "뉴욕 시티 FC",
-     "value": 15.0
-    },
-    {
-     "name": "드니 부앙가",
-     "team": "로스앤젤레스 FC",
-     "value": 15.0
-    },
-    {
-     "name": "프린스 오우수",
-     "team": "CF 몬트리올",
-     "value": 15.0
     },
     {
      "name": "Kelvin Yeboah",
      "team": "미네소타 유나이티드 FC",
+     "value": 16.0
+    },
+    {
+     "name": "Hany Mukhtar",
+     "team": "내슈빌 SC",
      "value": 15.0
     }
    ],
@@ -1369,6 +1369,26 @@
     {
      "name": "아네르스 드라위에르",
      "team": "샌디에이고 FC",
+     "value": 14.0
+    },
+    {
+     "name": "손흥민",
+     "team": "로스앤젤레스 FC",
+     "value": 14.0
+    },
+    {
+     "name": "리오넬 메시",
+     "team": "인터 마이애미 CF",
+     "value": 14.0
+    },
+    {
+     "name": "Cristian Espinoza",
+     "team": "내슈빌 SC",
+     "value": 14.0
+    },
+    {
+     "name": "로드리고 데 폴",
+     "team": "인터 마이애미 CF",
      "value": 14.0
     },
     {
@@ -1387,26 +1407,6 @@
      "value": 13.0
     },
     {
-     "name": "리오넬 메시",
-     "team": "인터 마이애미 CF",
-     "value": 13.0
-    },
-    {
-     "name": "Cristian Espinoza",
-     "team": "내슈빌 SC",
-     "value": 13.0
-    },
-    {
-     "name": "로드리고 데 폴",
-     "team": "인터 마이애미 CF",
-     "value": 13.0
-    },
-    {
-     "name": "손흥민",
-     "team": "로스앤젤레스 FC",
-     "value": 12.0
-    },
-    {
      "name": "Evander",
      "team": "FC 신시내티",
      "value": 12.0
@@ -1421,7 +1421,12 @@
     {
      "name": "리오넬 메시",
      "team": "인터 마이애미 CF",
-     "value": 65.0
+     "value": 66.0
+    },
+    {
+     "name": "드니 부앙가",
+     "team": "로스앤젤레스 FC",
+     "value": 44.0
     },
     {
      "name": "Brian White",
@@ -1429,96 +1434,91 @@
      "value": 43.0
     },
     {
+     "name": "Milan Iloski",
+     "team": "필라델피아 유니언",
+     "value": 42.0
+    },
+    {
+     "name": "Nicolás Fernández",
+     "team": "뉴욕 시티 FC",
+     "value": 42.0
+    },
+    {
      "name": "페타르 무사",
      "team": "FC 댈러스",
      "value": 41.0
     },
     {
-     "name": "Milan Iloski",
-     "team": "필라델피아 유니언",
-     "value": 40.0
-    },
-    {
-     "name": "드니 부앙가",
-     "team": "로스앤젤레스 FC",
-     "value": 40.0
-    },
-    {
      "name": "아네르스 드라위에르",
      "team": "샌디에이고 FC",
+     "value": 40.0
+    },
+    {
+     "name": "Hany Mukhtar",
+     "team": "내슈빌 SC",
      "value": 38.0
     },
     {
-     "name": "Nicolás Fernández",
-     "team": "뉴욕 시티 FC",
+     "name": "Preston Judd",
+     "team": "새너제이 어스퀘이크스",
      "value": 37.0
     },
     {
      "name": "Evander",
      "team": "FC 신시내티",
      "value": 37.0
-    },
-    {
-     "name": "Preston Judd",
-     "team": "새너제이 어스퀘이크스",
-     "value": 36.0
-    },
-    {
-     "name": "Hany Mukhtar",
-     "team": "내슈빌 SC",
-     "value": 34.0
     }
    ],
    "슈팅": [
     {
      "name": "리오넬 메시",
      "team": "인터 마이애미 CF",
-     "value": 157.0
+     "value": 164.0
     },
     {
      "name": "Milan Iloski",
      "team": "필라델피아 유니언",
-     "value": 105.0
+     "value": 110.0
     },
     {
      "name": "손흥민",
      "team": "로스앤젤레스 FC",
-     "value": 93.0
-    },
-    {
-     "name": "Brian White",
-     "team": "밴쿠버 화이트캡스",
-     "value": 90.0
+     "value": 97.0
     },
     {
      "name": "Hany Mukhtar",
      "team": "내슈빌 SC",
-     "value": 88.0
+     "value": 94.0
     },
     {
-     "name": "아네르스 드라위에르",
-     "team": "샌디에이고 FC",
-     "value": 84.0
-    },
-    {
-     "name": "Mateusz Bogusz",
-     "team": "휴스턴 다이너모",
-     "value": 84.0
+     "name": "Brian White",
+     "team": "밴쿠버 화이트캡스",
+     "value": 92.0
     },
     {
      "name": "Kristoffer Velde",
      "team": "포틀랜드 팀버스",
-     "value": 84.0
+     "value": 90.0
     },
     {
-     "name": "Evander",
-     "team": "FC 신시내티",
-     "value": 84.0
+     "name": "드니 부앙가",
+     "team": "로스앤젤레스 FC",
+     "value": 88.0
+    },
+    {
+     "name": "Mateusz Bogusz",
+     "team": "휴스턴 다이너모",
+     "value": 87.0
+    },
+    {
+     "name": "아네르스 드라위에르",
+     "team": "샌디에이고 FC",
+     "value": 86.0
     },
     {
      "name": "Philip Zinckernagel",
      "team": "시카고 파이어 FC",
-     "value": 83.0
+     "value": 85.0
     }
    ],
    "경고": [
@@ -1538,8 +1538,18 @@
      "value": 9.0
     },
     {
+     "name": "에디에르 오캄포",
+     "team": "밴쿠버 화이트캡스",
+     "value": 9.0
+    },
+    {
      "name": "브루클린 레인스",
      "team": "뉴잉글랜드 레벌루션",
+     "value": 9.0
+    },
+    {
+     "name": "Ronald Donkor",
+     "team": "뉴욕 레드불스",
      "value": 9.0
     },
     {
@@ -1561,16 +1571,6 @@
      "name": "Preston Judd",
      "team": "새너제이 어스퀘이크스",
      "value": 8.0
-    },
-    {
-     "name": "에디에르 오캄포",
-     "team": "밴쿠버 화이트캡스",
-     "value": 8.0
-    },
-    {
-     "name": "Ronald Donkor",
-     "team": "뉴욕 레드불스",
-     "value": 8.0
     }
    ]
   },
@@ -1587,12 +1587,17 @@
      "value": 7.0
     },
     {
+     "name": "재러드 보언",
+     "team": "웨스트햄 유나이티드 FC",
+     "value": 6.0
+    },
+    {
      "name": "Jack Moylan",
      "team": "카디프 시티 FC",
      "value": 5.0
     },
     {
-     "name": "재러드 보언",
+     "name": "콘스탄티노스 마브로파노스",
      "team": "웨스트햄 유나이티드 FC",
      "value": 5.0
     },
@@ -1620,11 +1625,6 @@
      "name": "키퍼 무어",
      "team": "렉섬 FC",
      "value": 4.0
-    },
-    {
-     "name": "Lyndon Dykes",
-     "team": "밀월 FC",
-     "value": 4.0
     }
    ],
    "도움": [
@@ -1632,6 +1632,11 @@
      "name": "Rio Cardines",
      "team": "브리스틀 시티 FC",
      "value": 6.0
+    },
+    {
+     "name": "재러드 보언",
+     "team": "웨스트햄 유나이티드 FC",
+     "value": 5.0
     },
     {
      "name": "Finn Azaz",
@@ -1644,7 +1649,7 @@
      "value": 3.0
     },
     {
-     "name": "재러드 보언",
+     "name": "Arne Engels",
      "team": "웨스트햄 유나이티드 FC",
      "value": 3.0
     },
@@ -1672,23 +1677,18 @@
      "name": "Josh Tymon",
      "team": "스완지 시티 AFC",
      "value": 2.0
-    },
-    {
-     "name": "Ethan Galbraith",
-     "team": "스토크 시티 FC",
-     "value": 2.0
     }
    ],
    "유효슈팅": [
     {
-     "name": "Will Lankshear",
-     "team": "미들즈브러 FC",
+     "name": "재러드 보언",
+     "team": "웨스트햄 유나이티드 FC",
      "value": 16.0
     },
     {
-     "name": "재러드 보언",
-     "team": "웨스트햄 유나이티드 FC",
-     "value": 14.0
+     "name": "Will Lankshear",
+     "team": "미들즈브러 FC",
+     "value": 16.0
     },
     {
      "name": "Jack Moylan",
@@ -1733,14 +1733,14 @@
    ],
    "슈팅": [
     {
-     "name": "Jack Moylan",
-     "team": "카디프 시티 FC",
+     "name": "재러드 보언",
+     "team": "웨스트햄 유나이티드 FC",
      "value": 42.0
     },
     {
-     "name": "재러드 보언",
-     "team": "웨스트햄 유나이티드 FC",
-     "value": 38.0
+     "name": "Jack Moylan",
+     "team": "카디프 시티 FC",
+     "value": 42.0
     },
     {
      "name": "Will Lankshear",
@@ -1750,7 +1750,12 @@
     {
      "name": "카일 래린",
      "team": "사우샘프턴 FC",
-     "value": 33.0
+     "value": 34.0
+    },
+    {
+     "name": "Ryan Kavuma-Mcqueen",
+     "team": "포츠머스 FC",
+     "value": 31.0
     },
     {
      "name": "Ollie Tanner",
@@ -1758,28 +1763,23 @@
      "value": 28.0
     },
     {
+     "name": "Adrian Segecic",
+     "team": "포츠머스 FC",
+     "value": 27.0
+    },
+    {
      "name": "Lorent Tolaj",
      "team": "브리스틀 시티 FC",
      "value": 26.0
     },
     {
-     "name": "Adrian Segecic",
-     "team": "포츠머스 FC",
-     "value": 25.0
+     "name": "Bobby Clark",
+     "team": "더비 카운티 FC",
+     "value": 24.0
     },
     {
      "name": "Isaac Price",
      "team": "웨스트브로미치 앨비언 FC",
-     "value": 24.0
-    },
-    {
-     "name": "Yousef Salech",
-     "team": "카디프 시티 FC",
-     "value": 24.0
-    },
-    {
-     "name": "Ryan Kavuma-Mcqueen",
-     "team": "포츠머스 FC",
      "value": 24.0
     }
    ],
@@ -1788,6 +1788,11 @@
      "name": "Filip Lissah",
      "team": "스완지 시티 AFC",
      "value": 5.0
+    },
+    {
+     "name": "자페 탕강가",
+     "team": "셰필드 유나이티드 FC",
+     "value": 4.0
     },
     {
      "name": "Perry Ng",
@@ -1810,28 +1815,23 @@
      "value": 4.0
     },
     {
+     "name": "손드레 랑오스",
+     "team": "더비 카운티 FC",
+     "value": 4.0
+    },
+    {
+     "name": "Ryan Manning",
+     "team": "사우샘프턴 FC",
+     "value": 4.0
+    },
+    {
      "name": "Jenson Metcalfe",
      "team": "밀월 FC",
      "value": 4.0
     },
     {
-     "name": "샘 모시",
-     "team": "블랙번 로버스 FC",
-     "value": 4.0
-    },
-    {
-     "name": "Ousmane Diakite",
-     "team": "웨스트브로미치 앨비언 FC",
-     "value": 4.0
-    },
-    {
-     "name": "Amin Nabizada",
-     "team": "왓퍼드 FC",
-     "value": 4.0
-    },
-    {
-     "name": "손드레 랑오스",
-     "team": "더비 카운티 FC",
+     "name": "Conor McGrandles",
+     "team": "링컨 시티 FC",
      "value": 4.0
     }
    ]
