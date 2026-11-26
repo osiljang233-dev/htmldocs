@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-26T06:50:03",
+ "collected_at": "2026-11-27T06:50:02",
  "season": 2026,
  "leagues": {
   "epl": {
@@ -1602,13 +1602,13 @@
      "value": 7.0
     },
     {
-     "name": "아이작 프라이스",
-     "team": "웨스트브로미치 앨비언 FC",
+     "name": "샘 달비",
+     "team": "볼턴 원더러스 FC",
      "value": 7.0
     },
     {
-     "name": "샘 달비",
-     "team": "볼턴 원더러스 FC",
+     "name": "아이작 프라이스",
+     "team": "웨스트브로미치 앨비언 FC",
      "value": 7.0
     },
     {
@@ -1617,13 +1617,13 @@
      "value": 7.0
     },
     {
-     "name": "시디 펙",
-     "team": "셰필드 유나이티드 FC",
-     "value": 6.0
+     "name": "아우구스트 프리스케",
+     "team": "버밍엄 시티 FC",
+     "value": 7.0
     },
     {
-     "name": "페르난도 로페스",
-     "team": "울버햄프턴 원더러스 FC",
+     "name": "시디 펙",
+     "team": "셰필드 유나이티드 FC",
      "value": 6.0
     }
    ],
@@ -1669,13 +1669,13 @@
      "value": 4.0
     },
     {
-     "name": "타티 카스텔라노스",
-     "team": "웨스트햄 유나이티드 FC",
+     "name": "가이츠카 라라사발",
+     "team": "볼턴 원더러스 FC",
      "value": 4.0
     },
     {
-     "name": "가이츠카 라라사발",
-     "team": "볼턴 원더러스 FC",
+     "name": "타티 카스텔라노스",
+     "team": "웨스트햄 유나이티드 FC",
      "value": 4.0
     }
    ],
@@ -1696,14 +1696,14 @@
      "value": 22.0
     },
     {
-     "name": "유세프 살레크",
-     "team": "카디프 시티 FC",
+     "name": "제이 스탠스필드",
+     "team": "버밍엄 시티 FC",
      "value": 22.0
     },
     {
-     "name": "제이 스탠스필드",
-     "team": "버밍엄 시티 FC",
-     "value": 21.0
+     "name": "유세프 살레크",
+     "team": "카디프 시티 FC",
+     "value": 22.0
     },
     {
      "name": "아이작 프라이스",
@@ -1721,14 +1721,14 @@
      "value": 15.0
     },
     {
-     "name": "Léo Scienza",
-     "team": "사우샘프턴 FC",
+     "name": "아우구스트 프리스케",
+     "team": "버밍엄 시티 FC",
      "value": 15.0
     },
     {
-     "name": "키퍼 무어",
-     "team": "렉섬 FC",
-     "value": 14.0
+     "name": "Léo Scienza",
+     "team": "사우샘프턴 FC",
+     "value": 15.0
     }
    ],
    "슈팅": [
@@ -1755,7 +1755,7 @@
     {
      "name": "제이 스탠스필드",
      "team": "버밍엄 시티 FC",
-     "value": 43.0
+     "value": 45.0
     },
     {
      "name": "유세프 살레크",
@@ -1810,28 +1810,28 @@
      "value": 6.0
     },
     {
-     "name": "자페 탕강가",
-     "team": "셰필드 유나이티드 FC",
-     "value": 5.0
+     "name": "데렉 마주사코",
+     "team": "밀월 FC",
+     "value": 6.0
     },
     {
-     "name": "맥스 킬먼",
-     "team": "웨스트햄 유나이티드 FC",
-     "value": 5.0
-    },
-    {
-     "name": "헥터 키프리아누",
+     "name": "Matthew Pollock",
      "team": "왓퍼드 FC",
      "value": 5.0
     },
     {
-     "name": "조시 로랑",
-     "team": "번리 FC",
+     "name": "알렉스 코크런",
+     "team": "버밍엄 시티 FC",
      "value": 5.0
     },
     {
-     "name": "Jenson Metcalfe",
-     "team": "밀월 FC",
+     "name": "Rabby Nzingoula",
+     "team": "웨스트브로미치 앨비언 FC",
+     "value": 5.0
+    },
+    {
+     "name": "자페 탕강가",
+     "team": "셰필드 유나이티드 FC",
      "value": 5.0
     }
    ]
